@@ -1,15 +1,18 @@
 from flask import Flask, redirect, url_for, session
 from flask_oauth import OAuth
+from google_api_wrapper import Gmail
+from urllib2 import Request, urlopen, URLError
+
 
 # ------------------------------------------------------------------------------
 # Get from Google APIs console
 # https://code.google.com/apis/console
 
-with open('/Users/ilya/Projects/SmarterEmail/secret_stuff.whats_this', 'rb') as infile:
-    lines = infile.readlines()
+# with open('/Users/ilya/Projects/SmarterEmail/secret_stuff.whats_this', 'rb') as infile:
+#     lines = infile.readlines()
 
-GOOGLE_CLIENT_ID = lines[0]
-GOOGLE_CLIENT_SECRET = lines[1]
+GOOGLE_CLIENT_ID = '631813692358-hqjmcu2skn4qlnk8rpoupom859cmfnje.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = 'F3AU6cy9JYFi6DTMS6WpSP0s'
 REDIRECT_URI = '/oauth2callback'  # one of the Redirect URIs from Google APIs console
 
 
@@ -54,9 +57,9 @@ def index():
             # Unauthorized - bad token
             session.pop('access_token', None)
             return redirect(url_for('login'))
-        return res.read()
+        return Gmail(res.read(), access_token).get()
 
-    return res.read()
+    return Gmail(res.read(), access_token).get()
 
 
 @app.route('/login')
