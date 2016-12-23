@@ -48,11 +48,15 @@ def index():
     from urllib2 import Request, urlopen, URLError
 
     headers = {'Authorization': 'OAuth '+access_token}
-    req = Request('https://www.googleapis.com/gmail/v1/users/me/messages',
+
+    print 'REQUESTING FIRST BATCH OF MSG IDS'
+    req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?q=from:me%20-in:chat%20-category:(promotions%20OR%20social)',
                   None, headers)
+
     try:
         res = urlopen(req)
     except URLError, e:
+        print 'reason is... ', e.reason
         if e.code == 401:
             # Unauthorized - bad token
             session.pop('access_token', None)
