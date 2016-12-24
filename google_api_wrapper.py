@@ -22,6 +22,19 @@ class Gmail():
         self.message_texts = []
 
 
+    def decode_base64(self, data):
+        """Decode base64, padding being optional.
+
+        :param data: Base64 data as an ASCII byte string
+        :returns: The decoded byte string.
+
+        """
+        missing_padding = len(data) % 4
+        if missing_padding != 0:
+            data += b'='* (4 - missing_padding)
+        return base64.decodestring(data)
+
+
     def get_all_message_ids(self):
         # IN THE FUTURE: MAKE THIS RECURSIVE SO YOU DON'T HAVE TO COUNT.
         print 'INSIDE get_all_message_ids func now'
@@ -61,16 +74,21 @@ class Gmail():
 
         try:
             print 'inside try exceptin get_message'
-
-            m = email.message_from_string(unicode(response_text['raw'], 'utf-8'))
+            # print response_text['raw']
+            m = email.message_from_string(self.decode_base64(response_text['raw']))
             if m.is_multipart():
                 for payload in m.get_payload():
                     # if payload.is_multipart(): ...
-                    print base64.b64decode(payload.get_payload(decode = True))
+                    print 'HERE 1'
+                    print base64.b64decode(payload.get_payload(decode = True)).encode('ascii')
             else:
-                print base64.b64decode(m.get_payload(decode = True))
+                print 'HERE 1'
+                print base64.b64decode(m.get_payload(decode = True)).encode('ascii')
+                print 'HERE 2'
 
-        except:
+        except Exception, e:
+            print e
+            print 'HERE 3'
             return 'FAILED TO FIND payload, or something else went wrong.'
 
     def get_all_msgs(self):
@@ -88,4 +106,4 @@ class Gmail():
         self.get_all_msgs()
         # print self.get_message(self.message_ids[0]['id'])
 
-        return str(self.message_texts)#str(self.message_ids)
+        return self.message_texts.encode('utf-8')
