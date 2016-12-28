@@ -2,7 +2,7 @@
 # access token and a first response from the gmail api.
 
 from urllib2 import Request, urlopen, URLError
-import base64, quopri, email
+import base64, quopri, email, binascii
 
 class Gmail():
     """ Wraps gmail api. Its main function is run(), which retrieves all emails
@@ -29,10 +29,15 @@ class Gmail():
         :returns: The decoded byte string.
 
         """
+        # data = data.encode('ascii')
+
         missing_padding = len(data) % 4
         if missing_padding != 0:
             data += b'='* (4 - missing_padding)
-        return base64.decodestring(data)
+
+        decoded = base64.urlsafe_b64decode(data)
+
+        return decoded
 
 
     def get_all_message_ids(self):
@@ -58,6 +63,7 @@ class Gmail():
 
     def get_message_txt(self, m_id):
         """ Retrieves the message with the given id. """
+
         print 'INSIDE get_message_txt func now'
 
         try:
@@ -73,17 +79,17 @@ class Gmail():
 
 
         try:
-            print 'inside try exceptin get_message'
+            print 'inside try except in get_message'
             # print response_text['raw']
             m = email.message_from_string(self.decode_base64(response_text['raw']))
             if m.is_multipart():
                 for payload in m.get_payload():
                     # if payload.is_multipart(): ...
                     print 'HERE 1'
-                    print base64.b64decode(payload.get_payload(decode = True)).encode('ascii')
+                    print self.decode_base64(payload.get_payload(decode = True)).encode('utf8')
             else:
-                print 'HERE 1'
-                print base64.b64decode(m.get_payload(decode = True)).encode('ascii')
+                print 'HERE 1a'
+                print self.decode_base64(m.get_payload(decode = True)).encode('utf8')
                 print 'HERE 2'
 
         except Exception, e:
@@ -91,11 +97,6 @@ class Gmail():
             print 'HERE 3'
             return 'FAILED TO FIND payload, or something else went wrong.'
 
-    def get_all_msgs(self):
-        print 'inside get_all_msgs func now'
-
-        for m_id in self.message_ids:
-            self.message_texts.append(self.get_message_txt(m_id['id']))
 
     def get(self):
         print 'inside get func now'
@@ -103,7 +104,9 @@ class Gmail():
         while self.nextPageExists:
             self.get_all_message_ids()
 
-        self.get_all_msgs()
-        # print self.get_message(self.message_ids[0]['id'])
+        # Get all messages:
+        print 'Getting all messages'
+        for m_id in self.message_ids:
+            self.message_texts.append(self.get_message_txt(m_id['id']))
 
-        return self.message_texts.encode('utf-8')
+        return self.message_texts
