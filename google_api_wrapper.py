@@ -4,6 +4,11 @@
 from urllib2 import Request, urlopen, URLError
 import base64, quopri, email, binascii
 
+def writeOut(obj, fname):
+    with open (fname, 'a') as outfile:
+        print obj
+        outfile.write(str(obj))
+
 class Gmail():
     """ Wraps gmail api. Its main function is run(), which retrieves all emails
         from the authenticated user's mailbox, along with some metainfo. """
@@ -35,6 +40,9 @@ class Gmail():
         if missing_padding != 0:
             data += b'='* (4 - missing_padding)
 
+        # if isinstance(data, list):
+        #     print data
+        #
         decoded = base64.urlsafe_b64decode(data)
 
         return decoded
@@ -78,24 +86,27 @@ class Gmail():
             return 'api hit failure from get_message_txt function'
 
 
-        try:
-            print 'inside try except in get_message'
-            # print response_text['raw']
-            m = email.message_from_string(self.decode_base64(response_text['raw']))
-            if m.is_multipart():
-                for payload in m.get_payload():
-                    # if payload.is_multipart(): ...
-                    print 'HERE 1'
-                    print self.decode_base64(payload.get_payload(decode = True)).encode('utf8')
-            else:
-                print 'HERE 1a'
-                print self.decode_base64(m.get_payload(decode = True)).encode('utf8')
-                print 'HERE 2'
+        # try:
+        print 'inside try except in get_message'
+        # print response_text['raw']
+        m = email.message_from_string(self.decode_base64(response_text['raw']))
+        if m.is_multipart():
+            for payload in m.get_payload():
+                print 'HERE 1'
+                if payload.is_multipart():
+                    for p in payload.get_payload():
+                        print self.decode_base64(p.get_payload())
+                else:
+                    print self.decode_base64(payload.get_payload())
+        else:
+            print 'HERE 1a'
+            print self.decode_base64(m.get_payload())
+            print 'HERE 2'
 
-        except Exception, e:
-            print e
-            print 'HERE 3'
-            return 'FAILED TO FIND payload, or something else went wrong.'
+        # except Exception, e:
+        #     print e
+        #     print 'HERE 3'
+        #     return 'FAILED TO FIND payload, or something else went wrong.'
 
 
     def get(self):
