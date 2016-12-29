@@ -23,7 +23,6 @@ class Gmail():
         from the authenticated user's mailbox, along with some metainfo. """
 
     def __init__(self, first_response, access_token):
-        print 'initializing gmail class'
 
         self.allofit = eval(first_response)
         self.message_ids = self.allofit['messages']
@@ -43,24 +42,20 @@ class Gmail():
         :returns: The decoded byte string.
 
         """
-        # data = data.encode('ascii')
 
         missing_padding = len(data) % 4
         if missing_padding != 0:
             data += b'='* (4 - missing_padding)
 
-        # if isinstance(data, list):
-        #     print data
-        #
         decoded = base64.urlsafe_b64decode(data)
-        # print check_encoding(decoded)
 
-        return check_encoding(decoded) #.decode('ascii').encode('ascii')
+        return check_encoding(decoded)
 
 
     def get_all_message_ids(self):
+
         # IN THE FUTURE: MAKE THIS RECURSIVE SO YOU DON'T HAVE TO COUNT.
-        print 'INSIDE get_all_message_ids func now'
+
 
         req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?pageToken={}'.format(self.nextPageToken),
                       None, self.headers)
@@ -82,8 +77,6 @@ class Gmail():
     def get_message_txt(self, m_id):
         """ Retrieves the message with the given id. """
 
-        print 'INSIDE get_message_txt func now'
-
         try:
             req = Request('https://www.googleapis.com/gmail/v1/users/me/messages/{}?format=RAW'.format(m_id),
                           None, self.headers)
@@ -96,27 +89,19 @@ class Gmail():
             return 'api hit failure from get_message_txt function'
 
 
-        # try:
-        print 'inside try except in get_message'
-        # print response_text['raw']
         m = email.message_from_string(self.decode_base64(response_text['raw']))
         if m.is_multipart():
+
+            # MAKE THIS PART RECURSIVE!!!!
+
             for payload in m.get_payload():
-                print 'HERE 1'
                 if payload.is_multipart():
                     for p in payload.get_payload():
                         print p.get_payload()
                 else:
                     print payload.get_payload()
         else:
-            print 'HERE 1a'
             print self.decode_base64(m.get_payload())
-            print 'HERE 2'
-
-        # except Exception, e:
-        #     print e
-        #     print 'HERE 3'
-        #     return 'FAILED TO FIND payload, or something else went wrong.'
 
 
     def get(self):
