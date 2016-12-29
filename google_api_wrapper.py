@@ -9,6 +9,15 @@ def writeOut(obj, fname):
         print obj
         outfile.write(str(obj))
 
+def check_encoding(string, codecs=['ascii', 'utf8']):
+    for i in codecs:
+        try:
+            return string.decode(i).encode('ascii')
+        except:
+            pass
+
+    return ''.encode('ascii')
+
 class Gmail():
     """ Wraps gmail api. Its main function is run(), which retrieves all emails
         from the authenticated user's mailbox, along with some metainfo. """
@@ -44,8 +53,9 @@ class Gmail():
         #     print data
         #
         decoded = base64.urlsafe_b64decode(data)
+        # print check_encoding(decoded)
 
-        return decoded
+        return check_encoding(decoded) #.decode('ascii').encode('ascii')
 
 
     def get_all_message_ids(self):
@@ -95,9 +105,9 @@ class Gmail():
                 print 'HERE 1'
                 if payload.is_multipart():
                     for p in payload.get_payload():
-                        print self.decode_base64(p.get_payload())
+                        print p.get_payload()
                 else:
-                    print self.decode_base64(payload.get_payload())
+                    print payload.get_payload()
         else:
             print 'HERE 1a'
             print self.decode_base64(m.get_payload())
