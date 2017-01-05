@@ -1,7 +1,6 @@
 # This is a class that parses each message in a list of messages retrieved by
 # the Gmail class.
 import re
-
 from HTMLParser import HTMLParser
 
 class MLStripper(HTMLParser):
@@ -22,6 +21,7 @@ class GmailParser():
 
     def __init__(self, messages):
         self.messages = messages
+        self.msgs_parsed = []
 
     def parse_one(self, msg):
         """ Parses a single Gmail message. """
@@ -44,6 +44,14 @@ class GmailParser():
                 return 'RAW EMAIL: ', msg
 
     def parse(self):
-        """ Runs self.parse_one() on all messages in the list. """
+        """ Runs self.parse_one() on all messages in the list. Returns list of
+            parsed messages. """
+
         for m in self.messages:
-            print self.parse_one(m)
+            try:
+                self.msgs_parsed.append(self.parse_one(m))
+            except:
+                print 'ENCOUNTERED MESSAGE PARSING PROBLEM'
+                continue
+
+        return self.msgs_parsed
