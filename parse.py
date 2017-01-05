@@ -2,6 +2,22 @@
 # the Gmail class.
 import re
 
+from HTMLParser import HTMLParser
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.fed = []
+    def handle_data(self, d):
+        self.fed.append(d)
+    def get_data(self):
+        return ''.join(self.fed)
+
+def strip_tags(html):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data()
+
 class GmailParser():
 
     def __init__(self, messages):
@@ -11,20 +27,19 @@ class GmailParser():
         """ Parses a single Gmail message. """
 
         # Strip links first:
-        gmail_link = r'<https:(.*)>'
-        msg = re.sub(gmail_link, '', msg)
+        msg_delinked = strip_tags(msg)
 
-        up_to_reply = r'(?:(?!On (Mon |Tue |Wed |Thu |Fri |Sat |Sun ))[^(>)])*'
+        up_to_reply = r'(?:(?!On (Mon |Tue |Wed |Thu |Fri |Sat |Sun |Mon, |Tue, |Wed, |Thu, |Fri, |Sat, |Sun, ))[\s\S])*'
         up_to_carrot = r'.+?(?=>)'
 
-        match = re.search(up_to_reply, msg)
+        match = re.search(up_to_reply, msg_delinked)
 
         if match:
-            return 'MY EMAIL: {}'.format(match.group())
+            return 'MY EMAIL: {}, \n\n\n\n\n Raw email: {}'.format(match.group(), msg)
         else:
             match2 = re.search(up_to_carrot, msg)
             if match2:
-                return 'MY EMAIL: {}'.format(match2.group())
+                return 'MY EMAIL: {} \n\n\n\n\n Raw email: {}'.format(match2.group(), msg)
             else:
                 return 'RAW EMAIL: ', msg
 
