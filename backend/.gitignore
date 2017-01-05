@@ -1,2 +1,3 @@
 secret_stuff.whats_this
 *.pyc
+.ipynb_checkpoints/
