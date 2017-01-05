@@ -4,19 +4,6 @@
 from urllib2 import Request, urlopen, URLError
 import base64, quopri, email, binascii
 
-def writeOut(obj, fname):
-    with open (fname, 'a') as outfile:
-        print obj
-        outfile.write(str(obj))
-
-def check_encoding(string, codecs=['ascii', 'utf8']):
-    for i in codecs:
-        try:
-            return string.decode(i).encode('ascii')
-        except:
-            pass
-
-    return ''.encode('ascii')
 
 class Gmail():
     """ Wraps gmail api. Its main function is run(), which retrieves all emails
@@ -35,8 +22,8 @@ class Gmail():
         self.message_texts = []
 
 
-    def decode_base64(self, data):
-        """Decode base64, padding being optional.
+    def decode_base64(self, data, possible_codecs = ['ascii', 'utf8']):
+        """Decode base64, padding optional.
 
         :param data: Base64 data as an ASCII byte string
         :returns: The decoded byte string.
@@ -49,7 +36,13 @@ class Gmail():
 
         decoded = base64.urlsafe_b64decode(data)
 
-        return check_encoding(decoded)
+        for i in possible_codecs:
+            try:
+                return decoded.decode(i).encode('ascii')
+            except:
+                pass
+
+        return ''.encode('ascii')
 
 
     def get_all_message_ids(self):
@@ -97,22 +90,29 @@ class Gmail():
             for payload in m.get_payload():
                 if payload.is_multipart():
                     for p in payload.get_payload():
-                        print p.get_payload()
+                        return p.get_payload()
                 else:
-                    print payload.get_payload()
+                    return payload.get_payload()
         else:
-            print self.decode_base64(m.get_payload())
+            return self.decode_base64(m.get_payload())
 
 
     def get(self):
-        print 'inside get func now'
 
-        while self.nextPageExists:
-            self.get_all_message_ids()
+        # while self.nextPageExists:
+        #     try:
+        #         self.get_all_message_ids()
+        #     except:
+        #         pass
 
         # Get all messages:
         print 'Getting all messages'
         for m_id in self.message_ids:
-            self.message_texts.append(self.get_message_txt(m_id['id']))
+            if self.msgsCount > 10:
+                return self.message_texts
+            try:
+                self.message_texts.append(self.get_message_txt(m_id['id']))
+            except:
+                continue
 
         return self.message_texts

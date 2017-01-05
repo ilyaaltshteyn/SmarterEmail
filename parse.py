@@ -1,5 +1,5 @@
-# This is a class that parses each message in a list of messages retrieved by
-# the Gmail class.
+# Tools to parse lists of raw but decoded emails returned by the Gmail class.
+
 import re
 from HTMLParser import HTMLParser
 

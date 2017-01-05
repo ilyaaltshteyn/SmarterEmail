@@ -2,7 +2,8 @@ from flask import Flask, redirect, url_for, session
 from flask_oauth import OAuth
 from google_api_wrapper import Gmail
 from urllib2 import Request, urlopen, URLError
-
+from parse import GmailParser
+from analyze import Emails
 
 # ------------------------------------------------------------------------------
 # Get from Google APIs console
@@ -57,14 +58,19 @@ def index():
         res = urlopen(req)
     except URLError, e:
         print 'reason is... ', e.reason
+
         if e.code == 401:
             # Unauthorized - bad token
             session.pop('access_token', None)
             return redirect(url_for('login'))
-        return Gmail(res.read(), access_token).get()
 
-    return Gmail(res.read(), access_token).get()
+        all_messages = Gmail(res.read(), access_token).get()
+        parsed_messages = GmailParser(all_messages).parse()
+        return
 
+    all_messages = Gmail(res.read(), access_token).get()
+    parsed_messages = GmailParser(all_messages).parse()
+    return
 
 @app.route('/login')
 def login():
