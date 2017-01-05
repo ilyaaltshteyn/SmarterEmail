@@ -44,9 +44,9 @@ class Analyzer():
                             np.mean(self.sent_counts),
                             (np.min(self.sent_counts), np.max(self.sent_counts)),
                             np.std(self.sent_counts),
-                            np.mean(self.flesch_scores),
-                            (np.min(self.flesch_scores), np.max(self.flesch_scores)),
-                            np.std(self.flesch_scores),
-                            np.mean(self.flesch_kincaid_grades),
-                            (np.min(self.flesch_kincaid_grades), np.max(self.flesch_kincaid_grades)),
-                            np.std(self.flesch_kincaid_grades))
+                            np.mean(self.lex_counts),
+                                       (np.min(self.lex_counts), np.max(self.lex_counts)),
+                                       np.std(self.lex_counts),
+                                       np.mean(self.sent_counts),
+                                       (np.min(self.sent_counts), np.max(self.sent_counts)),
+                                       np.std(self.sent_counts))

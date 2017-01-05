@@ -99,16 +99,16 @@ class Gmail():
 
     def get(self):
 
-        while self.nextPageExists:
-            try:
-                self.get_all_message_ids()
-            except:
-                pass
+        # while self.nextPageExists:
+        #     try:
+        #         self.get_all_message_ids()
+        #     except:
+        #         pass
 
         # Get all messages:
         print 'Getting all messages'
         for m_id in self.message_ids:
-            if self.msgsCount > 250:
+            if self.msgsCount > 10:
                 return self.message_texts
             try:
                 self.message_texts.append(self.get_message_txt(m_id['id']))
