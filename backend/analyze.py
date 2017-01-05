@@ -34,7 +34,7 @@ class Analyzer():
         for em in self.emails:
             self.analyze_one(em)
 
-        print """Average word count: {0}, Word count range: {1}, Word count std: {2}
+        return """Average word count: {0}, Word count range: {1}, Word count std: {2}
                  Average sent count: {3}, Sent count range: {4}, Sent count std: {5}
                  Average reading ease: {6}, Reading ease range: {7}, Reading ease std: {8}
                  Average grade level: {9}, Grade level range: {10}, Grade level std: {11}

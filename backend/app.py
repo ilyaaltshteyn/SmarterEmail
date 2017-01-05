@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, session
+from flask import Flask, redirect, url_for, session, render_template
 from flask_oauth import OAuth
 from google_api_wrapper import Gmail
 from urllib2 import Request, urlopen, URLError
@@ -66,11 +66,13 @@ def index():
 
         all_messages = Gmail(res.read(), access_token).get()
         parsed_messages = GmailParser(all_messages).parse()
-        return str(Analyzer(parsed_messages).analyze())
+        results = str(Analyzer(parsed_messages).analyze())
+        return render_template('singlepage.html', summary = results)
 
     all_messages = Gmail(res.read(), access_token).get()
     parsed_messages = GmailParser(all_messages).parse()
-    return str(Analyzer(parsed_messages).analyze())
+    results = str(Analyzer(parsed_messages).analyze())
+    return render_template('singlepage.html', summary = results)
 
 @app.route('/login')
 def login():
