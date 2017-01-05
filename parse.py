@@ -35,13 +35,13 @@ class GmailParser():
         match = re.search(up_to_reply, msg_delinked)
 
         if match:
-            return 'MY EMAIL: {}, \n\n\n\n\n Raw email: {}'.format(match.group(), msg)
+            return 'MY EMAIL: {}'.format(match.group())
         else:
             match2 = re.search(up_to_carrot, msg)
             if match2:
-                return 'MY EMAIL: {} \n\n\n\n\n Raw email: {}'.format(match2.group(), msg)
+                return 'MY EMAIL: {}'.format(match2.group())
             else:
-                return 'RAW EMAIL: ', msg
+                return 
 
     def parse(self):
         """ Runs self.parse_one() on all messages in the list. Returns list of

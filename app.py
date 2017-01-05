@@ -3,7 +3,7 @@ from flask_oauth import OAuth
 from google_api_wrapper import Gmail
 from urllib2 import Request, urlopen, URLError
 from parse import GmailParser
-from analyze import Emails
+from analyze import Analyzer
 
 # ------------------------------------------------------------------------------
 # Get from Google APIs console
@@ -66,11 +66,11 @@ def index():
 
         all_messages = Gmail(res.read(), access_token).get()
         parsed_messages = GmailParser(all_messages).parse()
-        return
+        return Analyzer(parsed_messages).analyze()
 
     all_messages = Gmail(res.read(), access_token).get()
     parsed_messages = GmailParser(all_messages).parse()
-    return
+    return Analyzer(parsed_messages).analyze()
 
 @app.route('/login')
 def login():
