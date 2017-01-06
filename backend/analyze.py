@@ -1,47 +1,53 @@
-# This script has an Analyzer class which is initialized with a list of emails.
-# The class can filter out unnecessary emails and run analyses on them.
 from textstat.textstat import textstat as tstat
-from pprint import pprint
 import numpy as np
 
 class Analyzer():
 
     def __init__(self, emails):
         self.emails = emails
-        self.lex_counts = []
-        self.sent_counts = []
-        self.flesch_scores = []
-        self.flesch_kincaid_grades = []
+
+        # Metrics, named after tstat functions:
+        self.lexicon_count = []
+        self.sentence_count = []
+        self.flesch_reading_ease = []
+        self.flesch_kincaid_grade = []
 
     def analyze_one(self, email):
         """ Analyzes a single email. """
 
-        self.lex_counts.append(tstat.lexicon_count(email))
-        self.sent_counts.append(tstat.sentence_count(email))
-        self.flesch_scores.append(tstat.flesch_reading_ease(email))
-        self.flesch_kincaid_grades.append(tstat.flesch_kincaid_grade(email))
+        self.lexicon_count.append(tstat.lexicon_count(email))
+        self.sentence_count.append(tstat.sentence_count(email))
+        self.flesch_reading_ease.append(tstat.flesch_reading_ease(email))
+        self.flesch_kincaid_grade.append(tstat.flesch_kincaid_grade(email))
+
 
     def analyze(self):
         """ Analyzes all emails and returns summary stats. """
 
-        for em in self.emails:
-            self.analyze_one(em)
+        for e in self.emails:
+            self.analyze_one(e)
 
-        print self.emails
+        # print self.emails
 
-        return """Average word count: {0}, Word count range: {1}, Word count std: {2}
-                 Average sent count: {3}, Sent count range: {4}, Sent count std: {5}
-                 Average reading ease: {6}, Reading ease range: {7}, Reading ease std: {8}
-                 Average grade level: {9}, Grade level range: {10}, Grade level std: {11}
-                 """.format(np.mean(self.lex_counts),
-                            (np.min(self.lex_counts), np.max(self.lex_counts)),
-                            np.std(self.lex_counts),
-                            np.mean(self.sent_counts),
-                            (np.min(self.sent_counts), np.max(self.sent_counts)),
-                            np.std(self.sent_counts),
-                            np.mean(self.flesch_scores),
-                            (np.min(self.flesch_scores), np.max(self.flesch_scores)),
-                            np.std(self.flesch_scores),
-                            np.mean(self.flesch_kincaid_grades),
-                            (np.min(self.flesch_kincaid_grades), np.max(self.flesch_kincaid_grades)),
-                            np.std(self.flesch_kincaid_grades))
+        return """Avg word count: {0}, Word count range: {1}, Word count std: {2}
+                 Avg sent count: {3}, Sent count range: {4}, Sent count std: {5}
+                 Avg reading ease: {6}, Reading ease range: {7}, Reading ease std: {8}
+                 Avg grade level: {9}, Grade level range: {10}, Grade level std: {11}
+                 That's after analyzing {12} emails.
+                 """.format(np.mean(self.lexicon_count),
+                            (np.min(self.lexicon_count), np.max(self.lexicon_count)),
+                            np.std(self.lexicon_count),
+
+                            np.mean(self.sentence_count),
+                            (np.min(self.sentence_count), np.max(self.sentence_count)),
+                            np.std(self.sentence_count),
+
+                            np.mean(self.flesch_reading_ease),
+                            (np.min(self.flesch_reading_ease), np.max(self.flesch_reading_ease)),
+                            np.std(self.flesch_reading_ease),
+
+                            np.mean(self.flesch_kincaid_grade),
+                            (np.min(self.flesch_kincaid_grade), np.max(self.flesch_kincaid_grade)),
+                            np.std(self.flesch_kincaid_grade),
+
+                            len(self.emails) )
