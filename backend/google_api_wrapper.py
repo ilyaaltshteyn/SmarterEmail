@@ -101,7 +101,8 @@ class Gmail():
                 pass
 
         # Get messages for those ids:
-        self.message_ids = self.message_ids[:20]
+        self.message_ids = self.message_ids[:20] # snip for testing.
+
         for m_id in self.message_ids:
             try:
                 self.message_texts.append(self.get_message_txt(m_id['id']))
