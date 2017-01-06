@@ -22,9 +22,9 @@ REDIRECT_URI = '/oauth2callback'  # one of the Redirect URIs from Google APIs co
 SECRET_KEY = 'development key'
 DEBUG = True
 
-app = Flask(__name__)
-app.debug = DEBUG
-app.secret_key = SECRET_KEY
+application = Flask(__name__)
+application.debug = DEBUG
+application.secret_key = SECRET_KEY
 oauth = OAuth()
 
 google = oauth.remote_app('SmarterEmail',
@@ -39,7 +39,7 @@ google = oauth.remote_app('SmarterEmail',
                           consumer_key=GOOGLE_CLIENT_ID,
                           consumer_secret=GOOGLE_CLIENT_SECRET)
 
-@app.route('/')
+@application.route('/')
 def index():
     access_token = session.get('access_token')
     if access_token is None:
@@ -74,14 +74,14 @@ def index():
     results = str(Analyzer(parsed_messages).analyze())
     return render_template('singlepage.html', summary = results)
 
-@app.route('/login')
+@application.route('/login')
 def login():
     callback=url_for('authorized', _external=True)
     return google.authorize(callback=callback)
 
 
 
-@app.route(REDIRECT_URI)
+@application.route(REDIRECT_URI)
 @google.authorized_handler
 def authorized(resp):
     access_token = resp['access_token']
@@ -94,9 +94,5 @@ def get_access_token():
     return session.get('access_token')
 
 
-def main():
-    app.run()
-
-
 if __name__ == '__main__':
-    main()
+    application.run()

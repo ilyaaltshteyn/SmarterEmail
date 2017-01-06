@@ -16,13 +16,6 @@ class Analyzer():
     def analyze_one(self, email):
         """ Analyzes a single email. """
 
-        # FOR TESTING: (it works!)
-        # print email
-        # print 'LEX COUNT: ', tstat.lexicon_count(email)
-        # print 'SENT COUNT: ', tstat.sentence_count(email)
-        # print 'READING EASE: ', tstat.flesch_reading_ease(email)
-        # print 'READING GRADE: ', tstat.flesch_kincaid_grade(email)
-
         self.lex_counts.append(tstat.lexicon_count(email))
         self.sent_counts.append(tstat.sentence_count(email))
         self.flesch_scores.append(tstat.flesch_reading_ease(email))
@@ -33,6 +26,8 @@ class Analyzer():
 
         for em in self.emails:
             self.analyze_one(em)
+
+        print self.emails
 
         return """Average word count: {0}, Word count range: {1}, Word count std: {2}
                  Average sent count: {3}, Sent count range: {4}, Sent count std: {5}
