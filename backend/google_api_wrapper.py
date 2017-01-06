@@ -2,7 +2,8 @@
 # access token and a first response from the gmail api.
 
 from urllib2 import Request, urlopen, URLError
-import base64, quopri, email, binascii
+import base64
+import email
 
 
 class Gmail():
@@ -14,11 +15,11 @@ class Gmail():
         self.allofit = eval(first_response)
         self.message_ids = self.allofit['messages']
         self.nextPageToken = self.allofit['nextPageToken']
-        self.nextPageExists = True if self.nextPageToken else False
 
         self.headers = {'Authorization': 'OAuth ' + access_token}
         self.pagesCount = 0
         self.msgsCount = 0
+
         self.message_texts = []
 
 
@@ -47,11 +48,8 @@ class Gmail():
 
     def get_all_message_ids(self):
 
-        # IN THE FUTURE: MAKE THIS RECURSIVE SO YOU DON'T HAVE TO COUNT.
-
-
-        req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?pageToken={}'.format(self.nextPageToken),
-                      None, self.headers)
+        req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?pageToken={}'.\
+                      format(self.nextPageToken), None, self.headers)
 
         response_text = eval(urlopen(req).read())
 
@@ -61,10 +59,7 @@ class Gmail():
         try:
             self.nextPageToken = response_text['nextPageToken']
         except KeyError:
-            self.nextPageExists = False
-
-        if self.pagesCount > 0 or self.msgsCount > 20:
-            self.nextPageExists = False
+            pass
 
 
     def get_message_txt(self, m_id):
@@ -76,40 +71,38 @@ class Gmail():
 
             response_text = eval(urlopen(req).read())
             self.msgsCount += 1
-            print "100s of emails: {},    Emails pulled: {}".format(self.pagesCount,
-                                                                    self.msgsCount)
-        except:
-            return 'api hit failure from get_message_txt function'
+            print "Emails pulled: {}".format(self.msgsCount)
 
+        except:
+            return ''
 
         m = email.message_from_string(self.decode_base64(response_text['raw']))
+
         if m.is_multipart():
-
-            # MAKE THIS PART RECURSIVE!!!!
-
+            # Doesn't support arbitrary num of recursive parts.
             for payload in m.get_payload():
                 if payload.is_multipart():
                     for p in payload.get_payload():
                         return p.get_payload()
                 else:
                     return payload.get_payload()
+
         else:
             return self.decode_base64(m.get_payload())
 
 
     def get(self):
 
-        while self.nextPageExists:
+        # Get a reasonable number of message ids:
+        while self.nextPageToken and self.pagesCount <= 10:
             try:
                 self.get_all_message_ids()
             except:
                 pass
 
-        # Get all messages:
-        print 'Getting all messages'
+        # Get messages for those ids:
+        self.message_ids = self.message_ids[:20]
         for m_id in self.message_ids:
-            if self.msgsCount > 20:
-                return self.message_texts
             try:
                 self.message_texts.append(self.get_message_txt(m_id['id']))
             except:
