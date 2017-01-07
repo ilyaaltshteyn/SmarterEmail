@@ -1,6 +1,7 @@
 *.whats_this
 *.pyc
 .ipynb_checkpoints/
+*.ipynb
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
