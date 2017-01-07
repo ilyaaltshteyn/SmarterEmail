@@ -2,7 +2,7 @@ from textstat.textstat import textstat as tstat
 import numpy as np
 import re
 from collections import Counter
-from talon.signature.bruteforce import extract_signature
+# from talon.signature.bruteforce import extract_signature
 
 
 class Analyzer():
@@ -47,14 +47,14 @@ class Analyzer():
         self.linsear_write_formula.append(tstat.linsear_write_formula(email))
         self.dale_chall_readability_score.append(tstat.dale_chall_readability_score(email))
 
-        self.signoffs.append(self.preprocess(extract_signature(email)[1]))
+        # self.signoffs.append(self.preprocess(extract_signature(email)[1]))
 
         # Get start and end if there are >2 sentence chunks in the msg.
         sents = [s.lower() for s in re.split(r'(?<=[.:;,!?])(\n|\s|\r)', email)]
 
         if len(sents) > 2:
-            # self.signoffs.extend([self.preprocess(c) for c in sents[-2:]] )
             self.introductions.append(self.preprocess(sents[0]))
+            self.signoffs.extend([self.preprocess(c) for c in sents[-2:]] )
 
 
     def combine_scores(self):
