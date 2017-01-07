@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, session, render_template
+from flask import Flask, Response, redirect, url_for, session, render_template
 from flask_oauth import OAuth
 from google_api_wrapper import Gmail
 from urllib2 import Request, urlopen, URLError
@@ -55,35 +55,55 @@ def authorize():
 
 @application.route('/analyze')
 def analyze():
-    access_token = session.get('access_token')[0]
 
-    from urllib2 import Request, urlopen, URLError
+    def t():
+        yield """<!doctype html>
+<title>Send javascript snippets demo</title>
+<style>
+  #data {
+    text-align: center;
+  }
+</style>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<div id="data">nothing received yet</div>
+"""
 
-    headers = {'Authorization': 'OAuth '+access_token}
+        access_token = session.get('access_token')[0]
 
-    print 'REQUESTING FIRST BATCH OF MSG IDS'
-    req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?q=from:me%20-in:chat%20-category:(promotions%20OR%20social)',
-                  None, headers)
+        from urllib2 import Request, urlopen, URLError
 
-    try:
-        res = urlopen(req)
-    except URLError, e:
-        print 'reason is... ', e.reason
+        headers = {'Authorization': 'OAuth '+access_token}
 
-        if e.code == 401:
-            # Unauthorized - bad token
-            session.pop('access_token', None)
-            return redirect(url_for('login'))
+        print 'REQUESTING FIRST BATCH OF MSG IDS'
+        req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?q=from:me%20-in:chat%20-category:(promotions%20OR%20social)',
+                      None, headers)
+
+        try:
+            res = urlopen(req)
+        except URLError, e:
+            print 'reason is... ', e.reason
+
+            if e.code == 401:
+                # Unauthorized - bad token
+                session.pop('access_token', None)
+                yield redirect(url_for('login'))
+
+            all_messages = Gmail(res.read(), access_token).get()
+            parsed_messages = GmailParser(all_messages).parse()
+            results = str(Analyzer(parsed_messages).analyze())
+            # return render_template('results.html', summary = results)
 
         all_messages = Gmail(res.read(), access_token).get()
         parsed_messages = GmailParser(all_messages).parse()
         results = str(Analyzer(parsed_messages).analyze())
-        return render_template('results.html', summary = results)
+        yield """<script>
+      $("#data").text("{dat}")
+    </script>
+    """.format(dat=results)
 
-    all_messages = Gmail(res.read(), access_token).get()
-    parsed_messages = GmailParser(all_messages).parse()
-    results = str(Analyzer(parsed_messages).analyze())
-    return render_template('results.html', summary = results)
+    return Response(t())
+
+    # return render_template('results.html', summary = results)
 
 @application.route('/login')
 def login():
