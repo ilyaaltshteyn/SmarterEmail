@@ -6,18 +6,15 @@ from parse import GmailParser
 from analyze import Analyzer
 
 # ------------------------------------------------------------------------------
-# Get from Google APIs console
-# https://code.google.com/apis/console
-
-# with open('/Users/ilya/Projects/SmarterEmail/secret_stuff.whats_this', 'rb') as infile:
-#     lines = infile.readlines()
-
-GOOGLE_CLIENT_ID = '631813692358-hqjmcu2skn4qlnk8rpoupom859cmfnje.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = 'F3AU6cy9JYFi6DTMS6WpSP0s'
-REDIRECT_URI = '/oauth2callback'  # one of the Redirect URIs from Google APIs console
-
-
 # ------------------------------------------------------------------------------
+
+with open('/Users/ilya/Projects/SmarterEmail/secret_stuff.whats_this', 'rb') as infile:
+    lines = infile.readlines()
+
+GOOGLE_CLIENT_ID = eval(lines[0])
+GOOGLE_CLIENT_SECRET = eval(lines[1])
+REDIRECT_URI = '/oauth2callback'
+
 
 SECRET_KEY = 'development key'
 DEBUG = True
@@ -40,14 +37,16 @@ google = oauth.remote_app('SmarterEmail',
                           consumer_secret=GOOGLE_CLIENT_SECRET)
 
 
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
+
 def stream_template(template_name, **context):
     """ Streams data to template. """
 
     application.update_template_context(context)
     t = application.jinja_env.get_template(template_name)
     rv = t.stream(context)
-    # uncomment if you don't need immediate reaction
-    #rv.enable_buffering(5)
     return rv
 
 
