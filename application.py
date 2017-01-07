@@ -43,13 +43,20 @@ google = oauth.remote_app('SmarterEmail',
 def index():
     return render_template('home.html')
 
+
 @application.route('/authorize')
-def analyze():
+def authorize():
     access_token = session.get('access_token')
     if access_token is None:
         return redirect(url_for('login'))
 
-    access_token = access_token[0]
+    return render_template('loading.html')
+
+
+@application.route('/analyze')
+def analyze():
+    access_token = session.get('access_token')[0]
+
     from urllib2 import Request, urlopen, URLError
 
     headers = {'Authorization': 'OAuth '+access_token}
@@ -90,7 +97,7 @@ def login():
 def authorized(resp):
     access_token = resp['access_token']
     session['access_token'] = access_token, ''
-    return redirect(url_for('analyze'))
+    return redirect(url_for('authorize'))
 
 
 @google.tokengetter
