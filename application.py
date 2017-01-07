@@ -42,31 +42,17 @@ google = oauth.remote_app('SmarterEmail',
 
 def stream_template(template_name, **context):
     """ Streams data to template. """
-    # http://flask.pocoo.org/docs/patterns/streaming/#streaming-from-templates
+
     application.update_template_context(context)
     t = application.jinja_env.get_template(template_name)
     rv = t.stream(context)
     # uncomment if you don't need immediate reaction
-    ##rv.enable_buffering(5)
+    #rv.enable_buffering(5)
     return rv
 
 
-@application.route('/')
-def index():
-    return render_template('home.html')
-
-
-@application.route('/authorize')
-def authorize():
-    access_token = session.get('access_token')
-    if access_token is None:
-        return redirect(url_for('login'))
-
-    return render_template('loading.html')
-
-
-@application.route('/analyze')
 def analyze():
+    """ Gets data and analyzes it, then streams it to template. """
 
     access_token = session.get('access_token')[0]
 
@@ -101,7 +87,20 @@ def analyze():
 
     return Response(stream_template('results.html', data = t(first_response, access_token)))
 
-    # return render_template('results.html', summary = results)
+
+@application.route('/')
+def index():
+    return render_template('home.html')
+
+
+@application.route('/authorize')
+def authorize():
+    access_token = session.get('access_token')
+    if access_token is None:
+        return redirect(url_for('login'))
+
+    return analyze()
+
 
 @application.route('/login')
 def login():
