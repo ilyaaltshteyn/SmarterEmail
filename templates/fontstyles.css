@@ -7,6 +7,7 @@ p {
    font-weight: 400;
    font-style: normal;
    text-align: center;
+   text-rendering: geometricPrecision;
 }
 
 h1 {
@@ -15,17 +16,20 @@ h1 {
    text-align: left;
    text-transform: uppercase;
    font-family: Questrial;
-   font-weight: 500;
+   font-weight: 600;
    font-style: normal;
+   /*text-rendering: geometricPrecision;*/
 }
 
 h2 {
-   font-size: 1.26em;
+   font-size: 1.16em;
    line-height: 0.931em;
    margin: 0px 0px 0.931em 0px;
    font-family: Questrial;
-   font-weight: 400;
+   font-weight: 300;
    font-style: normal;
+   letter-spacing: .5;
+   text-rendering: geometricPrecision;
 }
 
 h3 {
@@ -33,4 +37,18 @@ h3 {
    font-weight: 400;
    font-style: normal;
    text-align: center;
+   text-rendering: geometricPrecision;
+   line-height: 1.15;
+
+}
+
+h4 {
+  font-size: 1.2em;
+  line-height: 1.421em;
+  margin: 0px 0px 1.421em 0px;
+  font-family: "Cutive Mono";
+  font-weight: 500;
+  font-style: normal;
+  text-align: center;
+  text-rendering: geometricPrecision;
 }
