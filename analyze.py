@@ -1,12 +1,16 @@
 from textstat.textstat import textstat as tstat
 import numpy as np
+import re
+from collections import Counter
+from talon.signature.bruteforce import extract_signature
+
 
 class Analyzer():
 
     def __init__(self, emails):
         self.emails = emails
 
-        # Metrics, named after tstat functions:
+        #Individual msg metrics using tstat:
         self.lexicon_count = []
         self.sentence_count = []
         self.flesch_reading_ease = []
@@ -17,6 +21,17 @@ class Analyzer():
         self.coleman_liau_index = []
         self.linsear_write_formula = []
         self.dale_chall_readability_score = []
+
+        # Individual msg metrics using regex:
+        self.introductions = []
+        self.signoffs = []
+
+
+    def preprocess(self, email):
+        if email:
+            e = email.replace('\t', '').replace('\n', ' ').replace('\r', ' ')
+            return e.strip(' \t\n\r')
+
 
     def analyze_one(self, email):
         """ Analyzes a single email. """
@@ -32,6 +47,16 @@ class Analyzer():
         self.linsear_write_formula.append(tstat.linsear_write_formula(email))
         self.dale_chall_readability_score.append(tstat.dale_chall_readability_score(email))
 
+        self.signoffs.append(self.preprocess(extract_signature(email)[1]))
+
+        # Get start and end if there are >2 sentence chunks in the msg.
+        sents = [s.lower() for s in re.split(r'(?<=[.:;,!?])(\n|\s|\r)', email)]
+
+        if len(sents) > 2:
+            # self.signoffs.extend([self.preprocess(c) for c in sents[-2:]] )
+            self.introductions.append(self.preprocess(sents[0]))
+
+
     def combine_scores(self):
         """ Takes the mean of grade level estimates from tstat. """
 
@@ -40,6 +65,14 @@ class Analyzer():
                        np.mean(self.coleman_liau_index),
                        np.mean(self.linsear_write_formula),
                        np.mean(self.dale_chall_readability_score) ))
+
+
+    def get_common(self, lst, n = 15):
+        """ Finds n most common list elements (can be used on introductions and
+            signoffs). """
+
+        data = Counter(lst)
+        return [x for x in data.most_common(n) if x[0]]
 
 
     def analyze(self):
@@ -78,6 +111,9 @@ class Analyzer():
                 'dale_chall_readability_score_mean' : np.mean(self.dale_chall_readability_score),
 
                 'my_combined_grade_lvl_mean' : self.combine_scores(),
+
+                'most_common_intros' : self.get_common(self.introductions),
+                'most_common_signoffs' : self.get_common(self.signoffs),
 
                 'emails_analyzed' : len(self.emails)
                }

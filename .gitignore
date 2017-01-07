@@ -1,4 +1,4 @@
-secret_stuff.whats_this
+*.whats_this
 *.pyc
 .ipynb_checkpoints/
 
