@@ -39,6 +39,18 @@ google = oauth.remote_app('SmarterEmail',
                           consumer_key=GOOGLE_CLIENT_ID,
                           consumer_secret=GOOGLE_CLIENT_SECRET)
 
+
+def stream_template(template_name, **context):
+    """ Streams data to template. """
+    # http://flask.pocoo.org/docs/patterns/streaming/#streaming-from-templates
+    application.update_template_context(context)
+    t = application.jinja_env.get_template(template_name)
+    rv = t.stream(context)
+    # uncomment if you don't need immediate reaction
+    ##rv.enable_buffering(5)
+    return rv
+
+
 @application.route('/')
 def index():
     return render_template('home.html')
@@ -56,52 +68,38 @@ def authorize():
 @application.route('/analyze')
 def analyze():
 
-    def t():
-        yield """<!doctype html>
-<title>Send javascript snippets demo</title>
-<style>
-  #data {
-    text-align: center;
-  }
-</style>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<div id="data">nothing received yet</div>
-"""
+    access_token = session.get('access_token')[0]
 
-        access_token = session.get('access_token')[0]
+    from urllib2 import Request, urlopen, URLError
 
-        from urllib2 import Request, urlopen, URLError
+    headers = {'Authorization': 'OAuth '+access_token}
 
-        headers = {'Authorization': 'OAuth '+access_token}
+    print 'REQUESTING FIRST BATCH OF MSG IDS'
+    req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?q=from:me%20-in:chat%20-category:(promotions%20OR%20social)',
+                  None, headers)
 
-        print 'REQUESTING FIRST BATCH OF MSG IDS'
-        req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?q=from:me%20-in:chat%20-category:(promotions%20OR%20social)',
-                      None, headers)
 
-        try:
-            res = urlopen(req)
-        except URLError, e:
-            print 'reason is... ', e.reason
+    try:
+        res = urlopen(req)
+    except URLError, e:
+        print 'reason is... ', e.reason
 
-            if e.code == 401:
-                # Unauthorized - bad token
-                session.pop('access_token', None)
-                yield redirect(url_for('login'))
+        if e.code == 401:
+            # Unauthorized - bad token
+            session.pop('access_token', None)
+            return redirect(url_for('login'))
 
-            all_messages = Gmail(res.read(), access_token).get()
-            parsed_messages = GmailParser(all_messages).parse()
-            results = str(Analyzer(parsed_messages).analyze())
-            # return render_template('results.html', summary = results)
+    first_response = res.read()
 
-        all_messages = Gmail(res.read(), access_token).get()
+    def t(first_response, access_token):
+
+        all_messages = Gmail(first_response, access_token).get()
         parsed_messages = GmailParser(all_messages).parse()
         results = str(Analyzer(parsed_messages).analyze())
-        yield """<script>
-      $("#data").text("{dat}")
-    </script>
-    """.format(dat=results)
 
-    return Response(t())
+        yield results
+
+    return Response(stream_template('results.html', data = t(first_response, access_token)))
 
     # return render_template('results.html', summary = results)
 
