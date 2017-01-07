@@ -1,8 +1,14 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width" />
+
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Questrial|Cutive%20Mono">
+
+    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css"
+          integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD"
+          crossorigin="anonymous">
     <style>
     p {
        font-size: 1em;
@@ -13,6 +19,7 @@
        font-weight: 400;
        font-style: normal;
        text-align: center;
+       text-rendering: geometricPrecision;
     }
 
     h1 {
@@ -21,8 +28,9 @@
        text-align: left;
        text-transform: uppercase;
        font-family: Questrial;
-       font-weight: 400;
+       font-weight: 500;
        font-style: normal;
+       text-rendering: geometricPrecision;
     }
 
     h2 {
@@ -30,8 +38,9 @@
        line-height: 0.931em;
        margin: 0px 0px 0.931em 0px;
        font-family: Questrial;
-       font-weight: 400;
+       font-weight: 300;
        font-style: normal;
+       text-rendering: geometricPrecision;
     }
 
     h3 {
@@ -39,17 +48,33 @@
        font-weight: 400;
        font-style: normal;
        text-align: center;
+       text-rendering: geometricPrecision;
+       line-height: 1.15;
+
     }
+
+    body {
+         padding-top: 40px;
+         padding-right: 35px;
+         padding-left: 35px;
+      }
     </style>
   </head>
 
 <body>
-  <h1>WELCOME HOME<br><br><br></h1>
-  <p>Authorize us to analyze your Gmail data, and we'll tell you about your emailing habits.</p>
-  <br><br><br><br>
-  <form action="/authorize">
-    <input type="submit" value="AUTHORIZE" />
-  </form>
+
+  <h1><center>Smartr.Email</center></h1>
+  <p>Data Policy<br>Similar Tools<br>Contact</p>
+  <h3>Analyze your Gmail data and learn about your emailing habits.</h3>
+
+  <br><br>
+  <center>
+    <h2>
+    <a class="pure-button" href="/authorize">AUTHORIZE</a>
+    </h2>
+  </center>
+  <br><br>
   <p>Our systems don't store your emails after completing the analysis.</p>
+
 </body>
 </html>
