@@ -17,7 +17,6 @@ class Analyzer():
         self.coleman_liau_index = []
         self.linsear_write_formula = []
         self.dale_chall_readability_score = []
-        self.tstat_consensus_gradelvl = []
 
     def analyze_one(self, email):
         """ Analyzes a single email. """
@@ -32,7 +31,6 @@ class Analyzer():
         self.coleman_liau_index.append(tstat.coleman_liau_index(email))
         self.linsear_write_formula.append(tstat.linsear_write_formula(email))
         self.dale_chall_readability_score.append(tstat.dale_chall_readability_score(email))
-        self.tstat_consensus_gradelvl.append(tstat.text_standard(email))
 
     def combine_scores(self):
         """ Takes the mean of grade level estimates from tstat. """
@@ -78,7 +76,6 @@ class Analyzer():
                 'coleman_liau_index_mean' : np.mean(self.coleman_liau_index),
                 'linsear_write_formula_mean' : np.mean(self.linsear_write_formula),
                 'dale_chall_readability_score_mean' : np.mean(self.dale_chall_readability_score),
-                'tstat_consensus_gradelvl_mean' : self.tstat_consensus_gradelvl,
 
                 'my_combined_grade_lvl_mean' : self.combine_scores(),
 

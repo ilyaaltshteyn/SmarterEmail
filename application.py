@@ -71,12 +71,12 @@ def analyze():
         all_messages = Gmail(res.read(), access_token).get()
         parsed_messages = GmailParser(all_messages).parse()
         results = str(Analyzer(parsed_messages).analyze())
-        return render_template('singlepage.html', summary = results)
+        return render_template('results.html', summary = results)
 
     all_messages = Gmail(res.read(), access_token).get()
     parsed_messages = GmailParser(all_messages).parse()
     results = str(Analyzer(parsed_messages).analyze())
-    return render_template('singlepage.html', summary = results)
+    return render_template('results.html', summary = results)
 
 @application.route('/login')
 def login():
