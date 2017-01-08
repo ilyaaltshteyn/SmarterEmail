@@ -4,15 +4,13 @@ from google_api_wrapper import Gmail
 from urllib2 import Request, urlopen, URLError
 from parse import GmailParser
 from analyze import Analyzer
-from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SECRET_KEY
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
 REDIRECT_URI = '/oauth2callback'
 
-
-SECRET_KEY = 'development key'
 DEBUG = True
 
 application = Flask(__name__)
