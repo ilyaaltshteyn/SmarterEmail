@@ -2,9 +2,8 @@
 <title>Send javascript with template demo</title>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
-<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='results.css') }}"> -->
 <style>
-/*THIS IS HERE FOR NOW TO AVOID HAVING TO USE 
+/*THIS IS HERE FOR NOW TO AVOID HAVING TO USE
 STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
 
 #data {
@@ -30,8 +29,17 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
 <div id="data"></div>
 {% for i in data: %}
 <script>
+
+  function prepData(encodedString) {
+    // Decodes a string encoded as htmlspecialchars, which our data is.
+    var textArea = document.createElement('textarea');
+    textArea.innerHTML = encodedString;
+    return JSON.parse(textArea.value);
+   }
+
   $(".loader").hide();
-  $("#data").text("{{ i }}");
+  var a = prepData("{{ i }}");
+  $("#data").text(a["most_common_intros"]);
 
 </script>
 {% endfor %}

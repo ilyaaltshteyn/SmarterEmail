@@ -1,56 +1,151 @@
-p {
-   font-size: 1em;
-   line-height: 1.421em;
-   color: rgba(51, 51, 51, 0.80);
-   margin: 0px 0px 1.421em 0px;
-   font-family: "Cutive Mono";
-   font-weight: 400;
-   font-style: normal;
-   text-align: center;
-   text-rendering: geometricPrecision;
+/********** General styling **********/
+
+body {
+    background: #3e606f;
+    color: #FCFFF5;
+}
+
+.site-content {
+    width: 80vw;
+    margin: 10vh auto;
+}
+
+
+/********** Headerstyling **********/
+
+header {
+    text-align: center;
 }
 
 h1 {
-   font-size: 2.33em;
-   line-height: 0.928em;
-   text-align: left;
-   text-transform: uppercase;
-   font-family: Questrial;
-   font-weight: 600;
-   font-style: normal;
-   /*text-rendering: geometricPrecision;*/
+    font-size: 2.33em;
+    line-height: 0.928em;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: Questrial;
+    font-weight: 600;
+    font-style: normal;
+    /*text-rendering: geometricPrecision;*/
 }
 
 h2 {
-   font-size: 1.16em;
-   line-height: 0.931em;
-   margin: 0px 0px 0.931em 0px;
-   font-family: Questrial;
-   font-weight: 300;
-   font-style: normal;
-   letter-spacing: .5;
-   text-rendering: geometricPrecision;
+    display: none;
+}
+
+
+/********** Mobile menu styling **********/
+
+.mobile-menu-button {
+    margin: 0;
+    color: #FCFFF5;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.main-nav {
+    display: none;
+}
+
+.main-nav li {
+    margin: .35em 0;
+    font-family: Questrial;
+    text-transform: uppercase;
+    font-size: .9em;
+    font-weight: 700;
+}
+
+
+/********** Main Content styling **********/
+
+.data-policy-content,
+.tools-content,
+.contact-content {
+    display: none;
+}
+
+p {
+    font-size: 1em;
+    line-height: 1.421em;
+    color: rgba(51, 51, 51, 0.80);
+    color: #FCFFF5;
+    margin: 1.421em 0px;
+    font-family: "Cutive Mono";
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    text-rendering: geometricPrecision;
 }
 
 h3 {
-   font-family: Questrial;
-   font-weight: 400;
-   font-style: normal;
-   text-align: center;
-   text-rendering: geometricPrecision;
-   line-height: 1.15;
-
+    font-family: Questrial;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    text-rendering: geometricPrecision;
+    line-height: 1.15;
 }
 
 h4 {
-  font-size: 1.2em;
-  line-height: 1.421em;
-  margin: 0px 0px 1.421em 0px;
-  font-family: "Cutive Mono";
-  font-weight: 500;
-  font-style: normal;
-  text-align: center;
-  text-rendering: geometricPrecision;
+    display: block;
+    font-size: 1.2em;
+    line-height: 1.421em;
+    margin: 1.421em 0px;
+    font-family: "Cutive Mono";
+    font-weight: 500;
+    font-style: normal;
+    text-align: center;
+    text-rendering: geometricPrecision;
 }
 
-.pure-button { background: #D1DBBD;}
+.tools-list li {
+    margin: .4em 0;
+}
+
+
+/********** Email form on contact content styling **********/
+
+.pure-input-1-2,
+.pure-form input[type=email] {
+    width: 75vw !important;
+    margin: .3em auto !important;
+    color: #3e606f;
+}
+
+.pure-form {
+    text-align: center;
+}
+
+.pure-form .pure-button {
+    width: 30vw;
+    text-transform: uppercase;
+}
+
+.pure-button {
+    background: #d1dbbd;
+    margin: .5em 0px;
+    color: #3e606f;
+    font-weight: 500;
+}
+
+
+/********** Mobile break width: further styling for tablet/desktop **********/
+
+@media all and (min-width: 600px) {
+    h2 {
+        display: block;
+        font-size: 1.16em;
+        line-height: 0.931em;
+        margin: 0px 0px 0.931em 0px;
+        font-family: Questrial;
+        font-weight: 300;
+        font-style: normal;
+        letter-spacing: .5;
+        text-rendering: geometricPrecision;
+        text-align: center;
+    }
+}

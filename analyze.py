@@ -2,6 +2,7 @@ from textstat.textstat import textstat as tstat
 import numpy as np
 import re
 from collections import Counter
+import json
 # from talon.signature.bruteforce import extract_signature
 
 
@@ -29,7 +30,7 @@ class Analyzer():
 
     def preprocess(self, email):
         if email:
-            e = email.replace('\t', '').replace('\n', ' ').replace('\r', ' ')
+            e = email.replace('\t', '').replace('\n', ' ').replace('\r', ' ').replace('"', '\'')
             return e.strip(' \t\n\r')
 
 
@@ -118,4 +119,4 @@ class Analyzer():
                 'emails_analyzed' : len(self.emails)
                }
 
-        return str(dat)
+        return str(json.dumps(dat))
