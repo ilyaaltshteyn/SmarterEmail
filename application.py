@@ -8,11 +8,11 @@ from analyze import Analyzer
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-with open('/Users/ilya/Projects/SmarterEmail/secret_stuff.whats_this', 'rb') as infile:
-    lines = infile.readlines()
+# with open('/Users/ilya/Projects/SmarterEmail/secret_stuff.whats_this', 'rb') as infile:
+#     lines = infile.readlines()
 
-GOOGLE_CLIENT_ID = eval(lines[0])
-GOOGLE_CLIENT_SECRET = eval(lines[1])
+GOOGLE_CLIENT_ID = '631813692358-hqjmcu2skn4qlnk8rpoupom859cmfnje.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = 'F3AU6cy9JYFi6DTMS6WpSP0s'
 REDIRECT_URI = '/oauth2callback'
 
 
