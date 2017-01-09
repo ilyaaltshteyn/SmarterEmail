@@ -37,25 +37,29 @@ class Analyzer():
     def analyze_one(self, email):
         """ Analyzes a single email. """
 
+        print email
+
         self.lexicon_count.append(tstat.lexicon_count(email))
         self.sentence_count.append(tstat.sentence_count(email))
-        self.flesch_reading_ease.append(tstat.flesch_reading_ease(email))
-        self.flesch_kincaid_grade.append(tstat.flesch_kincaid_grade(email))
-        self.gunning_fog.append(tstat.gunning_fog(email))
-        self.smog_index.append(tstat.smog_index(email))
-        self.automated_readability_index.append(tstat.automated_readability_index(email))
-        self.coleman_liau_index.append(tstat.coleman_liau_index(email))
-        self.linsear_write_formula.append(tstat.linsear_write_formula(email))
-        self.dale_chall_readability_score.append(tstat.dale_chall_readability_score(email))
 
-        # self.signoffs.append(self.preprocess(extract_signature(email)[1]))
+        if email and len(email) > 0:
+            self.flesch_reading_ease.append(tstat.flesch_reading_ease(email))
+            self.flesch_kincaid_grade.append(tstat.flesch_kincaid_grade(email))
+            self.gunning_fog.append(tstat.gunning_fog(email))
+            self.smog_index.append(tstat.smog_index(email))
+            self.automated_readability_index.append(tstat.automated_readability_index(email))
+            self.coleman_liau_index.append(tstat.coleman_liau_index(email))
+            self.linsear_write_formula.append(tstat.linsear_write_formula(email))
+            self.dale_chall_readability_score.append(tstat.dale_chall_readability_score(email))
 
-        # Get start and end if there are >2 sentence chunks in the msg.
-        sents = [s.lower() for s in re.split(r'(?<=[.:;,!?])(\n|\s|\r)', email)]
+            # self.signoffs.append(self.preprocess(extract_signature(email)[1]))
 
-        if len(sents) > 2:
-            self.introductions.append(self.preprocess(sents[0]))
-            self.signoffs.extend([self.preprocess(c) for c in sents[-2:]] )
+            # Get start and end if there are >2 sentence chunks in the msg.
+            sents = [s.lower() for s in re.split(r'(?<=[.:;,!?])(\n|\s|\r)', email)]
+
+            if len(sents) > 2:
+                self.introductions.append(self.preprocess(sents[0]))
+                self.signoffs.extend([self.preprocess(c) for c in sents[-2:]] )
 
 
     def combine_scores(self):
