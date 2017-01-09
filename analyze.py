@@ -37,8 +37,6 @@ class Analyzer():
     def analyze_one(self, email):
         """ Analyzes a single email. """
 
-        print email
-
         self.lexicon_count.append(tstat.lexicon_count(email))
         self.sentence_count.append(tstat.sentence_count(email))
 
@@ -97,6 +95,7 @@ class Analyzer():
                 'sentence_count_range' : (np.min(self.sentence_count),
                                          np.max(self.sentence_count)),
                 'sentence_count_std' : np.std(self.sentence_count),
+                'sentence_counts' : self.sentence_count,
 
                 'flesch_reading_ease_mean' : np.mean(self.flesch_reading_ease),
                 'flesch_reading_ease_range' : (np.min(self.flesch_reading_ease),

@@ -69,7 +69,6 @@ def analyze():
             return redirect(url_for('login'))
 
     first_response = res.read()
-    print first_response
 
     def t(first_response, access_token):
 
