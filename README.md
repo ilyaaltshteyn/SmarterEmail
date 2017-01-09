@@ -1,5 +1,7 @@
 # SmarterEmail
 
-Pulls in a users gmail messages and analyzes them. Provides user with the results of the analysis.
+This is a Flask web app, built mostly in Python and JS. See it live at www.smartr.email
 
-The goal here is to build a complete product from the back to the front end. The backend is a Python Flask app, and the front is a javascript app.
+The project is still in early development stages, so its only partially finished and buggy.
+
+The goal here is to build a complete product end-to-end, with a light NLP component. Features will be added as time permits.
