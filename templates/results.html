@@ -16,6 +16,17 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
 #data {
   text-align: center;
 }
+
+p {
+  font-size: 1em;
+  line-height: 1.421em;
+  color: rgba(51, 51, 51, 0.80);
+  margin: 1.421em 0px;
+  font-family: "Cutive Mono";
+  font-weight: 400;
+  text-rendering: geometricPrecision;
+}
+
 .loader {
   border: 16px solid #f3f3f3; /* Light grey */
   border-top: 16px solid #3E606F; /* Dark blue */
@@ -30,10 +41,12 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
   100% { transform: rotate(360deg); }
 }
 
+
 </style>
 
 <div class = "loader"></div>
-<div id="data">Loading... This may take a while, up to 1 minute.</div>
+<div id="data"><p>Loading... This may take a while, up to 1 minute.</p></div>
+
 {% for i in data: %}
 <script>
 
@@ -46,7 +59,26 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
 
   $(".loader").hide();
   var a = prepData("{{ i }}");
-  $("#data").text(a);
+
+  function makeOrdinal(floatingPoint) {
+    var i = Math.round(floatingPoint);
+
+    var j = i % 10,
+        k = i % 100;
+    if (j == 1 && k != 11) {
+        return i + "st";
+    }
+    if (j == 2 && k != 12) {
+        return i + "nd";
+    }
+    if (j == 3 && k != 13) {
+        return i + "rd";
+    }
+    return i + "th";
+  }
+
+  $("#data").html("<p>Average reading level of your emails (avg of 5 text reading level metrics): " +
+                  makeOrdinal(a['my_combined_grade_lvl_mean']) + " grade.<br><br><br>More metrics and a complete results page will be here soon.</p>");
 
 </script>
 {% endfor %}
@@ -70,16 +102,12 @@ for (i = 0; i < values.length; i++){
   else { binsDict['11+ sentences']++; }
 };
 
-var xVals = ['1 - 2', '3 - 5', '6 - 10', '11+']
-var yVals = [binsDict['1 - 2 sentences'], binsDict['3 - 5 sentences'],
-            binsDict['6 - 10 sentences'], binsDict['11+ sentences']]
-var colors = ['rgba(70,137,102,1)', 'rgba(255,240,165,1)', 'rgba(255,176,59,1)', 'rgba(182,73,38,1)'];
-
 var data = [{
-  x: xVals,
-  y: yVals,
+  x: ['1 - 2', '3 - 5', '6 - 10', '11+'],
+  y: [binsDict['1 - 2 sentences'], binsDict['3 - 5 sentences'],
+      binsDict['6 - 10 sentences'], binsDict['11+ sentences']],
   marker:{
-    color: colors
+    color: ['rgba(70,137,102,1)', 'rgba(255,240,165,1)', 'rgba(255,176,59,1)', 'rgba(182,73,38,1)']
   },
   type: 'bar'
 }];
