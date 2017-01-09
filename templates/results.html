@@ -75,10 +75,12 @@ p {
         return i + "rd";
     }
     return i + "th";
-  }
+  };
 
   $("#data").html("<p>Average reading level of your emails (avg of 5 text reading level metrics): " +
-                  makeOrdinal(a['my_combined_grade_lvl_mean']) + " grade.<br><br><br>More metrics and a complete results page will be here soon.</p>");
+                  makeOrdinal(a['my_combined_grade_lvl_mean']) +
+                  " grade.<br><br>Avg email length in sentences: " + a['sentence_count_mean'] +
+                  "<br><br>More metrics + complete page content coming soon.</p>");
 
 </script>
 {% endfor %}
@@ -91,9 +93,9 @@ p {
 var binsDict = {'1 - 2 sentences' : 0, '3 - 5 sentences' : 0,
                 '6 - 10 sentences' : 0, '11+ sentences' : 0};
 
-// Loop through the sentence counts and increment counts for each bin
 var values = a['sentence_counts'];
 
+// Build counts for histogram:
 for (i = 0; i < values.length; i++){
   var v = values[i];
   if (v <= 2) { binsDict['1 - 2 sentences']++; }
