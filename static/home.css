@@ -107,6 +107,22 @@ h4 {
 }
 
 
+/********** data policy styling **********/
+
+.data-policy-content p,
+.data-policy-content h4 {
+    text-align: left;
+}
+
+
+/********** similar tools styling **********/
+
+.tools-content li,
+.tools-content h4 {
+    text-align: left;
+}
+
+
 /********** Email form on contact content styling **********/
 
 .pure-input-1-2,
@@ -150,11 +166,13 @@ h4 {
     }
 }
 
+
 /********** Fontawesome icons styling **********/
+
 #icon {
-  font-size:40px;
-  color:#FCFFF5;
-  padding-right: 8px;
-  padding-left: 8px;
-  padding-top: 20px;
+    font-size: 40px;
+    color: #FCFFF5;
+    padding-right: 8px;
+    padding-left: 8px;
+    padding-top: 20px;
 }
