@@ -54,7 +54,7 @@ def analyze():
     headers = {'Authorization': 'OAuth '+access_token}
 
     print 'REQUESTING FIRST BATCH OF MSG IDS'
-    req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?q=from:me%20-in:chat%20-category:(promotions%20OR%20social)',
+    req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?q=in:sent%20-in:chat', #%20-category:(promotions%20OR%20social)
                   None, headers)
 
 
@@ -69,6 +69,7 @@ def analyze():
             return redirect(url_for('login'))
 
     first_response = res.read()
+    print first_response
 
     def t(first_response, access_token):
 

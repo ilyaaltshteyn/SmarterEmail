@@ -14,7 +14,11 @@ class Gmail():
 
         self.allofit = eval(first_response)
         self.message_ids = self.allofit['messages']
-        self.nextPageToken = self.allofit['nextPageToken']
+
+        if 'nextPageToken' in self.allofit:
+            self.nextPageToken = self.allofit['nextPageToken']
+        else:
+            self.nextPageToken = None
 
         self.headers = {'Authorization': 'OAuth ' + access_token}
         self.pagesCount = 0
