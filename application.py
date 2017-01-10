@@ -86,7 +86,8 @@ def analyze():
 
 @application.route('/')
 def index():
-    return render_template('home.html')
+    return get_averages()
+    # return render_template('home.html')
 
 
 @application.route('/authorize')
