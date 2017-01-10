@@ -57,7 +57,8 @@ def store_results(cookie_val, results):
 
         insert_sql = "INSERT INTO email_analysis_results (cookie_id, record_datetime, emails_analyzed, avg_grade_lvl, avg_sentences, avg_syllables) VALUES ('{}', {}, {}, {}, {}, {})"
 
-        insert_sql = insert_sql.format(cookie_val, datetime.now(), results['emails_analyzed'],
+        insert_sql = insert_sql.format(cookie_val, str(datetime.now()),
+                     results['emails_analyzed'],
                      results['my_combined_grade_lvl_mean'],
                      results['sentence_count_mean'],
                      results['lexicon_count_mean'])
