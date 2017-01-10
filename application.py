@@ -5,6 +5,7 @@ from urllib2 import Request, urlopen, URLError
 from parse import GmailParser
 from analyze import Analyzer
 from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SECRET_KEY
+import os
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
@@ -30,6 +31,23 @@ google = oauth.remote_app('SmarterEmail',
                           consumer_key=GOOGLE_CLIENT_ID,
                           consumer_secret=GOOGLE_CLIENT_SECRET)
 
+
+if 'RDS_HOSTNAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
+    }
+
+try:
+    print DATABASES
+except:
+    print 'NO DB FOUND'
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
