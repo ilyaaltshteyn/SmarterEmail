@@ -6,6 +6,10 @@ from parse import GmailParser
 from analyze import Analyzer
 from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SECRET_KEY
 import os
+try:
+    import _mysql
+except:
+    print '_mysql module not available'
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
@@ -34,20 +38,21 @@ google = oauth.remote_app('SmarterEmail',
 
 if 'RDS_HOSTNAME' in os.environ:
     DATABASES = {
-        'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': os.environ['RDS_DB_NAME'],
             'USER': os.environ['RDS_USERNAME'],
             'PASSWORD': os.environ['RDS_PASSWORD'],
             'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT'],
-        }
-    }
+            'PORT': os.environ['RDS_PORT']
+            }
 
 try:
     print DATABASES
 except:
     print 'NO DB FOUND'
+
+db=_mysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
+                  passwd = DATABASES['PASSWORD'], db = )
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
