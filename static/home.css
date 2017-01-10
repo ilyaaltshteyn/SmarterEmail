@@ -245,7 +245,7 @@ footer {
     .home-content p {
         width: 20em;
         margin: 2em auto;
-        padding-bottom: 50px;
+        padding-bottom: 30px;
     }
 
     /********** Contact content Styling DT **********/
@@ -268,5 +268,8 @@ footer {
     footer {
         justify-content: space-between;
         margin-top: 2em;
+    }
+    #cookiesMsg {
+      color: rgba(51, 51, 51, 0.60);
     }
 }
