@@ -62,16 +62,12 @@ def store_results(cookie_val, results):
                      results['sentence_count_mean'],
                      results['lexicon_count_mean'])
 
-        try:
-            conn = pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
-                                   passwd = DATABASES['PASSWORD'], db = 'ebdb')
-            cur = conn.cursor()
-            cur.execute(insert_sql)
-            cur.close()
-            conn.close()
-
-        except:
-            print 'problem storing results with pymysql'
+        conn = pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
+                               passwd = DATABASES['PASSWORD'], db = 'ebdb')
+        cur = conn.cursor()
+        cur.execute(insert_sql)
+        cur.close()
+        conn.close()
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
