@@ -1,4 +1,4 @@
-from flask import Flask, Response, redirect, url_for, session, render_template
+from flask import Flask, Response, redirect, url_for, session, render_template, request
 from flask_oauth import OAuth
 from google_api_wrapper import Gmail
 from urllib2 import Request, urlopen, URLError
@@ -7,6 +7,8 @@ from analyze import Analyzer
 from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SECRET_KEY
 import os
 import pymysql
+import json
+from datetime import datetime
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
@@ -32,6 +34,9 @@ google = oauth.remote_app('SmarterEmail',
                           consumer_key=GOOGLE_CLIENT_ID,
                           consumer_secret=GOOGLE_CLIENT_SECRET)
 
+# ------------------------------------------------------------------------------
+# ------------------Set up database conn and helpers----------------------------
+
 
 if 'RDS_HOSTNAME' in os.environ:
     DATABASES = {
@@ -43,24 +48,30 @@ if 'RDS_HOSTNAME' in os.environ:
             'PORT': os.environ['RDS_PORT']
             }
 
-try:
-    print DATABASES
-except:
-    print 'NO DB FOUND'
 
+def store_results(cookie_val, results):
+    """ Sends the results of the analyze.py Analyzer.analyze() func to sql. """
 
-conn = pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
-                       passwd = DATABASES['PASSWORD'], db = 'ebdb')
-cur = conn.cursor()
-cur.execute("SELECT Host,User FROM user")
-print(cur.description)
-print()
+    if results and cookie_val:
+        results = eval(results)
 
-for row in cur:
-    print(row)
+        insert_sql = "INSERT INTO email_analysis_results (cookie_id, record_datetime, emails_analyzed, avg_grade_lvl, avg_sentences, avg_syllables) VALUES ('{}', {}, {}, {}, {}, {})"
 
-cur.close()
-conn.close()
+        insert_sql = insert_sql.format(cookie_val, datetime.now(), results['emails_analyzed'],
+                     results['my_combined_grade_lvl_mean'],
+                     results['sentence_count_mean'],
+                     results['lexicon_count_mean'])
+
+        try:
+            conn = pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
+                                   passwd = DATABASES['PASSWORD'], db = 'ebdb')
+            cur = conn.cursor()
+            cur.execute(insert_sql)
+            cur.close()
+            conn.close()
+
+        except:
+            print 'problem storing results with pymysql'
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
@@ -106,6 +117,7 @@ def analyze():
         all_messages = Gmail(first_response, access_token).get()
         parsed_messages = GmailParser(all_messages).parse()
         results = str(Analyzer(parsed_messages).analyze())
+        store_results(cookie, results)
 
         yield results
 
@@ -119,6 +131,10 @@ def index():
 
 @application.route('/authorize')
 def authorize():
+    # Grab cookie here bc the cookie has definitely already been set on front end.
+    global cookie
+    cookie = request.cookies.get('smartrEmailVisit')
+
     access_token = session.get('access_token')
     if access_token is None:
         return redirect(url_for('login'))
@@ -130,7 +146,6 @@ def authorize():
 def login():
     callback=url_for('authorized', _external=True)
     return google.authorize(callback=callback)
-
 
 
 @application.route(REDIRECT_URI)

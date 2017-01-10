@@ -32,8 +32,11 @@ function eraseCookie(name) {
 };
 
 // Set a cookie if there isn't already one set:
-if (readCookie('smartrEmailVisit')){}
-else { createCookie('smartrEmailVisit', randomString(20), 365); };
+if (readCookie('smartrEmailVisit')) {}
+else {
+  createCookie('smartrEmailVisit', randomString(15), 365);
+};
+
 
 
 // --------------------------------------------------------------------------
