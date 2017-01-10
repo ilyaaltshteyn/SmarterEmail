@@ -48,21 +48,19 @@ try:
 except:
     print 'NO DB FOUND'
 
-try:
-    conn = pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
-                           passwd = DATABASES['PASSWORD'], db = 'ebdb')
-    cur = conn.cursor()
-    cur.execute("SELECT Host,User FROM user")
-    print(cur.description)
-    print()
 
-    for row in cur:
-        print(row)
+conn = pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
+                       passwd = DATABASES['PASSWORD'], db = 'ebdb')
+cur = conn.cursor()
+cur.execute("SELECT Host,User FROM user")
+print(cur.description)
+print()
 
-    cur.close()
-    conn.close()
-except e:
-    print 'Couldnt connect to db, reason is... ', e.reason
+for row in cur:
+    print(row)
+
+cur.close()
+conn.close()
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
