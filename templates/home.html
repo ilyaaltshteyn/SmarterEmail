@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
 
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Questrial|Cutive%20Mono">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto|Cutive%20Mono">
     <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='normalize.min.css') }}">
@@ -16,11 +16,12 @@
 <body>
     <main class="site-content">
         <header>
-            <h1 class="home-button">Smartr.Email</h1>
+            <h1 class="home-button">Smartr<i class="fa fa-plus" id="logocon" aria-hidden="true"></i>Email</h1>
             <h2>The personal email analyzer.</h2>
         </header>
         <p class="mobile-menu-button">--menu--</p>
         <ul class="main-nav">
+            <li class="home-button">Home</li>
             <li class="data-policy-button">Data Policy</li>
             <li class="tools-button">Similar Tools</li>
             <li class="contact-button">Contact</li>
@@ -28,9 +29,9 @@
         <section class="individual-page-content">
             <div class="home-content">
                 <h4 class="desktop-instructions">Learn about your Gmailing habits.</h4>
-                <h3>
+                <h4>
                     <a class="pure-button" href="/authorize">AUTHORIZE</a>
-                </h3>
+                </h4>
                 <p>We don't store your emails after completing the analysis.</p>
             </div>
             <div class="data-policy-content">

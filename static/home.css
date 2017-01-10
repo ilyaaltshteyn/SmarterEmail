@@ -1,28 +1,39 @@
 /********** General styling **********/
 
-body {
+/*body {
     background: #3e606f;
     color: #FCFFF5;
-}
+}*/
 
 .site-content {
     width: 80vw;
-    margin: 10vh auto;
+    margin: 12vh auto;
 }
+
 
 
 /********** Headerstyling **********/
 
 header {
     text-align: center;
+    border-bottom: 1px solid;
+    padding-bottom: 2px;
+}
+
+#logocon {
+    font-size: 12px;
+    color: #F95D5F;
+    padding-right: 3px;
+    padding-left: 1px;
+    /*padding-top: 20px;*/
 }
 
 h1 {
     font-size: 2.23em;
     line-height: 0.928em;
     text-align: center;
-    text-transform: uppercase;
-    font-family: Questrial;
+    /*text-transform: uppercase;*/
+    font-family: Roboto;
     font-weight: 300;
     font-style: normal;
     /*text-rendering: geometricPrecision;*/
@@ -37,7 +48,7 @@ h2 {
 
 .mobile-menu-button {
     margin: 0;
-    color: #FCFFF5;
+    /*color: #FCFFF5;*/
 }
 
 ul {
@@ -53,7 +64,7 @@ ul {
 
 .main-nav li {
     margin: .35em 0;
-    font-family: Questrial;
+    font-family: Roboto;
     text-transform: uppercase;
     font-size: .8em;
     font-weight: 300;
@@ -71,8 +82,8 @@ ul {
 p {
     font-size: .95em;
     line-height: 1.421em;
-    color: rgba(51, 51, 51, 0.80);
-    color: #FCFFF5;
+    /*color: rgba(51, 51, 51, 0.80);*/
+    /*color: #FCFFF5;*/
     margin: 1.421em 0px;
     font-family: "Cutive Mono";
     font-weight: 200;
@@ -82,7 +93,7 @@ p {
 }
 
 h3 {
-    font-family: Questrial;
+    font-family: Roboto;
     font-weight: 200;
     font-style: normal;
     text-align: center;
@@ -92,7 +103,7 @@ h3 {
 
 h4 {
     display: block;
-    font-size: 1.2em;
+    font-size: 1.35em;
     line-height: 1.421em;
     margin: 1.421em 0px;
     font-family: "Cutive Mono";
@@ -135,9 +146,11 @@ h4 {
 }
 
 .pure-button {
-    background: #d1dbbd;
+    /*background: #d1dbbd;*/
+    background: #414141;
     margin: .5em 0px;
-    color: #3e606f;
+    /*color: #3e606f;*/
+    color: #F3F3F3;
     font-weight: 300;
 }
 
@@ -151,7 +164,7 @@ footer {
 
 #icon {
     font-size: 38px;
-    color: #FCFFF5;
+    color: #FA8182;
     padding-right: 8px;
     padding-left: 8px;
     padding-top: 20px;
@@ -176,7 +189,7 @@ footer {
         font-size: 1.06em;
         line-height: 0.931em;
         margin: 0;
-        font-family: Questrial;
+        font-family: Roboto;
         font-weight: 200;
         font-style: normal;
         letter-spacing: .5;
