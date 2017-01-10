@@ -6,8 +6,8 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Questrial|Cutive%20Mono">
     <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='normalize.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='home.css') }}">
+    <link rel="stylesheet" type="text/css" href="../static/normalize.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="../static/gatrack.js "></script>
 
@@ -15,7 +15,6 @@
 
 <body>
     <main class="site-content">
-        <h1>does it work?</h1>
         <header>
             <h1 class="home-button">Smartr.Email</h1>
             <h2>The personal email analyzer.</h2>
@@ -28,7 +27,8 @@
         </ul>
         <section class="individual-page-content">
             <div class="home-content">
-                <h4>Learn about your Gmailing habits.</h4>
+                <h4 class="mobile-instructions">Learn about your Gmailing habits.</h4>
+                <h4 class="desktop-instructions">Authorize us to analyze your Gmail data, and we'll tell you about your emailing habits.</h4>
                 <h3>
                     <a class="pure-button" href="/authorize">AUTHORIZE</a>
                 </h3>
@@ -65,21 +65,21 @@
             <div class="contact-content">
                 <h4>Get in touch! Send us feature ideas, questions and feedback and we’ll get back to you soon.</h4>
                 <form class="pure-form pure-form-stacked">
-                    <textarea class="pure-input-1-2" placeholder="Your Message Here"></textarea>
-                    <input id="email" type="email" placeholder="Email" required>
-                    <button type="submit" class="pure-button pure-button-primary">Send</button>
+                    <input id="email" type="email" placeholder="Your email" required>
+                    <textarea class="pure-input-1-2" placeholder="Message"></textarea>
+                    <button type="submit" class="pure-button pure-button-primary" action="mailto:altshteyn@gmail.com">Send</button>
                 </form>
 
             </div>
         </section>
-
-        <center>
+        <footer>
+            <div>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=www.smartr.email"><i class="fa fa-facebook" id="icon"></i></a>
+                <a href="https://twitter.com/home?status=www.smartr.email"><i class="fa fa-twitter" id="icon"></i></a>
+            </div>
             <a href="https://github.com/ilyaaltshteyn/SmarterEmail"><i class="fa fa-github" id="icon"></i></a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u=www.smartr.email"><i class="fa fa-facebook" id="icon"></i></a>
-            <a href="https://twitter.com/home?status=www.smartr.email"><i class="fa fa-twitter" id="icon"></i></a>
-        </center>
 
-        </div>
+        </footer>
 
     </main>
     <!--loading jQuery and main JS file at the end for performance-->
