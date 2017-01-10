@@ -2,7 +2,7 @@
 
 body {
     background: #F3F3F3;
-    /*color: #FCFFF5;*/
+    color: #414141;
 }
 
 .site-content {
@@ -10,13 +10,16 @@ body {
     margin: 12vh auto;
 }
 
+a {
+  color: #F95D5F;
+}
 
 /********** Headerstyling **********/
 
 header {
     text-align: center;
     border-bottom: 1px solid;
-    padding-bottom: 2px;
+    padding-bottom: 3px;
 }
 
 #logocon {
@@ -31,15 +34,24 @@ header {
   color: #F95D5F;
 }
 
+.home-button,
+.data-policy-button,
+.tools-button,
+.contact-button {
+  cursor:pointer;
+  cursor:hand;
+}
+
 h1 {
     font-size: 2.23em;
+    color: black;
     line-height: 0.928em;
     text-align: center;
     /*text-transform: uppercase;*/
     font-family: Roboto;
     font-weight: 300;
     font-style: normal;
-    /*text-rendering: geometricPrecision;*/
+    text-rendering: geometricPrecision;
 }
 
 h2 {
@@ -51,7 +63,7 @@ h2 {
 
 .mobile-menu-button {
     margin: 0;
-    /*color: #FCFFF5;*/
+    padding-top: 1.5em;
 }
 
 ul {
