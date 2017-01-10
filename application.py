@@ -55,13 +55,15 @@ def store_results(cookie_val, results):
     if results and cookie_val:
         results = eval(results)
 
-        insert_sql = "INSERT INTO email_analysis_results (cookie_id, record_datetime, emails_analyzed, avg_grade_lvl, avg_sentences, avg_syllables) VALUES ('{}', {}, {}, {}, {}, {})"
+        insert_sql = "INSERT INTO email_analysis_results (cookie_id, record_datetime, emails_analyzed, avg_grade_lvl, avg_sentences, avg_syllables) VALUES ('{}', '{}', {}, {}, {}, {})"
 
         insert_sql = insert_sql.format(cookie_val, str(datetime.now()),
                      results['emails_analyzed'],
                      results['my_combined_grade_lvl_mean'],
                      results['sentence_count_mean'],
                      results['lexicon_count_mean'])
+
+        print "SQL TO INSERT IS: ", insert_sql
 
         conn = pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
                                passwd = DATABASES['PASSWORD'], db = 'ebdb')
