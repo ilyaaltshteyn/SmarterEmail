@@ -17,7 +17,7 @@ def runSQL(sql):
     with pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
                          passwd = DATABASES['PASSWORD'], db = 'ebdb',
                          cursorclass=DictCursor) as cur:
-        cur.execute("SELECT 1 FROM testtable LIMIT 1;")
+        cur.execute("SELECT 1 FROM email_analysis_results LIMIT 1;")
         return cur.fetchall()
     #
     # """ Connects to db and executes sql. Returns one line of results. """
