@@ -76,8 +76,8 @@ def analyze():
         all_messages = Gmail(first_response, access_token).get()
         parsed_messages = GmailParser(all_messages).parse()
         results = str(Analyzer(parsed_messages).analyze())
-        print "AVERAGES ARE: ", get_averages()
         store_results(cookie, results)
+        print "AVERAGES ARE: ", get_averages()
 
         yield results
 
@@ -86,8 +86,7 @@ def analyze():
 
 @application.route('/')
 def index():
-    return str(get_averages())
-    # return render_template('home.html')
+    return render_template('home.html')
 
 
 @application.route('/authorize')
