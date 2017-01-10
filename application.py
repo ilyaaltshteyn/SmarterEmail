@@ -6,10 +6,7 @@ from parse import GmailParser
 from analyze import Analyzer
 from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SECRET_KEY
 import os
-try:
-    import _mysql
-except:
-    print '_mysql module not available'
+import pymysql
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
@@ -51,8 +48,21 @@ try:
 except:
     print 'NO DB FOUND'
 
-db=_mysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
-                  passwd = DATABASES['PASSWORD'], db = 'ebdb')
+try:
+    conn = pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
+                           passwd = DATABASES['PASSWORD'], db = 'ebdb')
+    cur = conn.cursor()
+    cur.execute("SELECT Host,User FROM user")
+    print(cur.description)
+    print()
+
+    for row in cur:
+        print(row)
+
+    cur.close()
+    conn.close()
+except e:
+    print 'Couldnt connect to db, reason is... ', e.reason
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
