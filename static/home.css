@@ -185,6 +185,7 @@ h4 {
 footer {
     display: flex;
     justify-content: center;
+    border-top: 1px solid;
 }
 
 #icon {
@@ -233,6 +234,7 @@ footer {
         flex-flow: column;
         text-align: left;
     }
+
     /********** Home content Styling DT **********/
     .desktop-instructions {
         display: block;
@@ -243,13 +245,13 @@ footer {
     .home-content p {
         width: 20em;
         margin: 2em auto;
+        padding-bottom: 50px;
     }
 
     /********** Contact content Styling DT **********/
     .contact-content h4 {
         width: 45vw;
         margin: 0 auto;
-        /*margin-bottom: 1em;*/
     }
     .pure-input-1-2,
     .pure-form input[type=email] {
