@@ -63,7 +63,8 @@ p {
   function lazyPrep(crazyString) {
     // The substring u&#39 happens bc a utf-8 encoded string gets encoded as html
     console.log(crazyString);
-    return crazyString.replace(/u&#39/g, '"');
+    r = crazyString.replace(/u&#39;/g, '"');
+    return r.replace(/&#39;/g, '"')
   }
 
   $(".loader").hide();
@@ -91,6 +92,9 @@ p {
                   makeOrdinal(a['my_combined_grade_lvl_mean']) +
                   " grade.<br><br>Avg email length in sentences: " +
                   Math.round(a['sentence_count_mean']*10)/10 +
+                  " Total emails we've ever analyzed: " + b['n'] +
+                  " Avg sent count across all those: " + b['avg_sentences'] +
+                  " Avg grade level across all those: " + b['avg_grade_lvl'] +
                   "<br><br>More metrics + complete page content coming soon.</p>");
 
 </script>
