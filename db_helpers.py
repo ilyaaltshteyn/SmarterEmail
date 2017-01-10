@@ -1,6 +1,6 @@
 import os
 import pymysql
-from pymysql.cursors import DictCursor
+import pymysql.cursors
 from datetime import datetime
 
 def runSQL(sql):
@@ -14,11 +14,25 @@ def runSQL(sql):
                 'PORT': os.environ['RDS_PORT']
                 }
 
-    with pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
-                         passwd = DATABASES['PASSWORD'], db = 'ebdb',
-                         cursorclass=DictCursor) as cur:
-        cur.execute("SELECT 1 FROM email_analysis_results LIMIT 1;")
-        return cur.fetchall()
+        connection = pymysql.connect(host = DATABASES['HOST'],
+                                     user = DATABASES['USER'],
+                                     passwd = DATABASES['PASSWORD'], db = 'ebdb',
+                                     cursorclass=pymysql.cursors.DictCursor)
+
+        results = None
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(sql)
+                if 'SELECT' in sql:
+                    print 'generating results'
+                    print results
+                    results = cursor.fetchall()
+            connection.commit()
+
+        finally:
+            connection.close()
+            return results
+
     #
     # """ Connects to db and executes sql. Returns one line of results. """
     #
