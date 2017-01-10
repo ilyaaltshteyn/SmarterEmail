@@ -24,23 +24,12 @@ def runSQL(sql):
             with connection.cursor() as cursor:
                 cursor.execute(sql)
                 if 'SELECT' in sql:
-                    print 'generating results'
-                    print results
                     results = cursor.fetchall()
             connection.commit()
 
         finally:
             connection.close()
             return results
-
-    #
-    # """ Connects to db and executes sql. Returns one line of results. """
-    #
-    # with pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
-    #                      passwd = DATABASES['PASSWORD'], db = 'ebdb',
-    #                      cursorclass=DictCursor) as cur:
-    #     cur.execute(sql)
-    #     return cur.fetchall()
 
 
 def store_results(cookie_val, results):
@@ -64,8 +53,5 @@ def store_results(cookie_val, results):
 def get_averages():
     """ Retrieves average results for basic metrics. """
 
-    averages_sql = "SELECT * FROM email_analysis_results"
-
-    result = runSQL(averages_sql)
-    print result
-    return result
+    averages_sql = "SELECT avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, avg(avg_syllables) avg_syllables FROM ( SELECT cookie_id, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, avg(avg_syllables) avg_syllables FROM email_analysis_results GROUP BY cookie_id) a;"
+    return runSQL(averages_sql)
