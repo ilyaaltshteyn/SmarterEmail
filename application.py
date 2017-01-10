@@ -76,8 +76,8 @@ def analyze():
         all_messages = Gmail(first_response, access_token).get()
         parsed_messages = GmailParser(all_messages).parse()
         results = str(Analyzer(parsed_messages).analyze())
-        store_results(cookie, results)
         print "AVERAGES ARE: ", get_averages()
+        store_results(cookie, results)
 
         yield results
 

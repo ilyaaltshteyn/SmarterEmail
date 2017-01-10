@@ -17,18 +17,14 @@ def runSQL(sql):
 
     conn = pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
                            passwd = DATABASES['PASSWORD'], db = 'ebdb')
-    try:
-        with conn.cursor() as cur:
-            data = []
-            cur.execute(sql)
-            result = cursor.fetchone()
-    except:
-        print 'COULDNT RUN THE SQL!'
-    finally:
-        conn.close()
 
-    if result:
-        return result
+    data = []
+    with conn.cursor() as cur:
+        cur.execute(sql)
+        result = cur.fetchone()
+
+    conn.close()
+    return result
 
 
 def store_results(cookie_val, results):
