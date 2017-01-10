@@ -1,17 +1,13 @@
 /********** General styling **********/
 
-/*body {
-    background: #3e606f;
-    color: #FCFFF5;
-}*/
+body {
+    background: #F3F3F3;
+    /*color: #FCFFF5;*/
+}
 
 .site-content {
     width: 80vw;
     margin: 12vh auto;
-}
-
-li:a:visited{
-  color: #F95D5F;
 }
 
 
@@ -29,6 +25,10 @@ header {
     padding-right: 3px;
     padding-left: 1px;
     /*padding-top: 20px;*/
+}
+
+.home-button {
+  color: #F95D5F;
 }
 
 h1 {
@@ -83,7 +83,7 @@ ul {
 }
 
 p {
-    font-size: .95em;
+    font-size: 1.05em;
     line-height: 1.421em;
     /*color: rgba(51, 51, 51, 0.80);*/
     /*color: #FCFFF5;*/
