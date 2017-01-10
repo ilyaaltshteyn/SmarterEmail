@@ -105,7 +105,7 @@ class Gmail():
                 pass
 
         # Get messages for those ids:
-        self.message_ids = self.message_ids[:75] # snip for testing.
+        self.message_ids = self.message_ids[:20] # snip for testing.
 
         for m_id in self.message_ids:
             try:
