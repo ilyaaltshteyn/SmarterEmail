@@ -50,6 +50,7 @@ p {
 <div class = "loader"></div>
 <div id="data"><p>Loading... This may take a while, up to 1 minute.</p></div>
 
+{% for i in data: %}
 <script>
 
   function prepData(encodedString) {
@@ -60,8 +61,8 @@ p {
    }
 
   $(".loader").hide();
-  var a = prepData("{{ data[0] }}");
-  var b = prepData("{{ data[1] }}")
+  var a = prepData("{{ i[0] }}");
+  var b = prepData("{{ i[1]}}");
 
   function makeOrdinal(floatingPoint) {
     var i = Math.round(floatingPoint);
@@ -87,6 +88,7 @@ p {
                   "<br><br>More metrics + complete page content coming soon.</p>");
 
 </script>
+{% endfor %}
 
 <div id = 'sentCountsHist'></div>
 
