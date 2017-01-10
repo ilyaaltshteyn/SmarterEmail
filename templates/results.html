@@ -60,9 +60,14 @@ p {
     return JSON.parse(textArea.value);
    }
 
+  function lazyPrep(crazyString) {
+    // The substring u&#39 happens bc a utf-8 encoded string gets encoded as html
+    return JSON.parse(crazyString.replace('u&#39', '"'));
+  }
+
   $(".loader").hide();
   var a = prepData("{{ i[0] }}");
-  console.log("{{ i[1] }}");
+  var b = lazyPrep("{{ i[1] }}");
 
   function makeOrdinal(floatingPoint) {
     var i = Math.round(floatingPoint);
