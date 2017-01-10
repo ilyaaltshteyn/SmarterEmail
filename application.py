@@ -52,7 +52,7 @@ except:
     print 'NO DB FOUND'
 
 db=_mysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
-                  passwd = DATABASES['PASSWORD'], db = )
+                  passwd = DATABASES['PASSWORD'], db = 'ebdb')
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
