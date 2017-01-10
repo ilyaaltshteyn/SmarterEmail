@@ -76,8 +76,8 @@ def analyze():
         all_messages = Gmail(first_response, access_token).get()
         parsed_messages = GmailParser(all_messages).parse()
         results = str(Analyzer(parsed_messages).analyze())
+        avgs = get_averages() # Should happen before you store results.
         store_results(cookie, results)
-        avgs = get_averages()
 
         yield (results, avgs)
 
