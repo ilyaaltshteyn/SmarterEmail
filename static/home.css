@@ -10,6 +10,9 @@
     margin: 12vh auto;
 }
 
+li:a:visited{
+  color: #F95D5F;
+}
 
 
 /********** Headerstyling **********/
@@ -168,6 +171,10 @@ footer {
     padding-right: 8px;
     padding-left: 8px;
     padding-top: 20px;
+}
+
+#icon:hover{
+  color: #F95D5F;
 }
 
 
