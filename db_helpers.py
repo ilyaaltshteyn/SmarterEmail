@@ -1,8 +1,15 @@
 import os
 import pymysql
+from pymysql.cursors import DictCursor
 from datetime import datetime
 
 def runSQL(sql):
+    with pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
+                         passwd = DATABASES['PASSWORD'], db = 'ebdb',
+                         cursorclass=DictCursor) as cur:
+        cur.execute("SELECT * FROM email_analysis_results")
+        return cur.fetchall()
+
     """ Connects to db and executes sql. Returns one line of results. """
 
     if 'RDS_HOSTNAME' in os.environ:
@@ -15,16 +22,11 @@ def runSQL(sql):
                 'PORT': os.environ['RDS_PORT']
                 }
 
-    conn = pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
-                           passwd = DATABASES['PASSWORD'], db = 'ebdb')
-
-    data = []
-    with conn.cursor(pymysql.cursors.DictCursor) as cur:
+    with pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
+                         passwd = DATABASES['PASSWORD'], db = 'ebdb',
+                         cursorclass=DictCursor) as cur:
         cur.execute(sql)
-        result = cur.fetchall()
-
-    conn.close()
-    return result
+        return cur.fetchall()
 
 
 def store_results(cookie_val, results):
