@@ -18,18 +18,21 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
 }
 
 p {
-  font-size: 1em;
-  line-height: 1.421em;
-  color: rgba(51, 51, 51, 0.80);
-  margin: 1.421em 0px;
-  font-family: "Cutive Mono";
-  font-weight: 400;
-  text-rendering: geometricPrecision;
+    font-size: 1.05em;
+    line-height: 1.421em;
+    /*color: rgba(51, 51, 51, 0.80);*/
+    /*color: #FCFFF5;*/
+    margin: 1.421em 0px;
+    font-family: "Cutive Mono";
+    font-weight: 200;
+    font-style: normal;
+    text-align: center;
+    text-rendering: geometricPrecision;
 }
 
 .loader {
   border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3E606F; /* Dark blue */
+  border-top: 16px solid #FA8182; /* Dark blue */
   border-radius: 50%;
   width: 120px;
   height: 120px;
@@ -77,9 +80,10 @@ p {
     return i + "th";
   };
 
-  $("#data").html("<p>Average reading level of your emails (avg of 5 text reading level metrics): " +
+  $("#data").html("<p>Average reading level of your emails: " +
                   makeOrdinal(a['my_combined_grade_lvl_mean']) +
-                  " grade.<br><br>Avg email length in sentences: " + a['sentence_count_mean'] +
+                  " grade.<br><br>Avg email length in sentences: " +
+                  Math.round(a['sentence_count_mean']*10)/10 +
                   "<br><br>More metrics + complete page content coming soon.</p>");
 
 </script>
@@ -109,12 +113,14 @@ var data = [{
   y: [binsDict['1 - 2 sentences'], binsDict['3 - 5 sentences'],
       binsDict['6 - 10 sentences'], binsDict['11+ sentences']],
   marker:{
-    color: ['rgba(70,137,102,1)', 'rgba(70,137,102,1)', 'rgba(255,176,59,1)', 'rgba(182,73,38,1)']
+    color: ['rgba(249,93,95,1)', 'rgba(250,129,130,1)', 'rgba(251,161,162,1)', 'rgba(65,65,65,1)']
   },
   type: 'bar'
 }];
 
 var layout = {
+  yaxis: {showgrid: false, title: "Number of emails"},
+  xaxis: {showgrid: false, title: "Sentences"},
   title: 'Email Body Length in Sentences',
   hovermode: !1,
   font: {

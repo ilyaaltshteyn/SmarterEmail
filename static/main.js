@@ -1,3 +1,43 @@
+// --------------------------------------------------------------------------
+// -----Generate and set a cookie, so we know who has been here before.------
+
+function randomString(length) {
+    return Math.round((Math.pow(36, length + 1) - Math.random() *
+    Math.pow(36, length))).toString(36).slice(1);
+};
+
+function createCookie(name,value,days) {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        var expires = "; expires=" + date.toUTCString();
+    }
+    else var expires = "";
+    document.cookie = name + "=" + value + expires + "; path=/";
+};
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+};
+
+function eraseCookie(name) {
+    createCookie(name,"",-1);
+};
+
+// Set a cookie if there isn't already one set:
+if (readCookie('smartrEmailVisit')){}
+else { createCookie('smartrEmailVisit', randomString(20), 365); };
+
+
+// --------------------------------------------------------------------------
+// --------------Make page content and links work.---------------------------
 $(document).ready(function() {
     $('.mobile-menu-button').on('click', function(event) {
         event.preventDefault();

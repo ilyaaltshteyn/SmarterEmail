@@ -14,6 +14,9 @@ a {
   color: #F95D5F;
 }
 
+::-moz-selection { background-color: #FBA1A2; }
+::selection { background-color: #FBA1A2; }
+
 /********** Headerstyling **********/
 
 header {
@@ -28,6 +31,13 @@ header {
     padding-right: 3px;
     padding-left: 1px;
     /*padding-top: 20px;*/
+}
+
+#logocon2{
+  font-size: 8px;
+  color: #F95D5F;
+  /*padding-right: 3px;*/
+  padding-left: 3px;
 }
 
 .home-button {
