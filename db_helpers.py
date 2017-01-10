@@ -4,14 +4,6 @@ from pymysql.cursors import DictCursor
 from datetime import datetime
 
 def runSQL(sql):
-    with pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
-                         passwd = DATABASES['PASSWORD'], db = 'ebdb',
-                         cursorclass=DictCursor) as cur:
-        cur.execute("SELECT * FROM email_analysis_results")
-        return cur.fetchall()
-
-    """ Connects to db and executes sql. Returns one line of results. """
-
     if 'RDS_HOSTNAME' in os.environ:
         DATABASES = {
                 'ENGINE': 'django.db.backends.mysql',
@@ -25,8 +17,16 @@ def runSQL(sql):
     with pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
                          passwd = DATABASES['PASSWORD'], db = 'ebdb',
                          cursorclass=DictCursor) as cur:
-        cur.execute(sql)
+        cur.execute("SELECT * FROM email_analysis_results")
         return cur.fetchall()
+    #
+    # """ Connects to db and executes sql. Returns one line of results. """
+    #
+    # with pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
+    #                      passwd = DATABASES['PASSWORD'], db = 'ebdb',
+    #                      cursorclass=DictCursor) as cur:
+    #     cur.execute(sql)
+    #     return cur.fetchall()
 
 
 def store_results(cookie_val, results):
