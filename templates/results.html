@@ -62,7 +62,7 @@ p {
 
   function lazyPrep(crazyString) {
     // The substring u&#39 happens bc a utf-8 encoded string gets encoded as html
-    return JSON.parse(crazyString.replace('u&#39', '"'));
+    return JSON.parse(crazyString.replace(/u&#39/g, '"'));
   }
 
   $(".loader").hide();
