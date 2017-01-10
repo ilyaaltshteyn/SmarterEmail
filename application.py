@@ -4,11 +4,8 @@ from google_api_wrapper import Gmail
 from urllib2 import Request, urlopen, URLError
 from parse import GmailParser
 from analyze import Analyzer
+from db_helpers import get_averages, store_results
 from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SECRET_KEY
-import os
-import pymysql
-import json
-from datetime import datetime
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
@@ -34,43 +31,6 @@ google = oauth.remote_app('SmarterEmail',
                           consumer_key=GOOGLE_CLIENT_ID,
                           consumer_secret=GOOGLE_CLIENT_SECRET)
 
-# ------------------------------------------------------------------------------
-# ------------------Set up database conn and helpers----------------------------
-
-
-if 'RDS_HOSTNAME' in os.environ:
-    DATABASES = {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ['RDS_DB_NAME'],
-            'USER': os.environ['RDS_USERNAME'],
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT']
-            }
-
-
-def store_results(cookie_val, results):
-    """ Sends the results of the analyze.py Analyzer.analyze() func to sql. """
-
-    if results and cookie_val:
-        results = eval(results)
-
-        insert_sql = "INSERT INTO email_analysis_results (cookie_id, record_datetime, emails_analyzed, avg_grade_lvl, avg_sentences, avg_syllables) VALUES ('{}', '{}', {}, {}, {}, {})"
-
-        insert_sql = insert_sql.format(cookie_val, str(datetime.now()),
-                     results['emails_analyzed'],
-                     results['my_combined_grade_lvl_mean'],
-                     results['sentence_count_mean'],
-                     results['lexicon_count_mean'])
-
-        print "SQL TO INSERT IS: ", insert_sql
-
-        conn = pymysql.connect(host = DATABASES['HOST'], user = DATABASES['USER'],
-                               passwd = DATABASES['PASSWORD'], db = 'ebdb')
-        cur = conn.cursor()
-        cur.execute(insert_sql)
-        cur.close()
-        conn.close()
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
@@ -117,6 +77,7 @@ def analyze():
         parsed_messages = GmailParser(all_messages).parse()
         results = str(Analyzer(parsed_messages).analyze())
         store_results(cookie, results)
+        print "AVERAGES ARE: ", get_averages()
 
         yield results
 
