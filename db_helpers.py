@@ -54,4 +54,4 @@ def get_averages():
     """ Retrieves average results for basic metrics. """
 
     averages_sql = "SELECT avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, avg(avg_syllables) avg_syllables FROM ( SELECT cookie_id, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, avg(avg_syllables) avg_syllables FROM email_analysis_results GROUP BY cookie_id) a;"
-    return runSQL(averages_sql)
+    return runSQL(averages_sql)[0]
