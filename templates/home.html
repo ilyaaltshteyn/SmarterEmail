@@ -6,8 +6,8 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Questrial|Cutive%20Mono">
     <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="../static/normalize.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/home.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='normalize.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='home.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="../static/gatrack.js "></script>
 
@@ -27,23 +27,21 @@
         </ul>
         <section class="individual-page-content">
             <div class="home-content">
-                <h4 class="mobile-instructions">Learn about your Gmailing habits.</h4>
-                <h4 class="desktop-instructions">Authorize us to analyze your Gmail data, and we'll tell you about your emailing habits.</h4>
+                <h4 class="desktop-instructions">Learn about your Gmailing habits.</h4>
                 <h3>
                     <a class="pure-button" href="/authorize">AUTHORIZE</a>
                 </h3>
                 <p>We don't store your emails after completing the analysis.</p>
             </div>
             <div class="data-policy-content">
-                <h4>Data policy:</h4>
-                <p>To use this tool, you have to authorize us to have read-only access to your Gmail inbox. We then download messages that are in your sent messages folder and analyze them. We store your messages only for the amount of time that it takes
-                    to analyze them-- usually just a few seconds. We never put your emails into persistent storage, and all processing is done on a secure server. No human ever reads your emails-- all processing is done by a machine that is programmed
-                    to “forget” your emails as soon as it shows you your results. We do store the results of your analysis. This allows us to have some idea about what is the range of “normal” emailing behavior for each of the metrics that we collect
-                    about your messages. This data is stored in completely anonymous format, without any identifying information. We’re just interested in answering questions like “what’s the average outbound email sentence length?” and “what are the
-                    most common sign-off lines that people use?”</p>
+                <p>To use this tool, you'll be asked to give us read-only access to your Gmail inbox. Our program will then download some of your emails and analyze them. We store your messages only for the amount of time that it takes
+                    to analyze them-- usually just a few seconds. We never put your emails into persistent storage, and all processing is done on a secure server. No human ever reads your emails.
+                    <br><br>We do store the results of your analysis. This allows us to have some idea about what is “normal” emailing behavior for each of the metrics that we collect
+                    about your messages. We store this data in completely anonymous format, without any identifying information. We’re just interested in answering questions like “what’s the average outbound email sentence length?” and “what are the
+                    most common sign-off lines that people use?”<br><br>If you have any questions, please get in touch!</p>
             </div>
             <div class="tools-content">
-                <h4>There are some other awesome email analysis tools out there. Some are mainly for enterprise use, but check them out anyway.</h4>
+                <p>There are some other awesome email analysis tools out there. Some are mainly for enterprise use, but check them out anyway.</p>
                 <ul class="tools-list">
                     <li>
                         <a href="https://chrome.google.com/webstore/detail/graph-your-inbox/lghnjmocfihonjdijomigppjlpdgdeji">Graph your inbox</a>
@@ -63,7 +61,7 @@
                 </ul>
             </div>
             <div class="contact-content">
-                <h4>Get in touch! Send us feature ideas, questions and feedback and we’ll get back to you soon.</h4>
+                <h4>Send us feature ideas, questions and feedback and we’ll get back to you soon.<br><br></h4>
                 <form class="pure-form pure-form-stacked">
                     <input id="email" type="email" placeholder="Your email" required>
                     <textarea class="pure-input-1-2" placeholder="Message"></textarea>
@@ -76,8 +74,8 @@
             <div>
                 <a href="https://www.facebook.com/sharer/sharer.php?u=www.smartr.email"><i class="fa fa-facebook" id="icon"></i></a>
                 <a href="https://twitter.com/home?status=www.smartr.email"><i class="fa fa-twitter" id="icon"></i></a>
+                <a href="https://github.com/ilyaaltshteyn/SmarterEmail"><i class="fa fa-github" id="icon"></i></a>
             </div>
-            <a href="https://github.com/ilyaaltshteyn/SmarterEmail"><i class="fa fa-github" id="icon"></i></a>
 
         </footer>
 

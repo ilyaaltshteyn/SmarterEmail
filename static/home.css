@@ -18,12 +18,12 @@ header {
 }
 
 h1 {
-    font-size: 2.33em;
+    font-size: 2.23em;
     line-height: 0.928em;
     text-align: center;
     text-transform: uppercase;
     font-family: Questrial;
-    font-weight: 600;
+    font-weight: 300;
     font-style: normal;
     /*text-rendering: geometricPrecision;*/
 }
@@ -55,8 +55,8 @@ ul {
     margin: .35em 0;
     font-family: Questrial;
     text-transform: uppercase;
-    font-size: .9em;
-    font-weight: 700;
+    font-size: .8em;
+    font-weight: 300;
 }
 
 
@@ -69,13 +69,13 @@ ul {
 }
 
 p {
-    font-size: 1em;
+    font-size: .95em;
     line-height: 1.421em;
     color: rgba(51, 51, 51, 0.80);
     color: #FCFFF5;
     margin: 1.421em 0px;
     font-family: "Cutive Mono";
-    font-weight: 400;
+    font-weight: 200;
     font-style: normal;
     text-align: center;
     text-rendering: geometricPrecision;
@@ -83,7 +83,7 @@ p {
 
 h3 {
     font-family: Questrial;
-    font-weight: 400;
+    font-weight: 200;
     font-style: normal;
     text-align: center;
     text-rendering: geometricPrecision;
@@ -96,15 +96,12 @@ h4 {
     line-height: 1.421em;
     margin: 1.421em 0px;
     font-family: "Cutive Mono";
-    font-weight: 500;
+    font-weight: 200;
     font-style: normal;
     text-align: center;
     text-rendering: geometricPrecision;
 }
 
-.desktop-instructions {
-    display: none;
-}
 
 .tools-list li {
     margin: .4em 0;
@@ -115,14 +112,6 @@ h4 {
 
 .data-policy-content p,
 .data-policy-content h4 {
-    text-align: left;
-}
-
-
-/********** similar tools styling **********/
-
-.tools-content li,
-.tools-content h4 {
     text-align: left;
 }
 
@@ -149,7 +138,7 @@ h4 {
     background: #d1dbbd;
     margin: .5em 0px;
     color: #3e606f;
-    font-weight: 500;
+    font-weight: 300;
 }
 
 
@@ -161,7 +150,7 @@ footer {
 }
 
 #icon {
-    font-size: 40px;
+    font-size: 38px;
     color: #FCFFF5;
     padding-right: 8px;
     padding-left: 8px;
@@ -184,11 +173,11 @@ footer {
     }
     h2 {
         display: block;
-        font-size: 1.16em;
+        font-size: 1.06em;
         line-height: 0.931em;
         margin: 0;
         font-family: Questrial;
-        font-weight: 300;
+        font-weight: 200;
         font-style: normal;
         letter-spacing: .5;
         text-rendering: geometricPrecision;
@@ -203,9 +192,6 @@ footer {
         text-align: left;
     }
     /********** Home content Styling DT **********/
-    .mobile-instructions {
-        display: none;
-    }
     .desktop-instructions {
         display: block;
         width: 27em;
@@ -216,14 +202,12 @@ footer {
         width: 20em;
         margin: 2em auto;
     }
-    .home-content .pure-button {
-        margin: 2em 0;
-    }
+
     /********** Contact content Styling DT **********/
     .contact-content h4 {
         width: 45vw;
         margin: 0 auto;
-        margin-bottom: 1em;
+        /*margin-bottom: 1em;*/
     }
     .pure-input-1-2,
     .pure-form input[type=email] {
