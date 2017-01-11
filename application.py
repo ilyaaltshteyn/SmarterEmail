@@ -76,8 +76,14 @@ def analyze():
         all_messages = Gmail(first_response, access_token).get()
         parsed_messages = GmailParser(all_messages).parse()
         results = str(Analyzer(parsed_messages).analyze())
-        avgs = get_averages() # Should happen before you store results.
-        store_results(cookie, results)
+        try:
+            avgs = get_averages() # Should happen before you store results.
+            store_results(cookie, results)
+        except:
+            avgs = {'avg_grade_lvl' : 116.36949345043728,
+                    'avg_sentences' : 4.412268044456603,
+                    'avg_syllables' : 367.2459136417934,
+                    'n' : 7}
 
         yield (results, avgs)
 

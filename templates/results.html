@@ -108,8 +108,36 @@ p {
 </script>
 {% endfor %}
 
-<div id = 'sentCountsHist'></div>
+<div id = 'sentCountsComparison'></div>
 
+<script>
+var data = [{
+  type: 'bar',
+  x: [a['sentence_count_mean'], b['avg_sentences']],
+  y: ['You', 'Everyone'],
+  orientation: 'h',
+  marker:{
+    color: ['rgba(249,93,95,1)', 'rgba(249,93,95,1)']
+  }
+}];
+
+var layout = {
+  yaxis: {showgrid: false},
+  xaxis: {showgrid: false},
+  title: 'Your email length compared to the average length, in sentences:',
+  hovermode: !1,
+  font: {
+    size: 14,
+    color: 'rgba(51,51,51,0.8)',
+    family: "Cutive Mono"
+  }
+}
+
+Plotly.newPlot('sentCountsComparison', data, layout, {displayModeBar: false});
+
+</script>
+
+<div id = 'sentCountsHist'></div>
 <script>
 // This script plots the sentence counts histogram in the sentCountsHist div
 
@@ -140,12 +168,12 @@ var data = [{
 var layout = {
   yaxis: {showgrid: false, title: "Number of emails"},
   xaxis: {showgrid: false, title: "Sentences"},
-  title: 'Email Body Length in Sentences',
+  title: 'Email Body Length in Sentences:',
   hovermode: !1,
   font: {
     size: 14,
     color: 'rgba(51,51,51,0.8)',
-    family: "Questrial"
+    family: "Cutive Mono"
   }
 };
 
