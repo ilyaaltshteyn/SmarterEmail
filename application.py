@@ -87,7 +87,7 @@ def analyze():
 
         yield (results, avgs)
 
-    return Response(stream_template('results2.html', data = t(first_response, access_token)))
+    return Response(stream_template('results.html', data = t(first_response, access_token)))
 
 
 @application.route('/')
