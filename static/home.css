@@ -3,6 +3,11 @@
 body {
     background: #F3F3F3;
     color: #414141;
+    /*Scale everything down to .9:    */
+    -moz-transform: scale(0.8, 0.9); /* Moz-browsers */
+    zoom: 0.9; /* Other non-webkit browsers */
+    zoom: 90%; /* Webkit browsers */
+
 }
 
 .site-content {
