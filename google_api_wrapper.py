@@ -97,16 +97,16 @@ class Gmail():
 
     def get(self):
 
-        # Get a reasonable number of message ids:
+        # Get 10 pages of message ids:
         while self.nextPageToken and self.pagesCount <= 10:
             try:
                 self.get_all_message_ids()
             except:
                 pass
 
-        # Get messages for those ids:
         self.message_ids = self.message_ids[:20] # snip for testing.
 
+        # Get messages for those ids:
         for m_id in self.message_ids:
             try:
                 self.message_texts.append(self.get_message_txt(m_id['id']))
