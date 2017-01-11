@@ -1,9 +1,8 @@
 from textstat.textstat import textstat as tstat
 import numpy as np
 import re
-from collections import Counter
+# from collections import Counter
 import json
-# from talon.signature.bruteforce import extract_signature
 
 
 class Analyzer():
@@ -50,14 +49,12 @@ class Analyzer():
             self.linsear_write_formula.append(tstat.linsear_write_formula(email))
             self.dale_chall_readability_score.append(tstat.dale_chall_readability_score(email))
 
-            # self.signoffs.append(self.preprocess(extract_signature(email)[1]))
-
             # Get start and end if there are >2 sentence chunks in the msg.
-            sents = [s.lower() for s in re.split(r'(?<=[.:;,!?])(\n|\s|\r)', email)]
+            # sents = [s.lower() for s in re.split(r'(?<=[.:;,!?])(\n|\s|\r)', email)]
 
-            if len(sents) > 2:
-                self.introductions.append(self.preprocess(sents[0]))
-                self.signoffs.extend([self.preprocess(c) for c in sents[-2:]] )
+            # if len(sents) > 2:
+            #     self.introductions.append(self.preprocess(sents[0]))
+            #     self.signoffs.extend([self.preprocess(c) for c in sents[-2:]] )
 
 
     def combine_scores(self):
@@ -70,21 +67,23 @@ class Analyzer():
                        np.mean(self.dale_chall_readability_score) ))
 
 
-    def get_common(self, lst, n = 15):
-        """ Finds n most common list elements (can be used on introductions and
-            signoffs). """
-
-        data = Counter(lst)
-        return [x for x in data.most_common(n) if x[0]]
+    # def get_common(self, lst, n = 15):
+    #     """ Finds n most common list elements (can be used on introductions and
+    #         signoffs). """
+    #
+    #     data = Counter(lst)
+    #     return [x for x in data.most_common(n) if x[0]]
 
 
     def analyze(self):
         """ Analyzes all emails and returns summary stats. """
 
         for e in self.emails:
-            self.analyze_one(e)
+            try:
+                self.analyze_one(e)
+            except:
+                pass
 
-        # print self.emails
 
         dat = { 'lexicon_count_mean' : np.mean(self.lexicon_count),
                 'lexicon_count_range' : (np.min(self.lexicon_count),
@@ -116,8 +115,8 @@ class Analyzer():
 
                 'my_combined_grade_lvl_mean' : self.combine_scores(),
 
-                'most_common_intros' : self.get_common(self.introductions),
-                'most_common_signoffs' : self.get_common(self.signoffs),
+                'most_common_intros' : 'disabled_from_analyze.py',
+                'most_common_signoffs' : 'disabled_from_analyze.py',
 
                 'emails_analyzed' : len(self.emails)
                }
