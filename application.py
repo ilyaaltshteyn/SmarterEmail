@@ -8,14 +8,11 @@ from db_helpers import get_averages, store_results
 from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SECRET_KEY
 
 # ------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------
 
 REDIRECT_URI = '/oauth2callback'
 
-DEBUG = True
-
 application = Flask(__name__)
-application.debug = DEBUG
+application.debug = True
 application.secret_key = SECRET_KEY
 oauth = OAuth()
 
@@ -31,33 +28,27 @@ google = oauth.remote_app('SmarterEmail',
                           consumer_key=GOOGLE_CLIENT_ID,
                           consumer_secret=GOOGLE_CLIENT_SECRET)
 
-
-# ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
 
 def stream_template(template_name, **context):
-    """ Streams data to template. """
+    """ Streams data to template while stuff happens back here. """
 
     application.update_template_context(context)
     t = application.jinja_env.get_template(template_name)
-    rv = t.stream(context)
-    return rv
+
+    return t.stream(context)
 
 
-def analyze():
-    """ Gets data and analyzes it, then streams it to template. """
+def get_first_response():
+    """ Retrieves first set of results from gmail. """
 
     access_token = session.get('access_token')[0]
 
-    from urllib2 import Request, urlopen, URLError
+    headers = {'Authorization': 'OAuth ' + access_token}
 
-    headers = {'Authorization': 'OAuth '+access_token}
-
-    print 'REQUESTING FIRST BATCH OF MSG IDS'
     req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?q=in:sent%20-in:chat', #%20-category:(promotions%20OR%20social)
                   None, headers)
-
 
     try:
         res = urlopen(req)
@@ -69,26 +60,34 @@ def analyze():
             session.pop('access_token', None)
             return redirect(url_for('login'))
 
-    first_response = res.read()
+    return res.read(), access_token
 
-    def t(first_response, access_token):
+
+def analyze():
+    """ Gets data, analyzes it, streams it to template. """
+
+    first_response, access_token = get_first_response()
+
+    def run(first_response, access_token):
 
         all_messages = Gmail(first_response, access_token).get()
         parsed_messages = GmailParser(all_messages).parse()
         results = str(Analyzer(parsed_messages).analyze())
+
         try:
-            avgs = get_averages() # Should happen before you store results.
+            # Pull data to show in results before storing new data in db:
+            avgs = get_averages()
             store_results(cookie, results)
         except:
-            avgs = {'avg_grade_lvl' : 116.36949345043728,
-                    'avg_sentences' : 4.412268044456603,
-                    'avg_syllables' : 367.2459136417934,
-                    'n' : 7}
+            avgs = {'avg_grade_lvl' : 'unknown',
+                    'avg_sentences' : 'unknown',
+                    'avg_syllables' : 'unknown',
+                    'n' : 'unknown'}
 
         yield (results, avgs)
 
-    return Response(stream_template('results2.html', data = t(first_response, access_token)))
-
+    return Response(stream_template('results2.html', data = run(first_response,
+                                                                access_token)))
 
 @application.route('/')
 def index():
@@ -97,12 +96,11 @@ def index():
 
 @application.route('/authorize')
 def authorize():
-    # Grab cookie here bc the cookie has definitely already been set on front end.
+    # Grab cookie here bc you can be sure it's been set in browser already:
     global cookie
     cookie = request.cookies.get('smartrEmailVisit')
 
-    access_token = session.get('access_token')
-    if access_token is None:
+    if not session.get('access_token'):
         return redirect(url_for('login'))
 
     return analyze()
@@ -110,8 +108,8 @@ def authorize():
 
 @application.route('/login')
 def login():
-    callback=url_for('authorized', _external=True)
-    return google.authorize(callback=callback)
+    callback = url_for('authorized', _external=True)
+    return google.authorize(callback = callback)
 
 
 @application.route(REDIRECT_URI)
