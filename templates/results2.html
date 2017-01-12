@@ -387,13 +387,17 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             background: #FBA1A2;
             margin: 1px 0;
             border: 1px solid darkgrey;
-            display: flex;
-            align-items: center;
             font-family: "Cutive Mono";
+        }
+        
+        .results-content div span {
+            font-weight: 500;
         }
         
         .moreMetrics {
             background: red !important;
+            display: flex;
+            align-items: center;
             justify-content: center;
             height: 25px;
             text-transform: uppercase;
@@ -497,12 +501,12 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
         function oneDecimal(floatingPoint) {
             return Math.round(floatingPoint * 10) / 10
         }
-        var numberOfEmails = "<div class='numberOfEmails'>Number of your emails that we analyzed: " + a['emails_analyzed'] + "</div>";
-        var readingLevel = "<div class='readingLevel'>Average reading level of your emails: " + makeOrdinal(a['my_combined_grade_lvl_mean']) + "grade.</div>";
-        var numberOfSentences = "<div class='numberOfSentences'>Avg email length in sentences: " + oneDecimal(a['sentence_count_mean']) + "</div>";
-        var numberOfPeopleAnalyzed = "<div class='numberOfPeopleAnalyzed'>Number of people whose emails we've analyzed: " + b['n'] + "</div>";
-        var avgSentenceCount = "<div class='avgSentenceCount'>Avg sent count across all those: " + oneDecimal(b['avg_sentences']) + "</div>";
-        var avgReadingLevel = " <div class='avgReadingLevel'>Avg grade level across all those: " + oneDecimal(b['avg_grade_lvl']) + "</div>";
+        var numberOfEmails = "<div class='numberOfEmails'>Number of your emails that we analyzed: <span>" + a['emails_analyzed'] + "</span></div>";
+        var readingLevel = "<div class='readingLevel'>Average reading level of your emails: <span>" + makeOrdinal(a['my_combined_grade_lvl_mean']) + "grade.</span></div>";
+        var numberOfSentences = "<div class='numberOfSentences'>Avg email length in sentences: <span>" + oneDecimal(a['sentence_count_mean']) + "</span></div>";
+        var numberOfPeopleAnalyzed = "<div class='numberOfPeopleAnalyzed'>Number of people whose emails we've analyzed: <span>" + b['n'] + "</span></div>";
+        var avgSentenceCount = "<div class='avgSentenceCount'>Avg sent count across all those: <span>" + oneDecimal(b['avg_sentences']) + "</span></div>";
+        var avgReadingLevel = " <div class='avgReadingLevel'>Avg grade level across all those: <span>" + oneDecimal(b['avg_grade_lvl']) + "</span></div>";
         var moreMetrics = "<div class='moreMetrics'>More metrics + complete page content coming soon.</div>"
 
         $(".results-content").html(numberOfEmails + readingLevel + numberOfSentences + numberOfPeopleAnalyzed +
