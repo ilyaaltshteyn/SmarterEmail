@@ -60,13 +60,14 @@ def get_first_response():
             session.pop('access_token', None)
             return redirect(url_for('login'))
 
-    return res.read(), access_token
+    return res.read()
 
 
 def analyze():
     """ Gets data, analyzes it, streams it to template. """
 
-    first_response, access_token = get_first_response()
+    access_token = session.get('access_token')[0]
+    first_response = get_first_response()
 
     def run(first_response, access_token):
 

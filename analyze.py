@@ -41,8 +41,7 @@ class Analyzer():
                   self.dale_chall_readability_score]:
 
             scores.extend([g for g in s if g < 18])
-
-        print scores
+            
         return np.mean(scores)
 
 
