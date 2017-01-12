@@ -19,11 +19,11 @@
     <style>
         /*THIS IS HERE FOR NOW TO AVOID HAVING TO USE
 STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
-
+        
         #data {
             text-align: center;
         }
-
+        
         p {
             font-size: 1.05em;
             line-height: 1.421em;
@@ -36,7 +36,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             text-align: center;
             text-rendering: geometricPrecision;
         }
-
+        
         .loader {
             border: 16px solid #f3f3f3;
             /* Light grey */
@@ -45,9 +45,10 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             border-radius: 50%;
             width: 120px;
             height: 120px;
+            margin: 10vh auto;
             animation: spin 2s linear infinite;
         }
-
+        
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -80,136 +81,12 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
         }
 
         $(".loader").hide();
+        $("#data").hide();
+
         var a = prepData("{{ i[0] }}");
         var b = lazyPrep("{{ i[1] }}");
-
-        function makeOrdinal(floatingPoint) {
-            var i = Math.round(floatingPoint);
-
-            var j = i % 10,
-                k = i % 100;
-            if (j == 1 && k != 11) {
-                return i + "st";
-            }
-            if (j == 2 && k != 12) {
-                return i + "nd";
-            }
-            if (j == 3 && k != 13) {
-                return i + "rd";
-            }
-            return i + "th";
-        };
-
-        function oneDecimal(floatingPoint) {
-            return Math.round(floatingPoint * 10) / 10
-        }
-        var numberOfEmails = "<div class='numberOfEmails'>Number of your emails that we analyzed: " + a['emails_analyzed'] + "</div>";
-        var readingLevel = "<div class='readingLevel'>Average reading level of your emails: " + makeOrdinal(a['my_combined_grade_lvl_mean']) + "grade.</div>";
-        var numberOfSentences = "<div class='numberOfSentences'>Avg email length in sentences: " + oneDecimal(a['sentence_count_mean']) + "</div>";
-        var numberOfPeopleAnalyzed = "<div class='numberOfPeopleAnalyzed'>Number of people whose emails we've analyzed: " + b['n'] + "</div>";
-        var avgSentenceCount = "<div class='avgSentenceCount'>Avg sent count across all those: " + oneDecimal(b['avg_sentences']) + "</div>";
-        var avgReadingLevel = " <div class='avgReadingLevel'>Avg grade level across all those: " + oneDecimal(b['avg_grade_lvl']) + "</div>";
-        var moreMetrics = "<div class='moreMetrics'>More metrics + complete page content coming soon.</div>"
-
-        $(".results-content").html(numberOfEmails + readingLevel + numberOfSentences + numberOfPeopleAnalyzed +
-            avgSentenceCount + avgReadingLevel + moreMetrics);
     </script>
     {% endfor %}
-
-    <div id='sentCountsComparison'></div>
-
-    <script>
-        var data = [{
-            type: 'bar',
-            x: [a['sentence_count_mean'], b['avg_sentences']],
-            y: ['You', 'Everyone'],
-            orientation: 'h',
-            marker: {
-                color: ['rgba(249,93,95,1)', 'rgba(249,93,95,1)']
-            }
-        }];
-
-        var layout = {
-            yaxis: {
-                showgrid: false
-            },
-            xaxis: {
-                showgrid: false
-            },
-            title: 'Your email length compared to the average length, in sentences:',
-            hovermode: !1,
-            font: {
-                size: 14,
-                color: 'rgba(51,51,51,0.8)',
-                family: "Cutive Mono"
-            }
-        }
-
-        Plotly.newPlot('sentCountsComparison', data, layout, {
-            displayModeBar: false
-        });
-    </script>
-
-    <div id='sentCountsHist'></div>
-    <script>
-        // This script plots the sentence counts histogram in the sentCountsHist div
-
-        var binsDict = {
-            '1 - 2 sentences': 0,
-            '3 - 5 sentences': 0,
-            '6 - 10 sentences': 0,
-            '11+ sentences': 0
-        };
-
-        var values = a['sentence_counts'];
-
-        // Build counts for histogram:
-        for (i = 0; i < values.length; i++) {
-            var v = values[i];
-            if (v <= 2) {
-                binsDict['1 - 2 sentences']++;
-            } else if (v > 2 && v <= 5) {
-                binsDict['3 - 5 sentences']++;
-            } else if (v > 5 && v <= 10) {
-                binsDict['6 - 10 sentences']++;
-            } else {
-                binsDict['11+ sentences']++;
-            }
-        };
-
-        var data = [{
-            x: ['1 - 2', '3 - 5', '6 - 10', '11+'],
-            y: [binsDict['1 - 2 sentences'], binsDict['3 - 5 sentences'],
-                binsDict['6 - 10 sentences'], binsDict['11+ sentences']
-            ],
-            marker: {
-                color: ['rgba(249,93,95,1)', 'rgba(250,129,130,1)', 'rgba(251,161,162,1)', 'rgba(65,65,65,1)']
-            },
-            type: 'bar'
-        }];
-
-        var layout = {
-            yaxis: {
-                showgrid: false,
-                title: "Number of emails"
-            },
-            xaxis: {
-                showgrid: false,
-                title: "Sentences"
-            },
-            title: 'Email Body Length in Sentences:',
-            hovermode: !1,
-            font: {
-                size: 14,
-                color: 'rgba(51,51,51,0.8)',
-                family: "Cutive Mono"
-            }
-        };
-
-        Plotly.newPlot('sentCountsHist', data, layout, {
-            displayModeBar: false
-        });
-    </script>
 
     <main class="site-content">
         <header>
@@ -218,30 +95,17 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
         </header>
         <p class="mobile-menu-button">--menu--</p>
         <ul class="main-nav">
-            <li class="home-button">Home</li>
+            <li class="results-button">Results</li>
             <li class="data-policy-button">Data Policy</li>
             <li class="tools-button">Similar Tools</li>
             <li class="contact-button">Contact</li>
         </ul>
         <section class="individual-page-content">
-            <div class="results-content">
-                <style>
-                    .results-content {
-                        display: flex;
-                        width: 80vw;
-                        margin: 0 auto;
-                        justify-content: space-around;
-                    }
 
-                    .results-content div {
-                        width: 35vw;
-                        box-shadow: 3px 3px 5px 6px #FBA1A2;
-                        display: flex;
-                        align-items: center;
-                    }
-                </style>
+            <div class="results-content"></div>
+            <div id='sentCountsHist'></div>
+            <div id='sentCountsComparison'></div>
 
-            </div>
             <div class="data-policy-content">
                 <p>To use this tool, you'll be asked to give us read-only access to your Gmail inbox. Our program will then download some of your emails and analyze them. We store your messages only for the amount of time that it takes to analyze them--
                     usually just a few seconds. We never put your emails into persistent storage, and all processing is done on a secure server. No human ever reads your emails.
@@ -305,36 +169,36 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
     <!--CSS for the content copied from home.css-->
     <style>
         /********** General styling **********/
-
+        
         body {
             background: #F3F3F3;
             color: #414141;
         }
-
+        
         .site-content {
             width: 80vw;
             margin: 12vh auto;
         }
-
+        
         a {
             color: #F95D5F;
         }
-
+        
          ::-moz-selection {
             background-color: #FBA1A2;
         }
-
+        
          ::selection {
             background-color: #FBA1A2;
         }
         /********** Headerstyling **********/
-
+        
         header {
             text-align: center;
             border-bottom: 1px solid;
             padding-bottom: 3px;
         }
-
+        
         #logocon {
             font-size: 10px;
             color: #F95D5F;
@@ -342,26 +206,26 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             padding-left: 1px;
             /*padding-top: 20px;*/
         }
-
+        
         #logocon2 {
             font-size: 8px;
             color: #F95D5F;
             /*padding-right: 3px;*/
             padding-left: 3px;
         }
-
-        .home-button {
+        
+        .results-button {
             color: #F95D5F;
         }
-
-        .home-button,
+        
+        .results-button,
         .data-policy-button,
         .tools-button,
         .contact-button {
             cursor: pointer;
             cursor: hand;
         }
-
+        
         h1 {
             font-size: 2.23em;
             color: black;
@@ -373,28 +237,28 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             font-style: normal;
             text-rendering: geometricPrecision;
         }
-
+        
         h2 {
             display: none;
         }
         /********** Mobile menu styling **********/
-
+        
         .mobile-menu-button {
             margin: 0;
             padding-top: 1.5em;
         }
-
+        
         ul {
             list-style: none;
             padding: 0;
             margin: 0;
             text-align: center;
         }
-
+        
         .main-nav {
             display: none;
         }
-
+        
         .main-nav li {
             margin: .35em 0;
             font-family: "Cutive Mono";
@@ -403,13 +267,13 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             font-weight: 300;
         }
         /********** Main Content styling **********/
-
+        
         .data-policy-content,
         .tools-content,
         .contact-content {
             display: none;
         }
-
+        
         p {
             font-size: 1.05em;
             line-height: 1.421em;
@@ -422,7 +286,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             text-align: center;
             text-rendering: geometricPrecision;
         }
-
+        
         h3 {
             font-family: "Cutive Mono";
             font-weight: 200;
@@ -431,7 +295,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             text-rendering: geometricPrecision;
             line-height: 1.15;
         }
-
+        
         h4 {
             display: block;
             font-size: 1.35em;
@@ -443,34 +307,34 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             text-align: center;
             text-rendering: geometricPrecision;
         }
-
+        
         .tools-list li {
             margin: .4em 0;
         }
         /********** data policy styling **********/
-
+        
         .data-policy-content p,
         .data-policy-content h4 {
             text-align: left;
         }
         /********** Email form on contact content styling **********/
-
+        
         .pure-input-1-2,
         .pure-form input[type=email] {
             width: 75vw !important;
             margin: .3em auto !important;
             color: #3e606f;
         }
-
+        
         .pure-form {
             text-align: center;
         }
-
+        
         .pure-form .pure-button {
             width: 30vw;
             text-transform: uppercase;
         }
-
+        
         .pure-button {
             /*background: #d1dbbd;*/
             background: #414141;
@@ -479,20 +343,20 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             color: #F3F3F3;
             font-weight: 300;
         }
-
+        
         .send-button {
             margin: 0;
             padding: 0;
         }
         /********** Footer/icons styling **********/
-
+        
         footer {
             display: flex;
             flex-flow: column;
             align-items: center;
             border-top: 1px solid;
         }
-
+        
         #icon {
             font-size: 38px;
             color: #FA8182;
@@ -500,12 +364,51 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             padding-left: 8px;
             padding-top: 20px;
         }
-
+        
         #icon:hover {
             color: #F95D5F;
         }
+        /********** Results content Styling **********/
+        
+        .results-content {
+            display: flex;
+            flex-flow: column;
+            width: 80vw;
+            margin: 0 auto;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        .results-content div {
+            width: 60vw;
+            height: 35px;
+            padding: 10px;
+            background: #FBA1A2;
+            margin: 1px 0;
+            border: 1px solid darkgrey;
+            font-family: "Cutive Mono";
+        }
+        
+        .results-content div span {
+            font-weight: 500;
+        }
+        
+        .moreMetrics {
+            background: red !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 25px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        
+        .plot-container {
+            margin: 1vh 0 !important;
+        }
         /********** Mobile break width: further styling for tablet/desktop **********/
-
+        
         @media all and (min-width: 600px) {
             /********** Header Styling DT **********/
             header {
@@ -537,17 +440,17 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
                 flex-flow: column;
                 text-align: left;
             }
-            /********** Home content Styling DT **********/
-            .desktop-instructions {
-                display: block;
-                width: 27em;
-                margin: 0 auto;
-                transform: translateY(-15px);
+            /********** Results content Styling DT **********/
+            .results-content {
+                flex-flow: row;
+                flex-wrap: wrap;
             }
-            .home-content p {
-                width: 20em;
-                margin: 2em auto;
-                padding-bottom: 30px;
+            .results-content div {
+                width: 37vw;
+                margin: 5px 0;
+            }
+            .moreMetrics {
+                width: 80vw !important;
             }
             /********** Contact content Styling DT **********/
             .contact-content h4 {
@@ -576,24 +479,157 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             }
         }
     </style>
+
+    <script>
+        function makeOrdinal(floatingPoint) {
+            var i = Math.round(floatingPoint);
+
+            var j = i % 10,
+                k = i % 100;
+            if (j == 1 && k != 11) {
+                return i + "st";
+            }
+            if (j == 2 && k != 12) {
+                return i + "nd";
+            }
+            if (j == 3 && k != 13) {
+                return i + "rd";
+            }
+            return i + "th";
+        };
+
+        function oneDecimal(floatingPoint) {
+            return Math.round(floatingPoint * 10) / 10
+        }
+        var numberOfEmails = "<div class='numberOfEmails'>Number of your emails that we analyzed: <span>" + a['emails_analyzed'] + "</span></div>";
+        var readingLevel = "<div class='readingLevel'>Average reading level of your emails: <span>" + makeOrdinal(a['my_combined_grade_lvl_mean']) + "grade.</span></div>";
+        var numberOfSentences = "<div class='numberOfSentences'>Avg email length in sentences: <span>" + oneDecimal(a['sentence_count_mean']) + "</span></div>";
+        var numberOfPeopleAnalyzed = "<div class='numberOfPeopleAnalyzed'>Number of people whose emails we've analyzed: <span>" + b['n'] + "</span></div>";
+        var avgSentenceCount = "<div class='avgSentenceCount'>Avg sent count across all those: <span>" + oneDecimal(b['avg_sentences']) + "</span></div>";
+        var avgReadingLevel = " <div class='avgReadingLevel'>Avg grade level across all those: <span>" + oneDecimal(b['avg_grade_lvl']) + "</span></div>";
+        var moreMetrics = "<div class='moreMetrics'>More metrics + complete page content coming soon.</div>"
+
+        $(".results-content").html(numberOfEmails + readingLevel + numberOfSentences + numberOfPeopleAnalyzed +
+            avgSentenceCount + avgReadingLevel + moreMetrics);
+    </script>
+
+
+
+
+    <script>
+        var data = [{
+            type: 'bar',
+            x: [a['sentence_count_mean'], b['avg_sentences']],
+            y: ['You', 'Everyone'],
+            orientation: 'h',
+            marker: {
+                color: ['rgba(249,93,95,1)', 'rgba(249,93,95,1)']
+            }
+        }];
+
+        var layout = {
+            yaxis: {
+                showgrid: false
+            },
+            xaxis: {
+                showgrid: false
+            },
+            title: 'Your email length compared to the average length, in sentences:',
+            hovermode: !1,
+            font: {
+                size: 14,
+                color: 'rgba(51,51,51,0.8)',
+                family: "Cutive Mono"
+            }
+        }
+
+        Plotly.newPlot('sentCountsComparison', data, layout, {
+            displayModeBar: false
+        });
+    </script>
+
+
+    <script>
+        // This script plots the sentence counts histogram in the sentCountsHist div
+
+        var binsDict = {
+            '1 - 2 sentences': 0,
+            '3 - 5 sentences': 0,
+            '6 - 10 sentences': 0,
+            '11+ sentences': 0
+        };
+
+        var values = a['sentence_counts'];
+
+        // Build counts for histogram:
+        for (i = 0; i < values.length; i++) {
+            var v = values[i];
+            if (v <= 2) {
+                binsDict['1 - 2 sentences']++;
+            } else if (v > 2 && v <= 5) {
+                binsDict['3 - 5 sentences']++;
+            } else if (v > 5 && v <= 10) {
+                binsDict['6 - 10 sentences']++;
+            } else {
+                binsDict['11+ sentences']++;
+            }
+        };
+
+        var data = [{
+            x: ['1 - 2', '3 - 5', '6 - 10', '11+'],
+            y: [binsDict['1 - 2 sentences'], binsDict['3 - 5 sentences'],
+                binsDict['6 - 10 sentences'], binsDict['11+ sentences']
+            ],
+            marker: {
+                color: ['rgba(249,93,95,1)', 'rgba(250,129,130,1)', 'rgba(251,161,162,1)', 'rgba(65,65,65,1)']
+            },
+            type: 'bar'
+        }];
+
+        var layout = {
+            yaxis: {
+                showgrid: false,
+                title: "Number of emails"
+            },
+            xaxis: {
+                showgrid: false,
+                title: "Sentences"
+            },
+            title: 'Email Body Length in Sentences:',
+            hovermode: !1,
+            font: {
+                size: 14,
+                color: 'rgba(51,51,51,0.8)',
+                family: "Cutive Mono"
+            }
+        };
+
+        Plotly.newPlot('sentCountsHist', data, layout, {
+            displayModeBar: false
+        });
+        // this is code for changing the size of the graphs
+        // var update = {
+        //     width: 300;
+        // };
+        // Plotly.relayout('sentCountsHist', update);
+    </script>
+
     <script>
         // --------------Make page content and links work.---------------------------
         $(document).ready(function() {
             $('.mobile-menu-button').on('click', function(event) {
                 event.preventDefault();
-                $('.main-nav').animate({
-                    height: 'toggle'
-                });
+                $('.main-nav').toggle(height);
             });
             $('.data-policy-button').on('click', function(event) {
                 event.preventDefault();
                 $('.data-policy-button').css({
                     'color': 'rgba(249,93,95,1)'
                 })
-                $('.tools-button, .contact-button, .home-button').css({
+                $('.tools-button, .contact-button, .results-button').css({
                     'color': 'black'
                 })
-                $('.home-content, .tools-content, .contact-content').hide();
+                $('.results-content, .plot-container, .tools-content, .contact-content').hide();
                 $('.data-policy-content').show();
             });
             $('.tools-button').on('click', function(event) {
@@ -601,10 +637,10 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
                 $('.tools-button').css({
                     'color': 'rgba(249,93,95,1)'
                 })
-                $('.data-policy-button, .contact-button, .home-button').css({
+                $('.data-policy-button, .contact-button, .results-button').css({
                     'color': 'black'
                 })
-                $('.home-content, .data-policy-content, .contact-content').hide();
+                $('.results-content, .plot-container, .data-policy-content, .contact-content').hide();
                 $('.tools-content').show();
             });
             $('.contact-button').on('click', function(event) {
@@ -612,25 +648,26 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
                 $('.contact-button').css({
                     'color': 'rgba(249,93,95,1)'
                 })
-                $('.tools-button, .data-policy-button, .home-button').css({
+                $('.tools-button, .data-policy-button, .results-button').css({
                     'color': 'black'
                 })
-                $('.home-content, .tools-content, .data-policy-content').hide();
+                $('.results-content, .plot-container, .tools-content, .data-policy-content').hide();
                 $('.contact-content').show();
             });
-            $('.home-button').on('click', function(event) {
+            $('.results-button').on('click', function(event) {
                 event.preventDefault();
-                $('.home-button').css({
+                $('.results-button').css({
                     'color': 'rgba(249,93,95,1)'
                 })
                 $('.tools-button, .contact-button, .data-policy-button').css({
                     'color': 'black'
                 })
                 $('.data-policy-content, .tools-content, .contact-content').hide();
-                $('.home-content').show();
+                $('.results-content, .plot-container').show();
             });
         });
     </script>
+
 </body>
 
 </html>
