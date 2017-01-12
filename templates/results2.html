@@ -5,11 +5,12 @@
 
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto|Cutive%20Mono">
     <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
-
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='normalize.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='home.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="../static/gatrack.js "></script>
+    <!--loading jQuery and main JS file at the end for performance-->
+    <script src=" https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js "></script>
+    <script src="../static/main.js "></script>
 
 </head>
 
@@ -18,11 +19,11 @@
     <style>
         /*THIS IS HERE FOR NOW TO AVOID HAVING TO USE
 STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
-        
+
         #data {
             text-align: center;
         }
-        
+
         p {
             font-size: 1.05em;
             line-height: 1.421em;
@@ -35,7 +36,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             text-align: center;
             text-rendering: geometricPrecision;
         }
-        
+
         .loader {
             border: 16px solid #f3f3f3;
             /* Light grey */
@@ -46,7 +47,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             height: 120px;
             animation: spin 2s linear infinite;
         }
-        
+
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -231,7 +232,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
                         margin: 0 auto;
                         justify-content: space-around;
                     }
-                    
+
                     .results-content div {
                         width: 35vw;
                         box-shadow: 3px 3px 5px 6px #FBA1A2;
@@ -304,36 +305,36 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
     <!--CSS for the content copied from home.css-->
     <style>
         /********** General styling **********/
-        
+
         body {
             background: #F3F3F3;
             color: #414141;
         }
-        
+
         .site-content {
             width: 80vw;
             margin: 12vh auto;
         }
-        
+
         a {
             color: #F95D5F;
         }
-        
+
          ::-moz-selection {
             background-color: #FBA1A2;
         }
-        
+
          ::selection {
             background-color: #FBA1A2;
         }
         /********** Headerstyling **********/
-        
+
         header {
             text-align: center;
             border-bottom: 1px solid;
             padding-bottom: 3px;
         }
-        
+
         #logocon {
             font-size: 10px;
             color: #F95D5F;
@@ -341,18 +342,18 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             padding-left: 1px;
             /*padding-top: 20px;*/
         }
-        
+
         #logocon2 {
             font-size: 8px;
             color: #F95D5F;
             /*padding-right: 3px;*/
             padding-left: 3px;
         }
-        
+
         .home-button {
             color: #F95D5F;
         }
-        
+
         .home-button,
         .data-policy-button,
         .tools-button,
@@ -360,7 +361,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             cursor: pointer;
             cursor: hand;
         }
-        
+
         h1 {
             font-size: 2.23em;
             color: black;
@@ -372,28 +373,28 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             font-style: normal;
             text-rendering: geometricPrecision;
         }
-        
+
         h2 {
             display: none;
         }
         /********** Mobile menu styling **********/
-        
+
         .mobile-menu-button {
             margin: 0;
             padding-top: 1.5em;
         }
-        
+
         ul {
             list-style: none;
             padding: 0;
             margin: 0;
             text-align: center;
         }
-        
+
         .main-nav {
             display: none;
         }
-        
+
         .main-nav li {
             margin: .35em 0;
             font-family: "Cutive Mono";
@@ -402,13 +403,13 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             font-weight: 300;
         }
         /********** Main Content styling **********/
-        
+
         .data-policy-content,
         .tools-content,
         .contact-content {
             display: none;
         }
-        
+
         p {
             font-size: 1.05em;
             line-height: 1.421em;
@@ -421,7 +422,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             text-align: center;
             text-rendering: geometricPrecision;
         }
-        
+
         h3 {
             font-family: "Cutive Mono";
             font-weight: 200;
@@ -430,7 +431,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             text-rendering: geometricPrecision;
             line-height: 1.15;
         }
-        
+
         h4 {
             display: block;
             font-size: 1.35em;
@@ -442,34 +443,34 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             text-align: center;
             text-rendering: geometricPrecision;
         }
-        
+
         .tools-list li {
             margin: .4em 0;
         }
         /********** data policy styling **********/
-        
+
         .data-policy-content p,
         .data-policy-content h4 {
             text-align: left;
         }
         /********** Email form on contact content styling **********/
-        
+
         .pure-input-1-2,
         .pure-form input[type=email] {
             width: 75vw !important;
             margin: .3em auto !important;
             color: #3e606f;
         }
-        
+
         .pure-form {
             text-align: center;
         }
-        
+
         .pure-form .pure-button {
             width: 30vw;
             text-transform: uppercase;
         }
-        
+
         .pure-button {
             /*background: #d1dbbd;*/
             background: #414141;
@@ -478,20 +479,20 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             color: #F3F3F3;
             font-weight: 300;
         }
-        
+
         .send-button {
             margin: 0;
             padding: 0;
         }
         /********** Footer/icons styling **********/
-        
+
         footer {
             display: flex;
             flex-flow: column;
             align-items: center;
             border-top: 1px solid;
         }
-        
+
         #icon {
             font-size: 38px;
             color: #FA8182;
@@ -499,12 +500,12 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             padding-left: 8px;
             padding-top: 20px;
         }
-        
+
         #icon:hover {
             color: #F95D5F;
         }
         /********** Mobile break width: further styling for tablet/desktop **********/
-        
+
         @media all and (min-width: 600px) {
             /********** Header Styling DT **********/
             header {
@@ -630,9 +631,6 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             });
         });
     </script>
-    <!--loading jQuery and main JS file at the end for performance-->
-    <script src=" https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js "></script>
-    <script src="../static/main.js "></script>
 </body>
 
 </html>
