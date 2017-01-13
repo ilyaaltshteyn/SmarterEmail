@@ -1,14 +1,14 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto|Cutive%20Mono">
     <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="../static/gatrack.js "></script>
-    <!--loading jQuery and main JS file at the end for performance-->
     <script src=" https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js "></script>
     <script src="../static/main.js "></script>
 
@@ -17,24 +17,23 @@
 <body>
     <div class="detect-mobile-screen"></div>
     <style>
-
-    body {
-        /*Scale everything down:   */
-        -moz-transform: scale(.95, 0.95); /* Moz-browsers */
-        zoom: 0.95; /* Other non-webkit browsers */
-        zoom: 95%; /* Webkit browsers */
-    }
-
+        body {
+            /*Scale everything down:   */
+            -moz-transform: scale(.95, 0.95);
+            /* Moz-browsers */
+            zoom: 0.95;
+            /* Other non-webkit browsers */
+            zoom: 95%;
+        }
+        
         #data {
             text-align: center;
             font-size: 1.3em;
         }
-
+        
         p {
             font-size: 1.05em;
             line-height: 1.421em;
-            /*color: rgba(51, 51, 51, 0.80);*/
-            /*color: #FCFFF5;*/
             margin: 1.421em 0px;
             font-family: "Cutive Mono";
             font-weight: 200;
@@ -42,19 +41,17 @@
             text-align: center;
             text-rendering: geometricPrecision;
         }
-
+        
         .loader {
             border: 16px solid #DBDBDB;
-            /* Light grey */
             border-top: 16px solid #FA8182;
-            /* Dark blue */
             border-radius: 50%;
             width: 120px;
             height: 120px;
             margin: 10vh auto;
             animation: spin 2s linear infinite;
         }
-
+        
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -63,13 +60,13 @@
                 transform: rotate(360deg);
             }
         }
-
+        
         .results-button,
         .data-policy-button,
         .tools-button,
         .contact-button,
         .mobile-menu-button {
-          display: none;
+            display: none;
         }
     </style>
     <main class="site-content">
@@ -80,25 +77,35 @@
         <p class="mobile-menu-button">--menu--</p>
         <ul class="main-nav">
             <li class="results-button">Results</li>
+            <li class="metrics-button">Metrics</li>
             <li class="data-policy-button">Data Policy</li>
             <li class="tools-button">Similar Tools</li>
             <li class="contact-button">Contact</li>
         </ul>
         <section class="individual-page-content">
             <div id="data">
-              <h2 class="analyzing-100"><br>We're analyzing your last 100 sent emails.<br><br></h2><h2 id="this-takes-30s">Give us ~30 secs.</h2>
+                <h2 class="analyzing-100"><br>We're analyzing your last 100 sent emails.<br><br></h2>
+                <h2 id="this-takes-30s">Give us ~30 secs.</h2>
             </div>
             <div class="loader"></div>
             <div id="loading-message">
-              <h3>Meanwhile, check out <a href="http://five.sentenc.es/" target="_blank">this note</a> about keeping your emails under 5 sentences.</h3>
+                <h3>Meanwhile, check out <a href="http://five.sentenc.es/" target="_blank">this note</a> about keeping your emails under 5 sentences.</h3>
             </div>
             <div id="results-heading" class="numberOfEmailsWrapper"></div>
             <div class="results-content"></div>
             <div class="bothCharts">
-              <div id="sentCountsHist" class="charts"></div>
-              <div id="sentCountsComparison" class="charts"></div>
+                <div id="sentCountsHist" class="charts"></div>
+                <div id="sentCountsComparison" class="charts"></div>
             </div>
             <div id="results-heading" class="final-results-content"></div>
+            <div class="metrics-content">
+                <p>
+                    We measure a bunch of things about your email. But the main ones that we end up displaying in your results are 1. the average grade reading level and 2. the average length of your messages. There are a lot of different formulas for calculating a text's
+                    grade reading level. We use as average of 5 different metrics. Calculating the length of your messages in sentences is more straightforward. The length calculation only includes sentences from the body of your email. It excludes greetings
+                    and signoffs. On the results page you'll see the average grade reading and length of your emails, and a histogram showing the distribution of your email lengths. You'll also get some info about how your results compare to those of
+                    our other users.
+                </p>
+            </div>
 
             <div class="data-policy-content">
                 <p>To use this tool, you'll be asked to give us read-only access to your Gmail inbox. Our program will then download some of your emails and analyze them. We store your messages only for the amount of time that it takes to analyze them--
@@ -165,102 +172,100 @@
     <!--CSS for the content copied from home.css-->
     <style>
         /********** General styling **********/
-
+        
         body {
             background: #F3F3F3;
             color: #414141;
         }
-
+        
         .site-content {
             width: 80vw;
             margin: 12vh auto;
         }
-
+        
         @media only screen and (max-width: 500px) {
-          .site-content {
-            margin: 8vh auto;
-          }
+            .site-content {
+                margin: 8vh auto;
+            }
         }
-
+        
         a {
             color: #F95D5F;
         }
-
+        
          ::-moz-selection {
             background-color: #FBA1A2;
         }
-
+        
          ::selection {
             background-color: #FBA1A2;
         }
         /********** Headerstyling **********/
-
+        
         header {
             text-align: center;
             border-bottom: 1px solid;
             padding-bottom: 3px;
         }
-
+        
         #logocon {
             font-size: 10px;
             color: #F95D5F;
             padding-right: 3px;
             padding-left: 1px;
-            /*padding-top: 20px;*/
         }
-
+        
         #logocon2 {
             font-size: 8px;
             color: #F95D5F;
-            /*padding-right: 3px;*/
             padding-left: 3px;
         }
-
+        
         .results-button {
             color: #F95D5F;
         }
-
+        
         .results-button,
         .data-policy-button,
         .tools-button,
-        .contact-button {
+        .contact-button,
+        .metrics-button {
             cursor: pointer;
             cursor: hand;
         }
-
+        
         h1 {
             font-size: 2.23em;
             color: black;
             line-height: 0.928em;
             text-align: center;
-            /*text-transform: uppercase;*/
             font-family: "Cutive Mono";
             font-weight: 500;
             font-style: normal;
             text-rendering: geometricPrecision;
         }
-
+        
         .slogan {
-          display: none;
+            display: none;
         }
         /********** Mobile menu styling **********/
-
+        
         .mobile-menu-button {
             margin: 0;
             padding-top: 1.5em;
         }
-
+        
         ul {
             list-style: none;
             padding: 0;
             margin: 0;
             text-align: center;
         }
-
+        
         .main-nav {
             display: none;
         }
-
+        
         .main-nav li {
             margin: .35em 0;
             font-family: "Cutive Mono";
@@ -269,13 +274,13 @@
             font-weight: 300;
         }
         /********** Main Content styling **********/
-
+        
         .data-policy-content,
         .tools-content,
         .contact-content {
             display: none;
         }
-
+        
         p {
             font-size: 1.05em;
             line-height: 1.421em;
@@ -286,7 +291,7 @@
             text-align: center;
             text-rendering: geometricPrecision;
         }
-
+        
         h2 {
             font-size: .9em;
             line-height: 1.421em;
@@ -297,11 +302,11 @@
             text-align: center;
             text-rendering: geometricPrecision;
         }
-
-        .analyzing-100{
-          display: none;
+        
+        .analyzing-100 {
+            display: none;
         }
-
+        
         h3 {
             font-family: "Cutive Mono";
             font-weight: 200;
@@ -310,7 +315,7 @@
             text-rendering: geometricPrecision;
             line-height: 1.15;
         }
-
+        
         h4 {
             display: block;
             font-size: 1.35em;
@@ -322,56 +327,54 @@
             text-align: center;
             text-rendering: geometricPrecision;
         }
-
+        
         .tools-list li {
             margin: .4em 0;
         }
         /********** data policy styling **********/
-
+        
         .data-policy-content p,
         .data-policy-content h4 {
             text-align: left;
         }
         /********** Email form on contact content styling **********/
-
+        
         .pure-input-1-2,
         .pure-form input[type=email] {
             width: 75vw !important;
             margin: .3em auto !important;
             color: #3e606f;
         }
-
+        
         .pure-form {
             text-align: center;
         }
-
+        
         .pure-form .pure-button {
             width: 30vw;
             text-transform: uppercase;
         }
-
+        
         .pure-button {
-            /*background: #d1dbbd;*/
             background: #414141;
             margin: .5em 0px;
-            /*color: #3e606f;*/
             color: #F3F3F3;
             font-weight: 300;
         }
-
+        
         .send-button {
             margin: 0;
             padding: 0;
         }
         /********** Footer/icons styling **********/
-
+        
         footer {
             display: flex;
             flex-flow: column;
             align-items: center;
             border-top: 1px solid;
         }
-
+        
         #icon {
             font-size: 38px;
             color: #FA8182;
@@ -379,12 +382,12 @@
             padding-left: 8px;
             padding-top: 20px;
         }
-
+        
         #icon:hover {
             color: #F95D5F;
         }
         /********** Results content Styling **********/
-
+        
         .results-content {
             display: flex;
             flex-flow: column;
@@ -394,50 +397,44 @@
             align-items: center;
             margin: 15px 0;
         }
-
+        
         .results-content div {
             width: 80vw;
             padding: 10px;
-            /*background: #FBA1A2;*/
             margin: 1px auto;
             font-family: "Cutive Mono";
         }
-
+        
         .results-content div span {
             font-weight: 500;
         }
-
-
+        
         .numberOfEmails {
             text-align: left;
             padding: 10px;
-            /*background: #FBA1A2;*/
             font-family: "Cutive Mono";
             font-size: 1.2em;
-
         }
-
+        
         .moreMetrics {
             background: red !important;
             display: flex;
             align-items: center;
         }
-
+        
         .plot-container {
             margin: 1vh 0 !important;
         }
-
         /********** Mobile break width: further styling for tablet/desktop **********/
-
+        
         @media all and (min-width: 600px) {
-
-          /*detect screen size element (its presence is later checked using js)*/
-          .detect-mobile-screen{
-            display: none;
-          }
-          .analyzing-100{
-            display: block;
-          }
+            /*detect screen size element (its presence is later checked using js)*/
+            .detect-mobile-screen {
+                display: none;
+            }
+            .analyzing-100 {
+                display: block;
+            }
             /********** Header Styling DT **********/
             header {
                 display: flex;
@@ -449,7 +446,7 @@
                 margin: 0;
             }
             .slogan {
-              display: block;
+                display: block;
             }
             h2 {
                 display: block;
@@ -472,12 +469,7 @@
                 text-align: left;
             }
             /********** Results content Styling DT **********/
-            /*.results-content {
-                flex-flow: row;
-                flex-wrap: wrap;
-            }*/
             .results-content div {
-                /*width: 37vw;*/
                 margin: 5px 0;
             }
             .moreMetrics {
@@ -510,7 +502,6 @@
                 color: rgba(51, 51, 51, 0.60);
             }
         }
-
     </style>
 
     {% for i in data: %}
@@ -536,7 +527,7 @@
         $(".data-policy-button").show()
         $(".tools-button").show()
         $(".contact-button").show()
-
+        $(".metrics-button").show()
 
         var a = prepData("{{ i[0] }}");
         var b = lazyPrep("{{ i[1] }}");
@@ -580,76 +571,82 @@
         $(".results-content").html("<div>We've analyzed " + numberOfPeopleAnalyzed + " On average, they were written at a " +
             avgReadingLevel + readingLevel);
         $(".final-results-content").html("<h3>Try to keep your emails <a href='http://five.sentenc.es/' target='_blank'>under 5 sentences</a> and minimally complex.</h3>");
-        $(".bolded-text").css({'font-weight': '600', 'font-size' : '1.4em'})
+        $(".bolded-text").css({
+            'font-weight': '600',
+            'font-size': '1.4em'
+        })
     </script>
 
     <script>
+        // detect mobile screen and set chart styling elements accordingly
+        var is_mobile = true;
+        var float_val = 'none';
+        var align_val = 'center';
+        var width_val = '90vw';
 
-    // detect mobile screen and set chart styling elements accordingly
-    var is_mobile = true;
-    var float_val = 'none';
-    var align_val = 'center';
-    var width_val = '90vw';
-
-    if( $('.detect-mobile-screen').css('display')=='none') {
+        if ($('.detect-mobile-screen').css('display') == 'none') {
             float_val = 'left';
             align_val = 'none';
             width_val = '40vw';
-    };
+        };
 
 
-    // format chart data and layout
+        // format chart data and layout
 
-    var data2 = [{
-        type: 'bar',
-        x: [a['sentence_count_mean'], b['avg_sentences']],
-        y: ['You', 'Everyone'],
-        orientation: 'h',
-        marker: {
-            color: ['rgba(249,93,95,1)', 'rgba(249,93,95,1)']
-        }
-    }];
+        var data2 = [{
+            type: 'bar',
+            x: [a['sentence_count_mean'], b['avg_sentences']],
+            y: ['You', 'Everyone'],
+            orientation: 'h',
+            marker: {
+                color: ['rgba(249,93,95,1)', 'rgba(249,93,95,1)']
+            }
+        }];
 
-    var layout2 = {
-        yaxis: {
-            showgrid: false
-        },
-        xaxis: {
-            showgrid: false,
-            title: "Sentences"
-        },
-        title: 'You vs the average user:',
-        hovermode: !1,
-        font: {
-            size: '1em',
-            color: 'rgba(51,51,51,0.8)',
-            family: "Cutive Mono"
-        },
-        plot_bgcolor:'rgba(243,243,243,1)',
-        paper_bgcolor: 'rgba(243,243,243,1)'
-    };
+        var layout2 = {
+            yaxis: {
+                showgrid: false
+            },
+            xaxis: {
+                showgrid: false,
+                title: "Sentences"
+            },
+            title: 'You vs the average user:',
+            hovermode: !1,
+            font: {
+                size: '1em',
+                color: 'rgba(51,51,51,0.8)',
+                family: "Cutive Mono"
+            },
+            plot_bgcolor: 'rgba(243,243,243,1)',
+            paper_bgcolor: 'rgba(243,243,243,1)'
+        };
 
-    (function() {
-    var d3 = Plotly.d3;
+        (function() {
+            var d3 = Plotly.d3;
 
-    var gd4 = d3.select('#sentCountsComparison')
-        .style({
-          float: float_val,
-          align: align_val,
-          width: width_val
-        });
+            var gd4 = d3.select('#sentCountsComparison')
+                .style({
+                    float: float_val,
+                    align: align_val,
+                    width: width_val
+                });
 
-    var gd_2 = gd4.node();
+            var gd_2 = gd4.node();
 
-    Plotly.plot(gd_2, data2, layout2, {staticPlot: true, displayModeBar: false});
+            Plotly.plot(gd_2, data2, layout2, {
+                staticPlot: true,
+                displayModeBar: false
+            });
 
-    window.addEventListener('resize', function() { Plotly.Plots.resize(gd_2); });
+            window.addEventListener('resize', function() {
+                Plotly.Plots.resize(gd_2);
+            });
 
-    })();
-
+        })();
     </script>
     <style>
-    /*#sentCountsComparison { background-color: #F3F3F3;}*/
+        /*#sentCountsComparison { background-color: #F3F3F3;}*/
     </style>
 
     <script>
@@ -705,36 +702,42 @@
                 color: 'rgba(51,51,51,0.8)',
                 family: "Cutive Mono"
             },
-            plot_bgcolor:'rgba(243,243,243,1)',
+            plot_bgcolor: 'rgba(243,243,243,1)',
             paper_bgcolor: 'rgba(243,243,243,1)'
         };
 
         (function() {
-        var d3 = Plotly.d3;
+            var d3 = Plotly.d3;
 
-        // var WIDTH_IN_PERCENT_OF_PARENT = 45;
+            // var WIDTH_IN_PERCENT_OF_PARENT = 45;
             // HEIGHT_IN_PERCENT_OF_PARENT = 80;
 
-        if (float_val == 'left') { float_val = 'right';}
-        var gd3 = d3.select('#sentCountsHist')
-            .style({
-              float: float_val,
-              align: align_val,
-              width: width_val
+            if (float_val == 'left') {
+                float_val = 'right';
+            }
+            var gd3 = d3.select('#sentCountsHist')
+                .style({
+                    float: float_val,
+                    align: align_val,
+                    width: width_val
+                });
+
+            var gd = gd3.node();
+
+            Plotly.plot(gd, data, layout, {
+                staticPlot: true,
+                displayModeBar: false
             });
 
-        var gd = gd3.node();
+            window.addEventListener('resize', function() {
+                Plotly.Plots.resize(gd);
+            });
 
-        Plotly.plot(gd, data, layout, {staticPlot: true, displayModeBar: false});
-
-        window.addEventListener('resize', function() { Plotly.Plots.resize(gd); });
-
-        // window.onresize = function() {
-        //     Plotly.Plots.resize(gd);
-        // };
+            // window.onresize = function() {
+            //     Plotly.Plots.resize(gd);
+            // };
 
         })();
-
     </script>
 
     <script>
@@ -744,15 +747,37 @@
                 event.preventDefault();
                 $('.main-nav').toggle(height);
             });
+            $('.results-button').on('click', function(event) {
+                event.preventDefault();
+                $('.results-button').css({
+                    'color': 'rgba(249,93,95,1)'
+                })
+                $('.tools-button, .contact-button, .data-policy-button, .metrics-button').css({
+                    'color': 'black'
+                })
+                $('.data-policy-content, .tools-content, .contact-content, .metrics-content').hide();
+                $('#results-heading, .results-content, .plot-container').show();
+            });
+            $('.metrics-button').on('click', function(event) {
+                event.preventDefault();
+                $('.metrics-button').css({
+                    'color': 'rgba(249,93,95,1)'
+                })
+                $('.tools-button, .contact-button, .data-policy-button, .results-button').css({
+                    'color': 'black'
+                })
+                $('.data-policy-content, .tools-content, .contact-content, #results-heading, .results-content, .plot-container').hide();
+                $('.metrics-content').show();
+            });
             $('.data-policy-button').on('click', function(event) {
                 event.preventDefault();
                 $('.data-policy-button').css({
                     'color': 'rgba(249,93,95,1)'
                 })
-                $('.tools-button, .contact-button, .results-button').css({
+                $('.tools-button, .contact-button, .results-button, .metrics-button').css({
                     'color': 'black'
                 })
-                $('#results-heading, .results-content, .plot-container, .tools-content, .contact-content').hide();
+                $('#results-heading, .results-content, .plot-container, .tools-content, .contact-content, .metrics-content').hide();
                 $('.data-policy-content').show();
             });
             $('.tools-button').on('click', function(event) {
@@ -760,7 +785,7 @@
                 $('.tools-button').css({
                     'color': 'rgba(249,93,95,1)'
                 })
-                $('.data-policy-button, .contact-button, .results-button').css({
+                $('.data-policy-button, .contact-button, .results-button, .metrics-button').css({
                     'color': 'black'
                 })
                 $('#results-heading, .results-content, .plot-container, .data-policy-content, .contact-content').hide();
@@ -771,24 +796,14 @@
                 $('.contact-button').css({
                     'color': 'rgba(249,93,95,1)'
                 })
-                $('.tools-button, .data-policy-button, .results-button').css({
+                $('.tools-button, .data-policy-button, .results-buttonm .metrics-button').css({
                     'color': 'black'
                 })
-                $('#results-heading, .results-content, .plot-container, .tools-content, .data-policy-content').hide();
+                $('#results-heading, .results-content, .plot-container, .tools-content, .data-policy-content, .metrics-content').hide();
                 $('.contact-content').show();
-            });
-            $('.results-button').on('click', function(event) {
-                event.preventDefault();
-                $('.results-button').css({
-                    'color': 'rgba(249,93,95,1)'
-                })
-                $('.tools-button, .contact-button, .data-policy-button').css({
-                    'color': 'black'
-                })
-                $('.data-policy-content, .tools-content, .contact-content').hide();
-                $('#results-heading, .results-content, .plot-container').show();
             });
         });
     </script>
 </body>
+
 </html>

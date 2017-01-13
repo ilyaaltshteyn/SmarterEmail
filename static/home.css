@@ -4,10 +4,12 @@ body {
     background: #F3F3F3;
     color: #414141;
     /*Scale everything down to .9:    */
-    -moz-transform: scale(.95, 0.95); /* Moz-browsers */
-    zoom: 0.95; /* Other non-webkit browsers */
-    zoom: 95%; /* Webkit browsers */
-
+    -moz-transform: scale(.95, 0.95);
+    /* Moz-browsers */
+    zoom: 0.95;
+    /* Other non-webkit browsers */
+    zoom: 95%;
+    /* Webkit browsers */
 }
 
 .site-content {
@@ -41,13 +43,11 @@ header {
     color: #F95D5F;
     padding-right: 3px;
     padding-left: 1px;
-    /*padding-top: 20px;*/
 }
 
 #logocon2 {
     font-size: 8px;
     color: #F95D5F;
-    /*padding-right: 3px;*/
     padding-left: 3px;
 }
 
@@ -58,7 +58,8 @@ header {
 .home-button,
 .data-policy-button,
 .tools-button,
-.contact-button {
+.contact-button,
+.metrics-button {
     cursor: pointer;
     cursor: hand;
 }
@@ -68,7 +69,6 @@ h1 {
     color: black;
     line-height: 0.928em;
     text-align: center;
-    /*text-transform: uppercase;*/
     font-family: "Cutive Mono";
     font-weight: 500;
     font-style: normal;
@@ -111,15 +111,14 @@ ul {
 
 .data-policy-content,
 .tools-content,
-.contact-content {
+.contact-content,
+.metrics-content {
     display: none;
 }
 
 p {
     font-size: 1.05em;
     line-height: 1.421em;
-    /*color: rgba(51, 51, 51, 0.80);*/
-    /*color: #FCFFF5;*/
     margin: 1.421em 0px;
     font-family: "Cutive Mono";
     font-weight: 200;
