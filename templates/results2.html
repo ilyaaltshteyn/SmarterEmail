@@ -544,17 +544,17 @@
 
         var numberOfEmails = "<div class='numberOfEmails'><h3>Here's some info about your last " + a['emails_analyzed'] + " sent emails.</h3></div>";
 
-        var numberOfPeopleAnalyzed = "<span>" + b['n'] + "</span> peoples' emails.";
-        var avgReadingLevel = "<span>" + makeOrdinal(b['avg_grade_lvl']) + "</span> grade reading level.</div>";
+        var numberOfPeopleAnalyzed = "<span class='bolded-text'>" + b['n'] + "</span> peoples' emails.";
+        var avgReadingLevel = "<span class='bolded-text'>" + makeOrdinal(b['avg_grade_lvl']) + "</span> grade reading level.</div>";
 
-        var readingLevel = "<div class='yourAvgLvl'>Your average reading level is: " + makeOrdinal(a['my_combined_grade_lvl_mean']) + " grade.</div>";
+        var readingLevel = "<div class='yourAvgLvl'>Your average reading level is:<span class='bolded-text'> " + makeOrdinal(a['my_combined_grade_lvl_mean']) + " grade.</span></div>";
 
 
         $(".numberOfEmailsWrapper").html(numberOfEmails);
         $(".results-content").html("<div>We've analyzed " + numberOfPeopleAnalyzed + " On average, they were written at a " +
             avgReadingLevel + readingLevel);
         $(".final-results-content").html("<h3>Try to keep your emails <a href='http://five.sentenc.es/' target='_blank'>under 5 sentences</a> and minimally complex.</h3>");
-
+        $(".bolded-text").css({'font-weight': '600'})
     </script>
 
     <script>
