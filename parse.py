@@ -1,11 +1,11 @@
-
 # Tools to parse lists of raw but decoded emails returned by the Gmail class.
 
 import re
 from HTMLParser import HTMLParser
 
 class MLStripper(HTMLParser):
-
+    """ For stripping html tags from text. """
+    
     def __init__(self):
         self.reset()
         self.fed = []
@@ -17,25 +17,20 @@ class MLStripper(HTMLParser):
         return ''.join(self.fed)
 
 
-
-def strip_tags(html):
-
-    s = MLStripper()
-    s.feed(html)
-    return s.get_data()
-
-
-
 class GmailParser():
 
     def __init__(self, messages):
         self.messages = messages
         self.msgs_parsed = []
 
-    def parse_one(self, msg):
-        """ Strips links from a single Gmail message, then parses it. """
+    def strip_tags(self, html):
+        s = MLStripper()
+        s.feed(html)
+        return s.get_data()
 
-        msg_delinked = strip_tags(msg)
+    def parse_one(self, msg):
+        """ Strips html from a single Gmail message, then parses it. """
+        msg_delinked = self.strip_tags(msg)
 
         up_to_reply = r'(?:(?!On (Mon |Tue |Wed |Thu |Fri |Sat |Sun |Mon, |Tue, |Wed, |Thu, |Fri, |Sat, |Sun, ))[\s\S])*'
         up_to_carrot = r'.+?(?=>)'
@@ -52,10 +47,8 @@ class GmailParser():
 
         return ''
 
-
     def parse(self):
         """ Runs self.parse_one() on all messages."""
-
         for m in self.messages:
             try:
                 self.msgs_parsed.append(self.parse_one(m))

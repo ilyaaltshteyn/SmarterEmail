@@ -54,11 +54,8 @@ def get_first_response():
         res = urlopen(req)
     except URLError, e:
         print 'reason is... ', e.reason
-
-        if e.code == 401:
-            # Unauthorized - bad token
-            session.pop('access_token', None)
-            return redirect(url_for('login'))
+        session.pop('access_token', None)
+        return redirect(url_for('login'))
 
     return res.read()
 

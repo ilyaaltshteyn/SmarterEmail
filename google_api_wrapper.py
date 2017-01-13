@@ -9,7 +9,6 @@ class Gmail():
         a first response from the gmail api. """
 
     def __init__(self, first_response, access_token):
-
         self.first_resp = eval(first_response)
         self.message_ids = self.first_resp['messages']
 
@@ -27,7 +26,6 @@ class Gmail():
 
     def decode_base64(self, data, possible_codecs = ['ascii', 'utf8']):
         """ Decodes base64, padding optional. """
-
         missing_padding = len(data) % 4
         if missing_padding != 0:
             data += b'='* (4 - missing_padding)
@@ -44,36 +42,34 @@ class Gmail():
 
 
     def get_all_message_ids(self):
+        url = 'https://www.googleapis.com/gmail/v1/users/me/messages?pageToken={}'
+        req = Request(url.format(self.page_token), None, self.headers)
 
-        req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?pageToken={}'.\
-                      format(self.page_token), None, self.headers)
+        response = eval(urlopen(req).read())
 
-        response_text = eval(urlopen(req).read())
-
-        self.message_ids.extend(response_text['messages'])
+        self.message_ids.extend(response['messages'])
         self.pagesCount += 1
 
         try:
-            self.page_token = response_text['nextPageToken']
+            self.page_token = response['nextPageToken']
         except KeyError:
             self.page_token = None
 
 
     def get_message_txt(self, m_id):
         """ Retrieves the message with the given id. """
-
         try:
-            req = Request('https://www.googleapis.com/gmail/v1/users/me/messages/{}?format=RAW'.\
-                          format(m_id), None, self.headers)
+            url = 'https://www.googleapis.com/gmail/v1/users/me/messages/{}?format=RAW'
+            req = Request(url.format(m_id), None, self.headers)
 
-            response_text = eval(urlopen(req).read())
+            response = eval(urlopen(req).read())
             self.msgsCount += 1
             print "Emails pulled: {}".format(self.msgsCount)
 
         except:
             return ''
 
-        m = email.message_from_string(self.decode_base64(response_text['raw']))
+        m = email.message_from_string(self.decode_base64(response['raw']))
 
         if m.is_multipart(): # This sucks, refactor w recursion
             for payload in m.get_payload():
@@ -88,7 +84,6 @@ class Gmail():
 
 
     def get(self):
-
         # Get 10 pages of message ids:
         while self.page_token and self.pagesCount <= 10:
             try:
