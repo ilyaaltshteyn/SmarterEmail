@@ -101,10 +101,11 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             <li class="contact-button">Contact</li>
         </ul>
         <section class="individual-page-content">
-
-            <div class="results-content"></div>
+            <div class="numberOfEmailsWrapper"></div>
             <div id='sentCountsHist'></div>
             <div id='sentCountsComparison'></div>
+            <div class="results-content"></div>
+
 
             <div class="data-policy-content">
                 <p>To use this tool, you'll be asked to give us read-only access to your Gmail inbox. Our program will then download some of your emails and analyze them. We store your messages only for the amount of time that it takes to analyze them--
@@ -386,7 +387,6 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             padding: 10px;
             background: #FBA1A2;
             margin: 1px 0;
-            border: 1px solid darkgrey;
             font-family: "Cutive Mono";
         }
         
@@ -394,7 +394,12 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             font-weight: 500;
         }
         
-        .moreMetrics {
+        .numberOfEmails {
+            text-align: center;
+            background: #FBA1A2;
+            font-family: "Cutive Mono";
+        }
+        /*.moreMetrics {
             background: red !important;
             display: flex;
             align-items: center;
@@ -403,6 +408,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             text-transform: uppercase;
             text-align: center;
         }
+        */
         
         .plot-container {
             margin: 1vh 0 !important;
@@ -507,10 +513,10 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
         var numberOfPeopleAnalyzed = "<div class='numberOfPeopleAnalyzed'>Number of people whose emails we've analyzed: <span>" + b['n'] + "</span></div>";
         var avgSentenceCount = "<div class='avgSentenceCount'>Avg sent count across all those: <span>" + oneDecimal(b['avg_sentences']) + "</span></div>";
         var avgReadingLevel = " <div class='avgReadingLevel'>Avg grade level across all those: <span>" + oneDecimal(b['avg_grade_lvl']) + "</span></div>";
-        var moreMetrics = "<div class='moreMetrics'>More metrics + complete page content coming soon.</div>"
-
-        $(".results-content").html(numberOfEmails + readingLevel + numberOfSentences + numberOfPeopleAnalyzed +
-            avgSentenceCount + avgReadingLevel + moreMetrics);
+        // var moreMetrics = "<div class='moreMetrics'>More metrics + complete page content coming soon.</div>"
+        $(".numberOfEmailsWrapper").html(numberOfEmails);
+        $(".results-content").html(readingLevel + numberOfSentences + numberOfPeopleAnalyzed +
+            avgSentenceCount + avgReadingLevel);
     </script>
 
 
