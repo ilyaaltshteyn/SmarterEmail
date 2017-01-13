@@ -17,6 +17,14 @@
 <body>
     <div class="detect-mobile-screen"></div>
     <style>
+
+    body {
+        /*Scale everything down:   */
+        -moz-transform: scale(.95, 0.95); /* Moz-browsers */
+        zoom: 0.95; /* Other non-webkit browsers */
+        zoom: 95%; /* Webkit browsers */
+    }
+
         #data {
             text-align: center;
             font-size: 1.3em;
