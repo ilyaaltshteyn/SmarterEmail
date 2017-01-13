@@ -58,6 +58,13 @@
                 transform: rotate(360deg);
             }
         }
+
+        .results-button,
+        .data-policy-button,
+        .tools-button,
+        .contact-button {
+          display: none;
+        }
     </style>
     <main class="site-content">
         <header>
@@ -73,10 +80,12 @@
         </ul>
         <section class="individual-page-content">
             <div id="data">
-              <h2>Loading... This may take up to 30 secs.</h2>
+              <h2><br>We're analyzing your last 200 sent emails...<br>This takes a minute or so.</h2>
             </div>
             <div class="loader"></div>
-
+            <div id="loading-message">
+              <h3>In the meanwhile, check out <a href=\"http://five.sentenc.es/\">this note</a> about keeping your emails under 5 sentences.</h3>
+            </div>
             <div class="numberOfEmailsWrapper"></div>
             <div class="bothCharts">
               <div id='sentCountsHist' class='charts'></div>
@@ -490,6 +499,11 @@
 
         $(".loader").hide();
         $("#data").hide();
+        $("#loading-message").hide()
+        $(".results-button").show()
+        $(".data-policy-button").show()
+        $(".tools-button").show()
+        $(".contact-button").show()
 
         var a = prepData("{{ i[0] }}");
         var b = lazyPrep("{{ i[1] }}");
@@ -553,7 +567,7 @@
             showgrid: false,
             title: "Sentences"
         },
-        // title: 'Your email length compared to the average:',
+        title: 'You vs the average user:',
         hovermode: !1,
         font: {
             size: '1em',
@@ -638,7 +652,7 @@
                 showgrid: false,
                 title: "Sentences"
             },
-            // title: 'Email Body Length in Sentences:',
+            title: 'Email Body Length:',
             hovermode: !1,
             font: {
                 size: '1em',

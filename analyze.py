@@ -9,7 +9,6 @@ class Analyzer():
 
         self.emails = emails
 
-        self.lex_count = []
         self.sent_count = []
         self.flesch_kincaid_grade = []
         self.automated_readability_index = []
@@ -21,7 +20,6 @@ class Analyzer():
     def analyze_one(self, email):
         """ Analyzes a single email and stores results. """
 
-        self.lex_count.append(tstat.lexicon_count(email))
         self.sent_count.append(tstat.sentence_count(email))
 
         if email and len(email) > 0:
@@ -40,8 +38,8 @@ class Analyzer():
                   self.coleman_liau_index, self.linsear_write_formula,
                   self.dale_chall_readability_score]:
 
-            scores.extend([g for g in s if g < 18])
-            
+            scores.extend([g for g in s if g < 18 and g > 0])
+
         return np.mean(scores)
 
 
@@ -53,9 +51,18 @@ class Analyzer():
             except:
                 pass
 
-        dat = { 'sentence_count_mean' : np.mean(self.sent_count),
+        try:
+            counts = np.mean(self.sent_count)
+        except:
+            counts = 'error calculating sent counts'
+        try:
+            combined = self.combine_scores()
+        except:
+            combined = 'error calculating combined grade level scores'
+
+        dat = { 'sentence_count_mean' : counts,
                 'sentence_counts' : self.sent_count,
-                'my_combined_grade_lvl_mean' : self.combine_scores(),
+                'my_combined_grade_lvl_mean' : combined,
                 'emails_analyzed' : len(self.emails)
                }
 
