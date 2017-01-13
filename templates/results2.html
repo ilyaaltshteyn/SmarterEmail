@@ -86,13 +86,13 @@
             <div id="loading-message">
               <h3>In the meanwhile, check out <a href=\"http://five.sentenc.es/\">this note</a> about keeping your emails under 5 sentences.</h3>
             </div>
-            <div class="numberOfEmailsWrapper"></div>
-            <div class="bothCharts">
-              <div id='sentCountsHist' class='charts'></div>
-              <div id='sentCountsComparison' class='charts'></div>
-            </div>
+            <div id="results-heading" class="numberOfEmailsWrapper"></div>
             <div class="results-content"></div>
-
+            <div class="bothCharts">
+              <div id="sentCountsHist" class="charts"></div>
+              <div id="sentCountsComparison" class="charts"></div>
+            </div>
+            <div id="results-heading" class="final-results-content"></div>
 
             <div class="data-policy-content">
                 <p>To use this tool, you'll be asked to give us read-only access to your Gmail inbox. Our program will then download some of your emails and analyze them. We store your messages only for the amount of time that it takes to analyze them--
@@ -141,6 +141,7 @@
 
             </div>
         </section>
+        <div class="detect-mobile-screen"></div>
         <footer>
             <div>
                 <a href="https://www.facebook.com/sharer/sharer.php?u=www.smartr.email"><i class="fa fa-facebook" id="icon"></i></a>
@@ -378,7 +379,7 @@
         .results-content div {
             width: 80vw;
             padding: 10px;
-            background: #FBA1A2;
+            /*background: #FBA1A2;*/
             margin: 1px auto;
             font-family: "Cutive Mono";
         }
@@ -410,6 +411,11 @@
         /********** Mobile break width: further styling for tablet/desktop **********/
 
         @media all and (min-width: 600px) {
+
+          /*detect screen size element (its presence is later checked using js)*/
+          .detect-mobile-screen{
+            display: none;
+          }
             /********** Header Styling DT **********/
             header {
                 display: flex;
@@ -535,20 +541,37 @@
         // var avgSentenceCount = "<div class='avgSentenceCount'>Avg sent count across all those: <span>" + oneDecimal(b['avg_sentences']) + "</span></div>";
         // var numberOfSentences = "<div class='numberOfSentences'>Avg email length in sentences: <span>" + oneDecimal(a['sentence_count_mean']) + "</span></div>";
 
-        var numberOfEmails = "<div class='numberOfEmails'><h3>It's a good idea to keep your emails <a href=\"http://five.sentenc.es/\">under 5 sentences</a>.</h3><br><br>We analyzed your last " + a['emails_analyzed'] + " sent emails. Here's some info about your emailing habits.<br></div>";
+        var numberOfEmails = "<div class='numberOfEmails'><h3>Here's some info about your last " + a['emails_analyzed'] + " sent emails.</h3></div>";
 
         var numberOfPeopleAnalyzed = "<span>" + b['n'] + "</span> peoples' emails.";
-        var avgReadingLevel = "<span>" + oneDecimal(b['avg_grade_lvl']) + "</span> grade reading level.</div>";
+        var avgReadingLevel = "<span>" + makeOrdinal(b['avg_grade_lvl']) + "</span> grade reading level.</div>";
 
-        var readingLevel = "<div class='yourAvgLvl'>Your average reading level is: " + makeOrdinal(a['my_combined_grade_lvl_mean']) + "grade.</div>";
+        var readingLevel = "<div class='yourAvgLvl'>Your average reading level is: " + makeOrdinal(a['my_combined_grade_lvl_mean']) + " grade.</div>";
 
 
         $(".numberOfEmailsWrapper").html(numberOfEmails);
-        $(".results-content").html("<div>We've analyzed " + numberOfPeopleAnalyzed + " On average, people write at a " +
+        $(".results-content").html("<div>We've analyzed " + numberOfPeopleAnalyzed + " On average, they were written at a " +
             avgReadingLevel + readingLevel);
+        $(".final-results-content").html("<h3>Try to keep your emails <a href=\"http://five.sentenc.es/\">under 5 sentences</a> and minimally complex.</h3>")
     </script>
 
     <script>
+
+    // detect mobile screen and set chart styling elements accordingly
+    var is_mobile = true;
+    var float_val = 'none';
+    var align_val = 'center';
+    var width_val = '90vw';
+
+    if( $('.detect-mobile-screen').css('display')=='none') {
+            float_val = 'left';
+            align_val = 'none';
+            width_val = '40vw';
+    }
+
+
+    // format chart data and layout
+
     var data2 = [{
         type: 'bar',
         x: [a['sentence_count_mean'], b['avg_sentences']],
@@ -581,16 +604,12 @@
     (function() {
     var d3 = Plotly.d3;
 
-    // var WIDTH_IN_PERCENT_OF_PARENT = 45;
-        // HEIGHT_IN_PERCENT_OF_PARENT = 80;
-
     var gd4 = d3.select('#sentCountsComparison')
         .style({
-            // width: '45%',
-            // 'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
+          float: float_val,
+          align: align_val,
+          width: width_val
 
-            // height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
-            // 'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
         });
 
     var gd_2 = gd4.node();
@@ -652,7 +671,7 @@
                 showgrid: false,
                 title: "Sentences"
             },
-            title: 'Email Body Length:',
+            title: 'Your email lengths:',
             hovermode: !1,
             font: {
                 size: '1em',
@@ -669,10 +688,12 @@
         // var WIDTH_IN_PERCENT_OF_PARENT = 45;
             // HEIGHT_IN_PERCENT_OF_PARENT = 80;
 
+        if (float_val == 'left') { float_val = 'right';}
         var gd3 = d3.select('#sentCountsHist')
             .style({
-                // width: '45%'
-                // height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
+              float: float_val,
+              align: align_val,
+              width: width_val
             });
 
         var gd = gd3.node();
@@ -704,7 +725,7 @@
                 $('.tools-button, .contact-button, .results-button').css({
                     'color': 'black'
                 })
-                $('.results-content, .plot-container, .tools-content, .contact-content').hide();
+                $('#results-heading, .results-content, .plot-container, .tools-content, .contact-content').hide();
                 $('.data-policy-content').show();
             });
             $('.tools-button').on('click', function(event) {
@@ -715,7 +736,7 @@
                 $('.data-policy-button, .contact-button, .results-button').css({
                     'color': 'black'
                 })
-                $('.results-content, .plot-container, .data-policy-content, .contact-content').hide();
+                $('#results-heading, .results-content, .plot-container, .data-policy-content, .contact-content').hide();
                 $('.tools-content').show();
             });
             $('.contact-button').on('click', function(event) {
@@ -726,7 +747,7 @@
                 $('.tools-button, .data-policy-button, .results-button').css({
                     'color': 'black'
                 })
-                $('.results-content, .plot-container, .tools-content, .data-policy-content').hide();
+                $('#results-heading, .results-content, .plot-container, .tools-content, .data-policy-content').hide();
                 $('.contact-content').show();
             });
             $('.results-button').on('click', function(event) {
@@ -738,22 +759,9 @@
                     'color': 'black'
                 })
                 $('.data-policy-content, .tools-content, .contact-content').hide();
-                $('.results-content, .plot-container').show();
+                $('#results-heading, .results-content, .plot-container').show();
             });
         });
     </script>
 </body>
-<style>
-
-@media all and (min-width: 600px) {
-  .bothCharts{
-    /*overflow:hidden;*/
-    position:relative;
-    display:table;
-    width: 80% !important;}
-  .charts { display:table-cell;
-    /*height:100%;*/
-    display:table-cell;}
-}
-</style>
 </html>

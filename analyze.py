@@ -20,7 +20,8 @@ class Analyzer():
     def analyze_one(self, email):
         """ Analyzes a single email and stores results. """
 
-        self.sent_count.append(tstat.sentence_count(email))
+        sents = tstat.sentence_count(email)
+        self.sent_count.append(sents if sents > 0 else 1)
 
         if email and len(email) > 0:
             self.flesch_kincaid_grade.append(tstat.flesch_kincaid_grade(email))
