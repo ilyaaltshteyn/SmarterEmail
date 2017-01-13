@@ -17,9 +17,6 @@
 <body>
 
     <style>
-        /*THIS IS HERE FOR NOW TO AVOID HAVING TO USE
-STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
-
         #data {
             text-align: center;
         }
@@ -49,6 +46,10 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             animation: spin 2s linear infinite;
         }
 
+        #data {
+          font-size: 1.3em;
+        }
+
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -58,36 +59,6 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             }
         }
     </style>
-
-    <div class="loader"></div>
-    <div id="data">
-        <p>Loading... This may take a while, up to 1 minute.</p>
-    </div>
-
-    {% for i in data: %}
-    <script>
-        function prepData(encodedString) {
-            // Decodes a string encoded as htmlspecialchars, which our data is.
-            var textArea = document.createElement('textarea');
-            textArea.innerHTML = encodedString;
-            return JSON.parse(textArea.value);
-        }
-
-        function lazyPrep(crazyString) {
-            // The substring u&#39 happens bc a utf-8 encoded string gets encoded as html
-            console.log(crazyString);
-            r = crazyString.replace(/u&#39;/g, '"');
-            return JSON.parse(r.replace(/&#39;/g, '"'));
-        }
-
-        $(".loader").hide();
-        $("#data").hide();
-
-        var a = prepData("{{ i[0] }}");
-        var b = lazyPrep("{{ i[1] }}");
-    </script>
-    {% endfor %}
-
     <main class="site-content">
         <header>
             <h1>Smartr<i class="fa fa-plus" id="logocon" aria-hidden="true"></i>Email</h1>
@@ -101,9 +72,14 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             <li class="contact-button">Contact</li>
         </ul>
         <section class="individual-page-content">
+            <div id="data">
+              <h2>Loading... This may take a while, up to 30 secs.</h2>
+            </div>
+            <div class="loader"></div>
+
             <div class="numberOfEmailsWrapper"></div>
-            <div id='sentCountsHist'></div>
-            <div id='sentCountsComparison'></div>
+            <div id='sentCountsHist' class='charts'></div>
+            <div id='sentCountsComparison' class='charts'></div>
             <div class="results-content"></div>
 
 
@@ -167,6 +143,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
         </footer>
 
     </main>
+
     <!--CSS for the content copied from home.css-->
     <style>
         /********** General styling **********/
@@ -393,12 +370,14 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             font-weight: 500;
         }
 
-        
+
         .numberOfEmails {
-            text-align: center;
+            text-align: left;
             padding: 10px;
-            background: #FBA1A2;
+            /*background: #FBA1A2;*/
             font-family: "Cutive Mono";
+            font-size: 1.2em;
+
         }
 
         .moreMetrics {
@@ -410,6 +389,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
         .plot-container {
             margin: 1vh 0 !important;
         }
+
         /********** Mobile break width: further styling for tablet/desktop **********/
 
         @media all and (min-width: 600px) {
@@ -481,7 +461,33 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
                 color: rgba(51, 51, 51, 0.60);
             }
         }
+
     </style>
+
+    {% for i in data: %}
+    <script>
+        function prepData(encodedString) {
+            // Decodes a string encoded as htmlspecialchars, which our data is.
+            var textArea = document.createElement('textarea');
+            textArea.innerHTML = encodedString;
+            return JSON.parse(textArea.value);
+        }
+
+        function lazyPrep(crazyString) {
+            // The substring u&#39 happens bc a utf-8 encoded string gets encoded as html
+            console.log(crazyString);
+            r = crazyString.replace(/u&#39;/g, '"');
+            return JSON.parse(r.replace(/&#39;/g, '"'));
+        }
+
+        $(".loader").hide();
+        $("#data").hide();
+
+        var a = prepData("{{ i[0] }}");
+        var b = lazyPrep("{{ i[1] }}");
+    </script>
+    {% endfor %}
+
 
     <script>
         function makeOrdinal(floatingPoint) {
@@ -507,7 +513,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
         // var avgSentenceCount = "<div class='avgSentenceCount'>Avg sent count across all those: <span>" + oneDecimal(b['avg_sentences']) + "</span></div>";
         // var numberOfSentences = "<div class='numberOfSentences'>Avg email length in sentences: <span>" + oneDecimal(a['sentence_count_mean']) + "</span></div>";
 
-        var numberOfEmails = "<div class='numberOfEmails'>Number of your emails that we analyzed: <span>" + a['emails_analyzed'] + "</span></div>";
+        var numberOfEmails = "<div class='numberOfEmails'><h3>It's a good idea to keep your emails <a href=\"http://five.sentenc.es/\">under 5 sentences</a>.</h3><br><br>We analyzed your last " + a['emails_analyzed'] + " sent emails. Here's what we found out about your habits.<br></div>";
 
         var numberOfPeopleAnalyzed = "<span>" + b['n'] + "</span> peoples' emails.";
         var avgReadingLevel = "<span>" + oneDecimal(b['avg_grade_lvl']) + "</span> grade reading level.</div>";
@@ -519,8 +525,9 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
         $(".results-content").html("<div>We've analyzed " + numberOfPeopleAnalyzed + " On average, people write at a " +
             avgReadingLevel + readingLevel);
     </script>
+
     <script>
-    var data = [{
+    var data2 = [{
         type: 'bar',
         x: [a['sentence_count_mean'], b['avg_sentences']],
         y: ['You', 'Everyone'],
@@ -530,7 +537,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
         }
     }];
 
-    var layout = {
+    var layout2 = {
         yaxis: {
             showgrid: false
         },
@@ -541,39 +548,41 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
         title: 'Your email length compared to the average:',
         hovermode: !1,
         font: {
-            size: 14,
+            size: '1em',
             color: 'rgba(51,51,51,0.8)',
             family: "Cutive Mono"
-        }
+        },
+        plot_bgcolor:'rgba(243,243,243,1)',
+        paper_bgcolor: 'rgba(243,243,243,1)'
     };
 
     (function() {
     var d3 = Plotly.d3;
 
-    var WIDTH_IN_PERCENT_OF_PARENT = 60,
-        HEIGHT_IN_PERCENT_OF_PARENT = 80;
+    var WIDTH_IN_PERCENT_OF_PARENT = 45;
+        // HEIGHT_IN_PERCENT_OF_PARENT = 80;
 
-    var gd3 = d3.select('#sentCountsComparison')
+    var gd4 = d3.select('#sentCountsComparison')
         .style({
             width: WIDTH_IN_PERCENT_OF_PARENT + '%',
-            'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
+            // 'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
 
-            height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
-            'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
+            // height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
+            // 'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
         });
 
-    var gd = gd3.node();
+    var gd_2 = gd4.node();
 
-    Plotly.plot(gd, data, layout);
+    Plotly.plot(gd_2, data2, layout2, {displayModeBar: false});
 
-    window.onresize = function() {
-        Plotly.Plots.resize(gd);
-    };
+    window.addEventListener('resize', function() { Plotly.Plots.resize(gd_2); });
 
     })();
 
     </script>
-
+    <style>
+    #sentCountsComparison { background-color: #F3F3F3;}
+    </style>
 
     <script>
         // This script plots the sentence counts histogram in the sentCountsHist div
@@ -624,34 +633,35 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             title: 'Email Body Length in Sentences:',
             hovermode: !1,
             font: {
-                size: 14,
+                size: '1em',
                 color: 'rgba(51,51,51,0.8)',
                 family: "Cutive Mono"
-            }
+            },
+            plot_bgcolor:'rgba(243,243,243,1)',
+            paper_bgcolor: 'rgba(243,243,243,1)'
         };
 
         (function() {
         var d3 = Plotly.d3;
 
-        var WIDTH_IN_PERCENT_OF_PARENT = 60,
-            HEIGHT_IN_PERCENT_OF_PARENT = 80;
+        var WIDTH_IN_PERCENT_OF_PARENT = 45;
+            // HEIGHT_IN_PERCENT_OF_PARENT = 80;
 
         var gd3 = d3.select('#sentCountsHist')
             .style({
                 width: WIDTH_IN_PERCENT_OF_PARENT + '%',
-                'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
-
-                height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
-                'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
+                // height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
             });
 
         var gd = gd3.node();
 
         Plotly.plot(gd, data, layout, {displayModeBar: false});
 
-        window.onresize = function() {
-            Plotly.Plots.resize(gd);
-        };
+        window.addEventListener('resize', function() { Plotly.Plots.resize(gd); });
+
+        // window.onresize = function() {
+        //     Plotly.Plots.resize(gd);
+        // };
 
         })();
 
@@ -710,7 +720,10 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             });
         });
     </script>
-
 </body>
+<style>
 
+#sentCountsHist { float: left;}
+#sentCountsComparison { float: right;}
+</style>
 </html>
