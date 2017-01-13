@@ -78,8 +78,10 @@
             <div class="loader"></div>
 
             <div class="numberOfEmailsWrapper"></div>
-            <div id='sentCountsHist' class='charts'></div>
-            <div id='sentCountsComparison' class='charts'></div>
+            <div class="bothCharts">
+              <div id='sentCountsHist' class='charts'></div>
+              <div id='sentCountsComparison' class='charts'></div>
+            </div>
             <div class="results-content"></div>
 
 
@@ -156,6 +158,12 @@
         .site-content {
             width: 80vw;
             margin: 12vh auto;
+        }
+
+        @media only screen and (max-width: 500px) {
+          .site-content {
+            margin: 8vh auto;
+          }
         }
 
         a {
@@ -545,7 +553,7 @@
             showgrid: false,
             title: "Sentences"
         },
-        title: 'Your email length compared to the average:',
+        // title: 'Your email length compared to the average:',
         hovermode: !1,
         font: {
             size: '1em',
@@ -559,12 +567,12 @@
     (function() {
     var d3 = Plotly.d3;
 
-    var WIDTH_IN_PERCENT_OF_PARENT = 45;
+    // var WIDTH_IN_PERCENT_OF_PARENT = 45;
         // HEIGHT_IN_PERCENT_OF_PARENT = 80;
 
     var gd4 = d3.select('#sentCountsComparison')
         .style({
-            width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+            // width: '45%',
             // 'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
 
             // height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
@@ -630,7 +638,7 @@
                 showgrid: false,
                 title: "Sentences"
             },
-            title: 'Email Body Length in Sentences:',
+            // title: 'Email Body Length in Sentences:',
             hovermode: !1,
             font: {
                 size: '1em',
@@ -644,12 +652,12 @@
         (function() {
         var d3 = Plotly.d3;
 
-        var WIDTH_IN_PERCENT_OF_PARENT = 45;
+        // var WIDTH_IN_PERCENT_OF_PARENT = 45;
             // HEIGHT_IN_PERCENT_OF_PARENT = 80;
 
         var gd3 = d3.select('#sentCountsHist')
             .style({
-                width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+                // width: '45%'
                 // height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
             });
 
@@ -724,8 +732,15 @@
 <style>
 
 @media all and (min-width: 600px) {
-  #sentCountsHist { float: left;}
-  #sentCountsComparison { float: right;}
+  .bothCharts{
+    /*overflow:hidden;*/
+    position:relative;
+    display:table;
+    width: 80% !important;}
+  #sentCountsHist { display:table-cell;}
+  #sentCountsComparison {
+    /*height:100%;*/
+    display:table-cell;}
 }
 </style>
 </html>
