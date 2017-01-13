@@ -54,5 +54,7 @@ def store_results(cookie_val, results):
 def get_averages():
     """ Retrieves average analysis results for basic metrics. """
 
-    averages_sql = "SELECT count(*) n, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, FROM ( SELECT cookie_id, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, FROM email_analysis_results GROUP BY cookie_id) a;"
-    return runSQL(averages_sql)[0] # First result
+    averages_sql = "SELECT count(*) n, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences FROM ( SELECT cookie_id, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, FROM email_analysis_results GROUP BY cookie_id) a;"
+    print 'sql to retrieve is: ', averages_sql
+    result = runSQL(averages_sql)
+    return result[0] # First result
