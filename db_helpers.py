@@ -56,8 +56,6 @@ def get_averages():
     return runSQL(averages_sql)[0] # First result
 
 def empty_table():
-    select_star = "SELECT * FROM email_analysis_results;"
-    print 'Heres your table: ', runSQL(select_star)
-    trunc = "TRUNCATE email_analysis_results;"
-    runSQL(trunc)
-    print 'Now heres your table: ', runSQL(select_star)
+    """ Empties the mysql table. """
+    
+    runSQL("TRUNCATE email_analysis_results;")

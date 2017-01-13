@@ -4,7 +4,7 @@ from google_api_wrapper import Gmail
 from urllib2 import Request, urlopen, URLError
 from parse import GmailParser
 from analyze import Analyzer
-from db_helpers import get_averages, store_results, empty_table
+from db_helpers import get_averages, store_results
 from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SECRET_KEY
 
 # ------------------------------------------------------------------------------
@@ -31,11 +31,11 @@ google = oauth.remote_app('SmarterEmail',
 # ------------------------------------------------------------------------------
 
 
-def stream_template(template_name, **context):
+def stream_template(template, **context):
     """ Streams data to template while stuff happens back here. """
 
     application.update_template_context(context)
-    t = application.jinja_env.get_template(template_name)
+    t = application.jinja_env.get_template(template)
 
     return t.stream(context)
 
@@ -47,8 +47,8 @@ def get_first_response():
 
     headers = {'Authorization': 'OAuth ' + access_token}
 
-    req = Request('https://www.googleapis.com/gmail/v1/users/me/messages?q=in:sent%20-in:chat', #%20-category:(promotions%20OR%20social)
-                  None, headers)
+    endpoint = 'https://www.googleapis.com/gmail/v1/users/me/messages?q=in:sent%20-in:chat'
+    req = Request(endpoint, None, headers)
 
     try:
         res = urlopen(req)
@@ -73,10 +73,8 @@ def analyze():
         results = str(Analyzer(parsed_messages).analyze())
 
         try:
-            # Pull data to show in results before storing new data in db
-            empty_table()
-            store_results(cookie, results)
             avgs = get_averages()
+            store_results(cookie, results)
         except:
             # Cheat a bit
             avgs = {'avg_grade_lvl' : '9.5',
@@ -95,7 +93,7 @@ def index():
 
 @application.route('/authorize')
 def authorize():
-    # Grab cookie here bc you can be sure it's been set in browser already:
+    # Cookie's been set in browser already:
     global cookie
     cookie = request.cookies.get('smartrEmailVisit')
 
