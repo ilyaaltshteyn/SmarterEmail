@@ -19,6 +19,7 @@
     <style>
         #data {
             text-align: center;
+            font-size: 1.3em;
         }
 
         p {
@@ -46,10 +47,6 @@
             animation: spin 2s linear infinite;
         }
 
-        #data {
-          font-size: 1.3em;
-        }
-
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -62,14 +59,15 @@
         .results-button,
         .data-policy-button,
         .tools-button,
-        .contact-button {
+        .contact-button,
+        .mobile-menu-button {
           display: none;
         }
     </style>
     <main class="site-content">
         <header>
             <h1>Smartr<i class="fa fa-plus" id="logocon" aria-hidden="true"></i>Email</h1>
-            <h2>The personal email analyzr.</h2>
+            <h2 class="slogan">The personal email analyzr.</h2>
         </header>
         <p class="mobile-menu-button">--menu--</p>
         <ul class="main-nav">
@@ -80,7 +78,7 @@
         </ul>
         <section class="individual-page-content">
             <div id="data">
-              <h2><br>We're analyzing your last 100 sent emails.<br><br>This takes ~30 secs.</h2>
+              <h2 class="analyzing-100"><br>We're analyzing your last 100 sent emails.<br><br></h2><h2 id="this-takes-30s">Give us ~30 secs.</h2>
             </div>
             <div class="loader"></div>
             <div id="loading-message">
@@ -234,8 +232,8 @@
             text-rendering: geometricPrecision;
         }
 
-        h2 {
-            display: none;
+        .slogan {
+          display: none;
         }
         /********** Mobile menu styling **********/
 
@@ -273,14 +271,27 @@
         p {
             font-size: 1.05em;
             line-height: 1.421em;
-            /*color: rgba(51, 51, 51, 0.80);*/
-            /*color: #FCFFF5;*/
             margin: 1.421em 0px;
             font-family: "Cutive Mono";
             font-weight: 200;
             font-style: normal;
             text-align: center;
             text-rendering: geometricPrecision;
+        }
+
+        h2 {
+            font-size: .9em;
+            line-height: 1.421em;
+            margin: 1.421em 0px;
+            font-family: "Cutive Mono";
+            font-weight: 200;
+            font-style: normal;
+            text-align: center;
+            text-rendering: geometricPrecision;
+        }
+
+        .analyzing-100{
+          display: none;
         }
 
         h3 {
@@ -416,6 +427,9 @@
           .detect-mobile-screen{
             display: none;
           }
+          .analyzing-100{
+            display: block;
+          }
             /********** Header Styling DT **********/
             header {
                 display: flex;
@@ -425,6 +439,9 @@
             }
             h1 {
                 margin: 0;
+            }
+            .slogan {
+              display: block;
             }
             h2 {
                 display: block;
@@ -511,6 +528,7 @@
         $(".data-policy-button").show()
         $(".tools-button").show()
         $(".contact-button").show()
+
 
         var a = prepData("{{ i[0] }}");
         var b = lazyPrep("{{ i[1] }}");
