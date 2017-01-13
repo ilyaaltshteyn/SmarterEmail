@@ -79,7 +79,6 @@ def analyze():
         except:
             avgs = {'avg_grade_lvl' : 'unknown',
                     'avg_sentences' : 'unknown',
-                    'avg_syllables' : 'unknown',
                     'n' : 'unknown'}
 
         yield (results, avgs)

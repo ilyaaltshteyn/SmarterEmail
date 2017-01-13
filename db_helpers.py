@@ -39,7 +39,7 @@ def store_results(cookie_val, results):
     if results and cookie_val:
         results = eval(results)
 
-        insert_sql = "INSERT INTO email_analysis_results (cookie_id, record_datetime, emails_analyzed, avg_grade_lvl, avg_sentences, avg_syllables) VALUES ('{}', '{}', {}, {}, {}, {})"
+        insert_sql = "INSERT INTO email_analysis_results (cookie_id, record_datetime, emails_analyzed, avg_grade_lvl, avg_sentences, avg_syllables) VALUES ('{}', '{}', {}, {}, {}, 9999)"
 
         insert_sql = insert_sql.format(cookie_val, str(datetime.now()),
                      results['emails_analyzed'],
@@ -54,5 +54,5 @@ def store_results(cookie_val, results):
 def get_averages():
     """ Retrieves average analysis results for basic metrics. """
 
-    averages_sql = "SELECT count(*) n, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, avg(avg_syllables) avg_syllables FROM ( SELECT cookie_id, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, avg(avg_syllables) avg_syllables FROM email_analysis_results GROUP BY cookie_id) a;"
+    averages_sql = "SELECT count(*) n, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, FROM ( SELECT cookie_id, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, FROM email_analysis_results GROUP BY cookie_id) a;"
     return runSQL(averages_sql)[0] # First result
