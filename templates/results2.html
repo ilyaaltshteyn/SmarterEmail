@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" >
 
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto|Cutive%20Mono">
     <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
@@ -15,7 +15,7 @@
 </head>
 
 <body>
-
+    <div class="detect-mobile-screen"></div>
     <style>
         #data {
             text-align: center;
@@ -84,7 +84,7 @@
             </div>
             <div class="loader"></div>
             <div id="loading-message">
-              <h3>Meanwhile, check out <a href="http://five.sentenc.es/">this note</a> about keeping your emails under 5 sentences.<br><br></h3>
+              <h3>Meanwhile, check out <a href="http://five.sentenc.es/" target="_blank">this note</a> about keeping your emails under 5 sentences.</h3>
             </div>
             <div id="results-heading" class="numberOfEmailsWrapper"></div>
             <div class="results-content"></div>
@@ -141,7 +141,6 @@
 
             </div>
         </section>
-        <div class="detect-mobile-screen"></div>
         <footer>
             <div>
                 <a href="https://www.facebook.com/sharer/sharer.php?u=www.smartr.email"><i class="fa fa-facebook" id="icon"></i></a>
@@ -153,6 +152,7 @@
             </div>
 
         </footer>
+
 
     </main>
 
@@ -478,6 +478,8 @@
             footer {
                 flex-flow: row;
                 justify-content: space-between;
+                margin-top: 2em;
+                width: 80vw;
             }
             #cookiesMsg {
                 color: rgba(51, 51, 51, 0.60);
@@ -536,7 +538,7 @@
 
         function oneDecimal(floatingPoint) {
             return Math.round(floatingPoint * 10) / 10
-        }
+        };
         // var avgSentenceCount = "<div class='avgSentenceCount'>Avg sent count across all those: <span>" + oneDecimal(b['avg_sentences']) + "</span></div>";
         // var numberOfSentences = "<div class='numberOfSentences'>Avg email length in sentences: <span>" + oneDecimal(a['sentence_count_mean']) + "</span></div>";
 
@@ -552,7 +554,7 @@
         $(".results-content").html("<div>We've analyzed " + numberOfPeopleAnalyzed + " On average, they were written at a " +
             avgReadingLevel + readingLevel);
         $(".final-results-content").html("<h3>Try to keep your emails <a href='http://five.sentenc.es/' target='_blank'>under 5 sentences</a> and minimally complex.</h3>");
-        $("footer").css("margin-top", "2em");
+
     </script>
 
     <script>
@@ -567,7 +569,7 @@
             float_val = 'left';
             align_val = 'none';
             width_val = '40vw';
-    }
+    };
 
 
     // format chart data and layout
@@ -609,7 +611,6 @@
           float: float_val,
           align: align_val,
           width: width_val
-
         });
 
     var gd_2 = gd4.node();
@@ -622,7 +623,7 @@
 
     </script>
     <style>
-    #sentCountsComparison { background-color: #F3F3F3;}
+    /*#sentCountsComparison { background-color: #F3F3F3;}*/
     </style>
 
     <script>
