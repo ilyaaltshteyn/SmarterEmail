@@ -511,12 +511,11 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
         var readingLevel = "<div class='readingLevel'>Average reading level of your emails: <span>" + makeOrdinal(a['my_combined_grade_lvl_mean']) + "grade.</span></div>";
         var numberOfSentences = "<div class='numberOfSentences'>Avg email length in sentences: <span>" + oneDecimal(a['sentence_count_mean']) + "</span></div>";
         var numberOfPeopleAnalyzed = "<div class='numberOfPeopleAnalyzed'>Number of people whose emails we've analyzed: <span>" + b['n'] + "</span></div>";
-        var avgSentenceCount = "<div class='avgSentenceCount'>Avg sent count across all those: <span>" + oneDecimal(b['avg_sentences']) + "</span></div>";
+        // var avgSentenceCount = "<div class='avgSentenceCount'>Avg sent count across all those: <span>" + oneDecimal(b['avg_sentences']) + "</span></div>";
         var avgReadingLevel = " <div class='avgReadingLevel'>Avg grade level across all those: <span>" + oneDecimal(b['avg_grade_lvl']) + "</span></div>";
         // var moreMetrics = "<div class='moreMetrics'>More metrics + complete page content coming soon.</div>"
         $(".numberOfEmailsWrapper").html(numberOfEmails);
-        $(".results-content").html(readingLevel + numberOfSentences + numberOfPeopleAnalyzed +
-            avgSentenceCount + avgReadingLevel);
+        $(".results-content").html(readingLevel + numberOfSentences + numberOfPeopleAnalyzed + avgReadingLevel);
     </script>
 
 
@@ -610,7 +609,7 @@ STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
             }
         };
 
-        Plotly.newPlot('sentCountsHist', data, layout, {
+        Plotly.newPlot('sentCountsComparison', data, layout, {
             displayModeBar: false
         });
         // this is code for changing the size of the graphs
