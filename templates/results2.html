@@ -80,11 +80,11 @@
         </ul>
         <section class="individual-page-content">
             <div id="data">
-              <h2><br>We're analyzing your last 100 sent emails...<br>This takes a minute or so.</h2>
+              <h2><br>We're analyzing your last 100 sent emails.<br><br>This takes ~30 secs.</h2>
             </div>
             <div class="loader"></div>
             <div id="loading-message">
-              <h3>In the meanwhile, check out <a href="http://five.sentenc.es/">this note</a> about keeping your emails under 5 sentences.</h3>
+              <h3>Meanwhile, check out <a href="http://five.sentenc.es/">this note</a> about keeping your emails under 5 sentences.<br><br></h3>
             </div>
             <div id="results-heading" class="numberOfEmailsWrapper"></div>
             <div class="results-content"></div>
@@ -478,7 +478,6 @@
             footer {
                 flex-flow: row;
                 justify-content: space-between;
-                margin-top: 2em;
             }
             #cookiesMsg {
                 color: rgba(51, 51, 51, 0.60);
@@ -552,7 +551,8 @@
         $(".numberOfEmailsWrapper").html(numberOfEmails);
         $(".results-content").html("<div>We've analyzed " + numberOfPeopleAnalyzed + " On average, they were written at a " +
             avgReadingLevel + readingLevel);
-        $(".final-results-content").html("<h3>Try to keep your emails <a href='http://five.sentenc.es/' target='_blank'>under 5 sentences</a> and minimally complex.</h3>")
+        $(".final-results-content").html("<h3>Try to keep your emails <a href='http://five.sentenc.es/' target='_blank'>under 5 sentences</a> and minimally complex.</h3>");
+        $("footer").css("margin-top", "2em");
     </script>
 
     <script>
