@@ -35,7 +35,7 @@
         }
 
         .loader {
-            border: 16px solid #f3f3f3;
+            border: 16px solid #DBDBDB;
             /* Light grey */
             border-top: 16px solid #FA8182;
             /* Dark blue */
@@ -73,7 +73,7 @@
         </ul>
         <section class="individual-page-content">
             <div id="data">
-              <h2>Loading... This may take a while, up to 30 secs.</h2>
+              <h2>Loading... This may take up to 30 secs.</h2>
             </div>
             <div class="loader"></div>
 
@@ -513,7 +513,7 @@
         // var avgSentenceCount = "<div class='avgSentenceCount'>Avg sent count across all those: <span>" + oneDecimal(b['avg_sentences']) + "</span></div>";
         // var numberOfSentences = "<div class='numberOfSentences'>Avg email length in sentences: <span>" + oneDecimal(a['sentence_count_mean']) + "</span></div>";
 
-        var numberOfEmails = "<div class='numberOfEmails'><h3>It's a good idea to keep your emails <a href=\"http://five.sentenc.es/\">under 5 sentences</a>.</h3><br><br>We analyzed your last " + a['emails_analyzed'] + " sent emails. Here's what we found out about your habits.<br></div>";
+        var numberOfEmails = "<div class='numberOfEmails'><h3>It's a good idea to keep your emails <a href=\"http://five.sentenc.es/\">under 5 sentences</a>.</h3><br><br>We analyzed your last " + a['emails_analyzed'] + " sent emails. Here's some info about your emailing habits.<br></div>";
 
         var numberOfPeopleAnalyzed = "<span>" + b['n'] + "</span> peoples' emails.";
         var avgReadingLevel = "<span>" + oneDecimal(b['avg_grade_lvl']) + "</span> grade reading level.</div>";
@@ -573,7 +573,7 @@
 
     var gd_2 = gd4.node();
 
-    Plotly.plot(gd_2, data2, layout2, {displayModeBar: false});
+    Plotly.plot(gd_2, data2, layout2, {staticPlot: true, displayModeBar: false});
 
     window.addEventListener('resize', function() { Plotly.Plots.resize(gd_2); });
 
@@ -655,7 +655,7 @@
 
         var gd = gd3.node();
 
-        Plotly.plot(gd, data, layout, {displayModeBar: false});
+        Plotly.plot(gd, data, layout, {staticPlot: true, displayModeBar: false});
 
         window.addEventListener('resize', function() { Plotly.Plots.resize(gd); });
 
@@ -723,7 +723,9 @@
 </body>
 <style>
 
-#sentCountsHist { float: left;}
-#sentCountsComparison { float: right;}
+@media all and (min-width: 600px) {
+  #sentCountsHist { float: left;}
+  #sentCountsComparison { float: right;}
+}
 </style>
 </html>
