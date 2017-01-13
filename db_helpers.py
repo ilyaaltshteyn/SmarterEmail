@@ -3,6 +3,7 @@ import pymysql
 import pymysql.cursors
 from datetime import datetime
 
+
 def runSQL(sql):
     if 'RDS_HOSTNAME' in os.environ:
         DATABASES = {
@@ -33,7 +34,7 @@ def runSQL(sql):
 
 
 def store_results(cookie_val, results):
-    """ Formats + sends the results of the analyze.py Analyzer.analyze() func to sql. """
+    """ Formats and sends the email analysis results to db. """
 
     if results and cookie_val:
         results = eval(results)
@@ -50,8 +51,9 @@ def store_results(cookie_val, results):
 
         runSQL(insert_sql)
 
+
 def get_averages():
-    """ Retrieves average results for basic metrics. """
+    """ Retrieves average analysis results for basic metrics. """
 
     averages_sql = "SELECT count(*) n, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, avg(avg_syllables) avg_syllables FROM ( SELECT cookie_id, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences, avg(avg_syllables) avg_syllables FROM email_analysis_results GROUP BY cookie_id) a;"
     return runSQL(averages_sql)[0] # First result
