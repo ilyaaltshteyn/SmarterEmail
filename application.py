@@ -72,14 +72,14 @@ def analyze():
         parsed_messages = GmailParser(all_messages).parse()
         results = str(Analyzer(parsed_messages).analyze())
 
-        try:
+        # try:
             # Pull data to show in results before storing new data in db:
-            avgs = get_averages()
-            store_results(cookie, results)
-        except:
-            avgs = {'avg_grade_lvl' : 'unknown',
-                    'avg_sentences' : 'unknown',
-                    'n' : 'unknown'}
+        avgs = get_averages()
+        store_results(cookie, results)
+        # except:
+        #     avgs = {'avg_grade_lvl' : 'unknown',
+        #             'avg_sentences' : 'unknown',
+        #             'n' : 'unknown'}
 
         yield (results, avgs)
 
