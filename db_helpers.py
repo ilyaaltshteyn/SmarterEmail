@@ -39,7 +39,7 @@ def store_results(cookie_val, results):
     if results and cookie_val:
         results = eval(results)
 
-        insert_sql = "INSERT INTO email_analysis_results (cookie_id, record_datetime, emails_analyzed, avg_grade_lvl, avg_sentences, avg_syllables) VALUES ('{}', '{}', {}, {}, {}, 9999)"
+        insert_sql = "INSERT INTO email_analysis_results (cookie_id, record_datetime, emails_analyzed, avg_grade_lvl, avg_sentences, avg_syllables) VALUES ('{}', '{}', {}, {}, {}, 9999);"
 
         insert_sql = insert_sql.format(cookie_val, str(datetime.now()),
                      results['emails_analyzed'],
@@ -54,3 +54,10 @@ def get_averages():
 
     averages_sql = "SELECT count(*) n, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences FROM ( SELECT cookie_id, avg(avg_grade_lvl) avg_grade_lvl, avg(avg_sentences) avg_sentences FROM email_analysis_results GROUP BY cookie_id) a;"
     return runSQL(averages_sql)[0] # First result
+
+def empty_table():
+    select_star = "SELECT * FROM email_analysis_results;"
+    print 'Heres your table: ', runSQL(select_star)
+    trunc = "TRUNCATE email_analysis_results;"
+    runSQL(trunc)
+    print 'Now heres your table: ', runSQL(select_star)

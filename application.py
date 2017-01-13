@@ -4,7 +4,7 @@ from google_api_wrapper import Gmail
 from urllib2 import Request, urlopen, URLError
 from parse import GmailParser
 from analyze import Analyzer
-from db_helpers import get_averages, store_results
+from db_helpers import get_averages, store_results, empty_table
 from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SECRET_KEY
 
 # ------------------------------------------------------------------------------
@@ -74,8 +74,9 @@ def analyze():
 
         try:
             # Pull data to show in results before storing new data in db
-            avgs = get_averages()
+            empty_table()
             store_results(cookie, results)
+            avgs = get_averages()
         except:
             # Cheat a bit
             avgs = {'avg_grade_lvl' : '9.5',
