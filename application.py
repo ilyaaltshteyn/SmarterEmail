@@ -55,7 +55,7 @@ def get_first_response():
     except URLError, e:
         print 'reason is... ', e.reason
         session.pop('access_token', None)
-        return redirect(url_for('login'))
+        return redirect(url_for('authorize'))
 
     return res.read()
 
