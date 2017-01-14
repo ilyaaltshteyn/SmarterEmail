@@ -6,4 +6,4 @@ Jan 14, 2017: The simplest version of the app is deployed and working.
 
 The goal of this project is to build a complete product end-to-end. We'll add features when there's time.
 
-Front end by [Aleksandr Altshteyn](aleksandraltshteyn.com). Backend, charts and design by [Ilya Altshteyn](https://www.ilyaaltshteyn.com/data-thoughts/2017/1/10/latest-project-the-smartremail-webapp).
+Front end by [Aleksandr Altshteyn](http://www.aleksandraltshteyn.com/). Backend, charts and design by [Ilya Altshteyn](https://www.ilyaaltshteyn.com/data-thoughts/2017/1/10/latest-project-the-smartremail-webapp).
