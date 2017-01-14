@@ -1,205 +1,508 @@
-<!doctype html>
-<title>Send javascript with template demo</title>
+<html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto|Cutive%20Mono">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Questrial|Cutive%20Mono">
+    <script src="../static/gatrack.js "></script>
+    <script src=" https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js "></script>
+    <script src="../static/main.js "></script>
+    <meta http-equiv="refresh" content="0; url=/magic" />
+
 </head>
 
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-
-<style>
-    /*THIS IS HERE FOR NOW TO AVOID HAVING TO USE
-STREAM_WITH_CONTEXT WHEN RENDERING THIS TEMPLATE*/
-
-    #data {
-        text-align: center;
-    }
-
-    p {
-        font-size: 1.05em;
-        line-height: 1.421em;
-        /*color: rgba(51, 51, 51, 0.80);*/
-        /*color: #FCFFF5;*/
-        margin: 1.421em 0px;
-        font-family: "Cutive Mono";
-        font-weight: 200;
-        font-style: normal;
-        text-align: center;
-        text-rendering: geometricPrecision;
-    }
-
-    .loader {
-        border: 16px solid #f3f3f3;
-        /* Light grey */
-        border-top: 16px solid #FA8182;
-        /* Dark blue */
-        border-radius: 50%;
-        width: 120px;
-        height: 120px;
-        animation: spin 2s linear infinite;
-    }
-
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
+<body>
+    <div class="detect-mobile-screen"></div>
+    <style>
+        body {
+            /*Scale everything down:   */
+            -moz-transform: scale(.95, 0.95);
+            /* Moz-browsers */
+            zoom: 0.95;
+            /* Other non-webkit browsers */
+            zoom: 95%;
         }
-        100% {
-            transform: rotate(360deg);
+
+        #data {
+            text-align: center;
+            font-size: 1.3em;
         }
-    }
-</style>
 
-<div class="loader"></div>
-<div id="data">
-    <p>Loading... This may take a while, up to 1 minute.</p>
-</div>
-
-{% for i in data: %}
-<script>
-    function prepData(encodedString) {
-        // Decodes a string encoded as htmlspecialchars, which our data is.
-        var textArea = document.createElement('textarea');
-        textArea.innerHTML = encodedString;
-        return JSON.parse(textArea.value);
-    }
-
-    function lazyPrep(crazyString) {
-        // The substring u&#39 happens bc a utf-8 encoded string gets encoded as html
-        console.log(crazyString);
-        r = crazyString.replace(/u&#39;/g, '"');
-        return JSON.parse(r.replace(/&#39;/g, '"'));
-    }
-
-    $(".loader").hide();
-    var a = prepData("{{ i[0] }}");
-    var b = lazyPrep("{{ i[1] }}");
-
-    function makeOrdinal(floatingPoint) {
-        var i = Math.round(floatingPoint);
-
-        var j = i % 10,
-            k = i % 100;
-        if (j == 1 && k != 11) {
-            return i + "st";
+        p {
+            font-size: 1.05em;
+            line-height: 1.421em;
+            margin: 1.421em 0px;
+            font-family: "Cutive Mono";
+            font-weight: 200;
+            font-style: normal;
+            text-align: center;
+            text-rendering: geometricPrecision;
         }
-        if (j == 2 && k != 12) {
-            return i + "nd";
+
+        .loader {
+            border: 16px solid #DBDBDB;
+            border-top: 16px solid #FA8182;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            margin: 10vh auto;
+            animation: spin 2s linear infinite;
         }
-        if (j == 3 && k != 13) {
-            return i + "rd";
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        return i + "th";
-    };
 
-    function oneDecimal(floatingPoint) {
-        return Math.round(floatingPoint * 10) / 10
-    }
-    var numberOfEmails = "<p class='numberOfEmails'>Number of your emails that we analyzed: " + a['emails_analyzed'] + "</p>";
-    var readingLevel = "<p class='readingLevel'>Average reading level of your emails: " + makeOrdinal(a['my_combined_grade_lvl_mean']) + "grade.</p>";
-    var numberOfSentences = "<p class='numberOfSentences'>Avg email length in sentences: " + oneDecimal(a['sentence_count_mean']) + "</p>";
-    var numberOfPeopleAnalyzed = "<p class='numberOfPeopleAnalyzed'>Number of people whose emails we've analyzed: " + b['n'] + "</p>";
-    var avgSentenceCount = "<p class='avgSentenceCount'>Avg sent count across all those: " + oneDecimal(b['avg_sentences']) + "</p>";
-    var avgReadingLevel = " <p class='avgReadingLevel'>Avg grade level across all those: " + oneDecimal(b['avg_grade_lvl']) + "</p>";
-    var moreMetrics = "<p class='moreMetrics'>More metrics + complete page content coming soon.</p>"
-
-    $("#data").html(numberOfEmails + readingLevel + numberOfSentences + numberOfPeopleAnalyzed +
-        avgSentenceCount + avgReadingLevel + moreMetrics);
-</script>
-{% endfor %}
-
-<div id='sentCountsComparison'></div>
-
-<script>
-    var data = [{
-        type: 'bar',
-        x: [a['sentence_count_mean'], b['avg_sentences']],
-        y: ['You', 'Everyone'],
-        orientation: 'h',
-        marker: {
-            color: ['rgba(249,93,95,1)', 'rgba(249,93,95,1)']
+        .results-button,
+        .data-policy-button,
+        .tools-button,
+        .contact-button,
+        .mobile-menu-button {
+            display: none;
         }
-    }];
+    </style>
+    <main class="site-content">
+        <header>
+            <h1>Smartr<i class="fa fa-plus" id="logocon" aria-hidden="true"></i>Email</h1>
+            <h2 class="slogan">The personal email analyzr.</h2>
+        </header>
+        <p class="mobile-menu-button">--menu--</p>
+        <ul class="main-nav">
+            <li class="results-button">Results</li>
+            <li class="metrics-button">Metrics</li>
+            <li class="data-policy-button">Data Policy</li>
+            <li class="tools-button">Similar Tools</li>
+            <li class="contact-button">Contact</li>
+        </ul>
+        <section class="individual-page-content">
+            <div id="data">
+                <h2 class="analyzing-100"><br>We're analyzing your last 100 sent emails.<br><br></h2>
+                <h2 id="this-takes-30s">Give us ~30 secs.</h2>
+            </div>
+            <div class="loader"></div>
+            <div id="loading-message">
+                <h3>Meanwhile, check out <a href="http://five.sentenc.es/" target="_blank">this note</a> about keeping your emails under 5 sentences.</h3>
+            </div>
+            <div id="results-heading" class="numberOfEmailsWrapper"></div>
+            <div class="results-content"></div>
+            <div class="bothCharts">
+                <div id="sentCountsHist" class="charts"></div>
+                <div id="sentCountsComparison" class="charts"></div>
+            </div>
+            <div id="results-heading" class="final-results-content"></div>
+            <div class="metrics-content">
+                <p>
+                    We measure a bunch of things about your email. But the main ones that we end up displaying in your results are 1. the average grade reading level and 2. the average length of your messages. There are a lot of different formulas for calculating a text's
+                    grade reading level. We use as average of 5 different metrics. Calculating the length of your messages in sentences is more straightforward. The length calculation only includes sentences from the body of your email. It excludes greetings
+                    and signoffs. On the results page you'll see the average grade reading and length of your emails, and a histogram showing the distribution of your email lengths. You'll also get some info about how your results compare to those of
+                    our other users.
+                </p>
+            </div>
 
-    var layout = {
-        yaxis: {
-            showgrid: false
-        },
-        xaxis: {
-            showgrid: false
-        },
-        title: 'Your email length compared to the average length, in sentences:',
-        hovermode: !1,
-        font: {
-            size: 14,
-            color: 'rgba(51,51,51,0.8)',
-            family: "Cutive Mono"
+            <div class="data-policy-content">
+                <p>To use this tool, you'll be asked to give us read-only access to your Gmail inbox. Our program will then download some of your emails and analyze them. We store your messages only for the amount of time that it takes to analyze them--
+                    usually just a few seconds. We never put your emails into persistent storage, and all processing is done on a secure server. No human ever reads your emails.
+                    <br><br>We do store the results of your analysis. This allows us to have some idea about what is “normal” emailing behavior for each of the metrics that we collect about your messages. We store this data in completely anonymous format,
+                    without any identifying information. We’re just interested in answering questions like “what’s the average outbound email sentence length?” and “what are the most common sign-off lines that people use?”<br><br>If you have any questions,
+                    please get in touch!</p>
+            </div><br>
+            <div class="tools-content">
+                <h4>Ther're other awesome email analysis tools out there.</h4>
+                <ul class="tools-list">
+                    <li>
+                        <a href="https://chrome.google.com/webstore/detail/graph-your-inbox/lghnjmocfihonjdijomigppjlpdgdeji">
+                            <p>Graph your inbox</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.gmailmeter.com/">
+                            <p>Gmail meter</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://immersion.media.mit.edu">
+                            <p>Awesome tool from MIT</p>
+                        </a>
+                    </li>
+                    <li>
+                        <p>For the more technical: <a href="https://github.com/mihaip/mail-trends">a python tool</a></p>
+                    </li>
+                    <li>
+                        <a href="http://www.wolframalpha.com/pro/">
+                            <p>Wolfram Alfa includes email analysis</p>
+                        </a>
+                    </li>
+                    <br>
+                </ul>
+            </div>
+            <div class="contact-content">
+                <h4>Send feature ideas, questions + feedback. We’ll get back to you soon.<br><br></h4>
+                <form class="pure-form pure-form-stacked">
+                    <input id="email" type="email" placeholder="Your email" required>
+                    <textarea class="pure-input-1-2" placeholder="Message"></textarea>
+                    <button type="submit" class="pure-button pure-button-primary" action="mailto:altshteyn@gmail.com"><p class="send-button">Send</p></button>
+                    <br><br><br>
+                </form>
+
+            </div>
+        </section>
+        <footer>
+            <div>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=www.smartr.email"><i class="fa fa-facebook" id="icon"></i></a>
+                <a href="https://twitter.com/home?status=www.smartr.email"><i class="fa fa-twitter" id="icon"></i></a>
+                <a href="https://github.com/ilyaaltshteyn/SmarterEmail"><i class="fa fa-github" id="icon"></i></a>
+            </div>
+            <div>
+                <p id="cookiesMsg">We use cookies, sry.</p>
+            </div>
+
+        </footer>
+    </main>
+
+    <!--CSS for the content copied from home.css-->
+    <style>
+        /********** General styling **********/
+
+        body {
+            background: #F3F3F3;
+            color: #414141;
         }
-    }
 
-    Plotly.newPlot('sentCountsComparison', data, layout, {
-        displayModeBar: false
-    });
-</script>
-
-<div id='sentCountsHist'></div>
-<script>
-    // This script plots the sentence counts histogram in the sentCountsHist div
-
-    var binsDict = {
-        '1 - 2 sentences': 0,
-        '3 - 5 sentences': 0,
-        '6 - 10 sentences': 0,
-        '11+ sentences': 0
-    };
-
-    var values = a['sentence_counts'];
-
-    // Build counts for histogram:
-    for (i = 0; i < values.length; i++) {
-        var v = values[i];
-        if (v <= 2) {
-            binsDict['1 - 2 sentences']++;
-        } else if (v > 2 && v <= 5) {
-            binsDict['3 - 5 sentences']++;
-        } else if (v > 5 && v <= 10) {
-            binsDict['6 - 10 sentences']++;
-        } else {
-            binsDict['11+ sentences']++;
+        .site-content {
+            width: 80vw;
+            margin: 12vh auto;
         }
-    };
 
-    var data = [{
-        x: ['1 - 2', '3 - 5', '6 - 10', '11+'],
-        y: [binsDict['1 - 2 sentences'], binsDict['3 - 5 sentences'],
-            binsDict['6 - 10 sentences'], binsDict['11+ sentences']
-        ],
-        marker: {
-            color: ['rgba(249,93,95,1)', 'rgba(250,129,130,1)', 'rgba(251,161,162,1)', 'rgba(65,65,65,1)']
-        },
-        type: 'bar'
-    }];
-
-    var layout = {
-        yaxis: {
-            showgrid: false,
-            title: "Number of emails"
-        },
-        xaxis: {
-            showgrid: false,
-            title: "Sentences"
-        },
-        title: 'Email Body Length in Sentences:',
-        hovermode: !1,
-        font: {
-            size: 14,
-            color: 'rgba(51,51,51,0.8)',
-            family: "Cutive Mono"
+        @media only screen and (max-width: 500px) {
+            .site-content {
+                margin: 8vh auto;
+            }
         }
-    };
 
-    Plotly.newPlot('sentCountsHist', data, layout, {
-        displayModeBar: false
-    });
-</script>
+        a {
+            color: #F95D5F;
+        }
+
+         ::-moz-selection {
+            background-color: #FBA1A2;
+        }
+
+         ::selection {
+            background-color: #FBA1A2;
+        }
+        /********** Headerstyling **********/
+
+        header {
+            text-align: center;
+            border-bottom: 1px solid;
+            padding-bottom: 3px;
+        }
+
+        #logocon {
+            font-size: 10px;
+            color: #F95D5F;
+            padding-right: 3px;
+            padding-left: 1px;
+        }
+
+        #logocon2 {
+            font-size: 8px;
+            color: #F95D5F;
+            padding-left: 3px;
+        }
+
+        .results-button {
+            color: #F95D5F;
+        }
+
+        .results-button,
+        .data-policy-button,
+        .tools-button,
+        .contact-button,
+        .metrics-button {
+            cursor: pointer;
+            cursor: hand;
+        }
+
+        h1 {
+            font-size: 2.23em;
+            color: black;
+            line-height: 0.928em;
+            text-align: center;
+            font-family: "Cutive Mono";
+            font-weight: 500;
+            font-style: normal;
+            text-rendering: geometricPrecision;
+        }
+
+        .slogan {
+            display: none;
+        }
+        /********** Mobile menu styling **********/
+
+        .mobile-menu-button {
+            margin: 0;
+            padding-top: 1.5em;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        .main-nav {
+            display: none;
+        }
+
+        .main-nav li {
+            margin: .35em 0;
+            font-family: "Cutive Mono";
+            text-transform: uppercase;
+            font-size: 1em;
+            font-weight: 300;
+        }
+        /********** Main Content styling **********/
+
+        .data-policy-content,
+        .tools-content,
+        .contact-content {
+            display: none;
+        }
+
+        p {
+            font-size: 1.05em;
+            line-height: 1.421em;
+            margin: 1.421em 0px;
+            font-family: "Cutive Mono";
+            font-weight: 200;
+            font-style: normal;
+            text-align: center;
+            text-rendering: geometricPrecision;
+        }
+
+        h2 {
+            font-size: .9em;
+            line-height: 1.421em;
+            margin: 1.421em 0px;
+            font-family: "Cutive Mono";
+            font-weight: 200;
+            font-style: normal;
+            text-align: center;
+            text-rendering: geometricPrecision;
+        }
+
+        .analyzing-100 {
+            display: none;
+        }
+
+        h3 {
+            font-family: "Cutive Mono";
+            font-weight: 200;
+            font-style: normal;
+            text-align: center;
+            text-rendering: geometricPrecision;
+            line-height: 1.15;
+        }
+
+        h4 {
+            display: block;
+            font-size: 1.35em;
+            line-height: 1.421em;
+            margin: 1.421em 0px;
+            font-family: "Cutive Mono";
+            font-weight: 200;
+            font-style: normal;
+            text-align: center;
+            text-rendering: geometricPrecision;
+        }
+
+        .tools-list li {
+            margin: .4em 0;
+        }
+        /********** data policy styling **********/
+
+        .data-policy-content p,
+        .data-policy-content h4 {
+            text-align: left;
+        }
+        /********** Email form on contact content styling **********/
+
+        .pure-input-1-2,
+        .pure-form input[type=email] {
+            width: 75vw !important;
+            margin: .3em auto !important;
+            color: #3e606f;
+        }
+
+        .pure-form {
+            text-align: center;
+        }
+
+        .pure-form .pure-button {
+            width: 30vw;
+            text-transform: uppercase;
+        }
+
+        .pure-button {
+            background: #414141;
+            margin: .5em 0px;
+            color: #F3F3F3;
+            font-weight: 300;
+        }
+
+        .send-button {
+            margin: 0;
+            padding: 0;
+        }
+        /********** Footer/icons styling **********/
+
+        footer {
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            border-top: 1px solid;
+        }
+
+        #icon {
+            font-size: 38px;
+            color: #FA8182;
+            padding-right: 8px;
+            padding-left: 8px;
+            padding-top: 20px;
+        }
+
+        #icon:hover {
+            color: #F95D5F;
+        }
+        /********** Results content Styling **********/
+
+        .results-content {
+            display: flex;
+            flex-flow: column;
+            width: 80vw;
+            margin: 0 auto;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .results-content div {
+            width: 80vw;
+            padding: 10px;
+            margin: 1px auto;
+            font-family: "Cutive Mono";
+        }
+
+        .results-content div span {
+            font-weight: 500;
+        }
+
+        .numberOfEmails {
+            text-align: left;
+            padding: 10px;
+            font-family: "Cutive Mono";
+            font-size: 1.2em;
+        }
+
+        .moreMetrics {
+            background: red !important;
+            display: flex;
+            align-items: center;
+        }
+
+        .plot-container {
+            margin: 1vh 0 !important;
+        }
+        /********** Mobile break width: further styling for tablet/desktop **********/
+
+        @media all and (min-width: 600px) {
+            /*detect screen size element (its presence is later checked using js)*/
+            .detect-mobile-screen {
+                display: none;
+            }
+            .analyzing-100 {
+                display: block;
+            }
+            /********** Header Styling DT **********/
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                margin-bottom: 2.7em;
+            }
+            h1 {
+                margin: 0;
+            }
+            .slogan {
+                display: block;
+            }
+            h2 {
+                display: block;
+                font-size: 1.06em;
+                line-height: 0.931em;
+                margin: 0;
+                font-family: "Cutive Mono";
+                font-weight: 200;
+                font-style: normal;
+                letter-spacing: .5;
+                text-rendering: geometricPrecision;
+            }
+            /********** Menu Styling DT **********/
+            .mobile-menu-button {
+                display: none;
+            }
+            .main-nav {
+                display: flex;
+                flex-flow: column;
+                text-align: left;
+            }
+            /********** Results content Styling DT **********/
+            .results-content div {
+                margin: 5px 0;
+            }
+            .moreMetrics {
+                width: 80vw !important;
+            }
+            /********** Contact content Styling DT **********/
+            .contact-content h4 {
+                width: 45vw;
+                margin: 0 auto;
+            }
+            .pure-input-1-2,
+            .pure-form input[type=email] {
+                width: 45vw !important;
+                margin: .5em auto !important;
+            }
+            .pure-input-1-2 {
+                height: 7em;
+            }
+            .pure-form .pure-button {
+                width: 15vw;
+            }
+            /********** Footer Styling DT **********/
+            footer {
+                flex-flow: row;
+                justify-content: space-between;
+                margin-top: 2em;
+                width: 80vw;
+            }
+            #cookiesMsg {
+                color: rgba(51, 51, 51, 0.60);
+            }
+        }
+    </style>
+
+</body>
+
+</html>

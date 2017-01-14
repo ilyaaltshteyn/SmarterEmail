@@ -100,6 +100,10 @@ def authorize():
     if not session.get('access_token'):
         return redirect(url_for('login'))
 
+    return render_template('results.html')
+
+@application.route('/magic')
+def magic():
     return analyze()
 
 
