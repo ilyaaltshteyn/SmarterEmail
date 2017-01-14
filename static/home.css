@@ -127,6 +127,10 @@ p {
     text-rendering: geometricPrecision;
 }
 
+.metrics-content p {
+    text-align: left;
+}
+
 h3 {
     font-family: "Cutive Mono";
     font-weight: 200;
