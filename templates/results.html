@@ -44,11 +44,11 @@
         }
 
         .loader {
-            border: 16px solid #DBDBDB;
-            border-top: 16px solid #FA8182;
+            border: 14px solid #DBDBDB;
+            border-top: 14px solid #FA8182;
             border-radius: 50%;
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             margin: 10vh auto;
             animation: spin 2s linear infinite;
         }
@@ -75,14 +75,6 @@
             <h1>Smartr<i class="fa fa-plus" id="logocon" aria-hidden="true"></i>Email</h1>
             <h2 class="slogan">The personal email analyzr.</h2>
         </header>
-        <p class="mobile-menu-button">--menu--</p>
-        <ul class="main-nav">
-            <li class="results-button">Results</li>
-            <li class="metrics-button">Metrics</li>
-            <li class="data-policy-button">Data Policy</li>
-            <li class="tools-button">Similar Tools</li>
-            <li class="contact-button">Contact</li>
-        </ul>
         <section class="individual-page-content">
             <div id="data">
                 <h2 class="analyzing-100"><br>We're analyzing your last 100 sent emails.<br><br></h2>
@@ -99,61 +91,7 @@
                 <div id="sentCountsComparison" class="charts"></div>
             </div>
             <div id="results-heading" class="final-results-content"></div>
-            <div class="metrics-content">
-                <p>
-                    We measure a bunch of things about your email. But the main ones that we end up displaying in your results are 1. the average grade reading level and 2. the average length of your messages. There are a lot of different formulas for calculating a text's
-                    grade reading level. We use as average of 5 different metrics. Calculating the length of your messages in sentences is more straightforward. The length calculation only includes sentences from the body of your email. It excludes greetings
-                    and signoffs. On the results page you'll see the average grade reading and length of your emails, and a histogram showing the distribution of your email lengths. You'll also get some info about how your results compare to those of
-                    our other users.
-                </p>
-            </div>
-
-            <div class="data-policy-content">
-                <p>To use this tool, you'll be asked to give us read-only access to your Gmail inbox. Our program will then download some of your emails and analyze them. We store your messages only for the amount of time that it takes to analyze them--
-                    usually just a few seconds. We never put your emails into persistent storage, and all processing is done on a secure server. No human ever reads your emails.
-                    <br><br>We do store the results of your analysis. This allows us to have some idea about what is “normal” emailing behavior for each of the metrics that we collect about your messages. We store this data in completely anonymous format,
-                    without any identifying information. We’re just interested in answering questions like “what’s the average outbound email sentence length?” and “what are the most common sign-off lines that people use?”<br><br>If you have any questions,
-                    please get in touch!</p>
-            </div><br>
-            <div class="tools-content">
-                <h4>Ther're other awesome email analysis tools out there.</h4>
-                <ul class="tools-list">
-                    <li>
-                        <a href="https://chrome.google.com/webstore/detail/graph-your-inbox/lghnjmocfihonjdijomigppjlpdgdeji">
-                            <p>Graph your inbox</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://www.gmailmeter.com/">
-                            <p>Gmail meter</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://immersion.media.mit.edu">
-                            <p>Awesome tool from MIT</p>
-                        </a>
-                    </li>
-                    <li>
-                        <p>For the more technical: <a href="https://github.com/mihaip/mail-trends">a python tool</a></p>
-                    </li>
-                    <li>
-                        <a href="http://www.wolframalpha.com/pro/">
-                            <p>Wolfram Alfa includes email analysis</p>
-                        </a>
-                    </li>
-                    <br>
-                </ul>
-            </div>
-            <div class="contact-content">
-                <h4>Send feature ideas, questions + feedback. We’ll get back to you soon.<br><br></h4>
-                <form class="pure-form pure-form-stacked">
-                    <input id="email" type="email" placeholder="Your email" required>
-                    <textarea class="pure-input-1-2" placeholder="Message"></textarea>
-                    <button type="submit" class="pure-button pure-button-primary" action="mailto:altshteyn@gmail.com"><p class="send-button">Send</p></button>
-                    <br><br><br>
-                </form>
-
-            </div>
+            <br>
         </section>
         <footer>
             <div>
