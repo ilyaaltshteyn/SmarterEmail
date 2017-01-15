@@ -55,7 +55,7 @@ def get_first_response():
     except URLError, e:
         print 'reason is... ', e.reason
         session.pop('access_token', None)
-        return redirect(url_for('authorize'))
+        return render_template('error.html')
 
     return res.read()
 
@@ -63,28 +63,33 @@ def get_first_response():
 def analyze():
     """ Gets data, analyzes it, streams it to template. """
 
-    access_token = session.get('access_token')[0]
-    first_response = get_first_response()
+    try:
 
-    def run(first_response, access_token):
+        access_token = session.get('access_token')[0]
+        first_response = get_first_response()
 
-        all_messages = Gmail(first_response, access_token).get()
-        parsed_messages = GmailParser(all_messages).parse()
-        results = str(Analyzer(parsed_messages).analyze())
+        def run(first_response, access_token):
 
-        try:
-            avgs = get_averages()
-            store_results(cookie, results)
-        except:
-            # Cheat a bit
-            avgs = {'avg_grade_lvl' : '9.5',
-                    'avg_sentences' : '7.33',
-                    'n' : '100'}
+            all_messages = Gmail(first_response, access_token).get()
+            parsed_messages = GmailParser(all_messages).parse()
+            results = str(Analyzer(parsed_messages).analyze())
 
-        yield (results, avgs)
+            try:
+                avgs = get_averages()
+                store_results(cookie, results)
+            except:
+                # Cheat a bit
+                avgs = {'avg_grade_lvl' : '9.5',
+                        'avg_sentences' : '7.33',
+                        'n' : '100'}
 
-    return Response(stream_template('results2.html', data = run(first_response,
+            yield (results, avgs)
+
+        return Response(stream_template('results2.html', data = run(first_response,
                                                                 access_token)))
+
+    except:
+        return render_template('error.html')
 
 @application.route('/')
 def index():

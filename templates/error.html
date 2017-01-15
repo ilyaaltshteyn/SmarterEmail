@@ -1,0 +1,426 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto|Cutive%20Mono">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="../static/gatrack.js "></script>
+    <script src=" https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js "></script>
+    <script src="../static/main.js "></script>
+    <meta http-equiv="refresh" content="0; url=/magic" />
+
+</head>
+
+<body>
+    <div class="detect-mobile-screen"></div>
+    <style>
+        body {
+            /*Scale everything down:   */
+            -moz-transform: scale(.95, 0.95);
+            /* Moz-browsers */
+            zoom: 0.95;
+            /* Other non-webkit browsers */
+            zoom: 95%;
+        }
+
+        #data {
+            text-align: center;
+            font-size: 1.3em;
+        }
+
+        p {
+            font-size: 1.05em;
+            line-height: 1.421em;
+            margin: 1.421em 0px;
+            font-family: "Cutive Mono";
+            font-weight: 200;
+            font-style: normal;
+            text-align: center;
+            text-rendering: geometricPrecision;
+        }
+
+        .results-button,
+        .data-policy-button,
+        .tools-button,
+        .contact-button,
+        .mobile-menu-button {
+            display: none;
+        }
+    </style>
+    <main class="site-content">
+        <header>
+            <h1>Smartr<i class="fa fa-plus" id="logocon" aria-hidden="true"></i>Email</h1>
+            <h2 class="slogan">The personal email analyzr.</h2>
+        </header>
+        <section class="individual-page-content">
+            <div id="data">
+                <h2 id="this-takes-30s">Oh no, something went wrong! Sorry... We're still working out a few issues. Please go back to <a href="https://www.smartr.email">our homepage</a> and try again.</h2>
+            </div>
+            <div class="loader"></div>
+            <div id="loading-message">
+                <h3>Meanwhile, check out <a href="http://five.sentenc.es/" target="_blank">this note</a> about keeping your emails under 5 sentences.</h3>
+            </div>
+            <div id="results-heading" class="numberOfEmailsWrapper"></div>
+            <div class="results-content"></div>
+            <div class="bothCharts">
+                <div id="sentCountsHist" class="charts"></div>
+                <div id="sentCountsComparison" class="charts"></div>
+            </div>
+            <div id="results-heading" class="final-results-content"></div>
+            <br>
+        </section>
+        <footer>
+            <div>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=www.smartr.email"><i class="fa fa-facebook" id="icon"></i></a>
+                <a href="https://twitter.com/home?status=www.smartr.email"><i class="fa fa-twitter" id="icon"></i></a>
+                <a href="https://github.com/ilyaaltshteyn/SmarterEmail"><i class="fa fa-github" id="icon"></i></a>
+            </div>
+            <div>
+                <p id="cookiesMsg">We use cookies, sry.</p>
+            </div>
+
+        </footer>
+    </main>
+
+    <!--CSS for the content copied from home.css-->
+    <style>
+        /********** General styling **********/
+
+        body {
+            background: #F3F3F3;
+            color: #414141;
+        }
+
+        .site-content {
+            width: 80vw;
+            margin: 12vh auto;
+        }
+
+        @media only screen and (max-width: 500px) {
+            .site-content {
+                margin: 8vh auto;
+            }
+        }
+
+        a {
+            color: #F95D5F;
+        }
+
+         ::-moz-selection {
+            background-color: #FBA1A2;
+        }
+
+         ::selection {
+            background-color: #FBA1A2;
+        }
+        /********** Headerstyling **********/
+
+        header {
+            text-align: center;
+            border-bottom: 1px solid;
+            padding-bottom: 3px;
+        }
+
+        #logocon {
+            font-size: 10px;
+            color: #F95D5F;
+            padding-right: 3px;
+            padding-left: 1px;
+        }
+
+        #logocon2 {
+            font-size: 8px;
+            color: #F95D5F;
+            padding-left: 3px;
+        }
+
+        .results-button {
+            color: #F95D5F;
+        }
+
+        .results-button,
+        .data-policy-button,
+        .tools-button,
+        .contact-button,
+        .metrics-button {
+            cursor: pointer;
+            cursor: hand;
+        }
+
+        h1 {
+            font-size: 2.23em;
+            color: black;
+            line-height: 0.928em;
+            text-align: center;
+            font-family: "Cutive Mono";
+            font-weight: 500;
+            font-style: normal;
+            text-rendering: geometricPrecision;
+        }
+
+        .slogan {
+            display: none;
+        }
+        /********** Mobile menu styling **********/
+
+        .mobile-menu-button {
+            margin: 0;
+            padding-top: 1.5em;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        .main-nav {
+            display: none;
+        }
+
+        .main-nav li {
+            margin: .35em 0;
+            font-family: "Cutive Mono";
+            text-transform: uppercase;
+            font-size: 1em;
+            font-weight: 300;
+        }
+        /********** Main Content styling **********/
+
+        .data-policy-content,
+        .tools-content,
+        .contact-content {
+            display: none;
+        }
+
+        p {
+            font-size: 1.05em;
+            line-height: 1.421em;
+            margin: 1.421em 0px;
+            font-family: "Cutive Mono";
+            font-weight: 200;
+            font-style: normal;
+            text-align: center;
+            text-rendering: geometricPrecision;
+        }
+
+        h2 {
+            font-size: .9em;
+            line-height: 1.421em;
+            margin: 1.421em 0px;
+            font-family: "Cutive Mono";
+            font-weight: 200;
+            font-style: normal;
+            text-align: center;
+            text-rendering: geometricPrecision;
+        }
+
+        .analyzing-100 {
+            display: none;
+        }
+
+        h3 {
+            font-family: "Cutive Mono";
+            font-weight: 200;
+            font-style: normal;
+            text-align: center;
+            text-rendering: geometricPrecision;
+            line-height: 1.15;
+        }
+
+        h4 {
+            display: block;
+            font-size: 1.35em;
+            line-height: 1.421em;
+            margin: 1.421em 0px;
+            font-family: "Cutive Mono";
+            font-weight: 200;
+            font-style: normal;
+            text-align: center;
+            text-rendering: geometricPrecision;
+        }
+
+        .tools-list li {
+            margin: .4em 0;
+        }
+        /********** data policy styling **********/
+
+        .data-policy-content p,
+        .data-policy-content h4 {
+            text-align: left;
+        }
+        /********** Email form on contact content styling **********/
+
+        .pure-input-1-2,
+        .pure-form input[type=email] {
+            width: 75vw !important;
+            margin: .3em auto !important;
+            color: #3e606f;
+        }
+
+        .pure-form {
+            text-align: center;
+        }
+
+        .pure-form .pure-button {
+            width: 30vw;
+            text-transform: uppercase;
+        }
+
+        .pure-button {
+            background: #414141;
+            margin: .5em 0px;
+            color: #F3F3F3;
+            font-weight: 300;
+        }
+
+        .send-button {
+            margin: 0;
+            padding: 0;
+        }
+        /********** Footer/icons styling **********/
+
+        footer {
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            border-top: 1px solid;
+        }
+
+        #icon {
+            font-size: 38px;
+            color: #FA8182;
+            padding-right: 8px;
+            padding-left: 8px;
+            padding-top: 20px;
+        }
+
+        #icon:hover {
+            color: #F95D5F;
+        }
+        /********** Results content Styling **********/
+
+        .results-content {
+            display: flex;
+            flex-flow: column;
+            width: 80vw;
+            margin: 0 auto;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .results-content div {
+            width: 80vw;
+            padding: 10px;
+            margin: 1px auto;
+            font-family: "Cutive Mono";
+        }
+
+        .results-content div span {
+            font-weight: 500;
+        }
+
+        .numberOfEmails {
+            text-align: left;
+            padding: 10px;
+            font-family: "Cutive Mono";
+            font-size: 1.2em;
+        }
+
+        .moreMetrics {
+            background: red !important;
+            display: flex;
+            align-items: center;
+        }
+
+        .plot-container {
+            margin: 1vh 0 !important;
+        }
+        /********** Mobile break width: further styling for tablet/desktop **********/
+
+        @media all and (min-width: 600px) {
+            /*detect screen size element (its presence is later checked using js)*/
+            .detect-mobile-screen {
+                display: none;
+            }
+            .analyzing-100 {
+                display: block;
+            }
+            /********** Header Styling DT **********/
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                margin-bottom: 2.7em;
+            }
+            h1 {
+                margin: 0;
+            }
+            .slogan {
+                display: block;
+            }
+            h2 {
+                display: block;
+                font-size: 1.06em;
+                line-height: 0.931em;
+                margin: 0;
+                font-family: "Cutive Mono";
+                font-weight: 200;
+                font-style: normal;
+                letter-spacing: .5;
+                text-rendering: geometricPrecision;
+            }
+            /********** Menu Styling DT **********/
+            .mobile-menu-button {
+                display: none;
+            }
+            .main-nav {
+                display: flex;
+                flex-flow: column;
+                text-align: left;
+            }
+            /********** Results content Styling DT **********/
+            .results-content div {
+                margin: 5px 0;
+            }
+            .moreMetrics {
+                width: 80vw !important;
+            }
+            /********** Contact content Styling DT **********/
+            .contact-content h4 {
+                width: 45vw;
+                margin: 0 auto;
+            }
+            .pure-input-1-2,
+            .pure-form input[type=email] {
+                width: 45vw !important;
+                margin: .5em auto !important;
+            }
+            .pure-input-1-2 {
+                height: 7em;
+            }
+            .pure-form .pure-button {
+                width: 15vw;
+            }
+            /********** Footer Styling DT **********/
+            footer {
+                flex-flow: row;
+                justify-content: space-between;
+                margin-top: 2em;
+                width: 80vw;
+            }
+            #cookiesMsg {
+                color: rgba(51, 51, 51, 0.60);
+            }
+        }
+    </style>
+
+</body>
+
+</html>
