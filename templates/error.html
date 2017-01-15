@@ -57,7 +57,7 @@
         </header>
         <section class="individual-page-content">
             <div id="data">
-                <h2 id="this-takes-30s">Oh no, something went wrong! Sorry... We're still working out a few issues. <br><br>Please go back to <a href="https://www.smartr.email">our homepage</a> and try again.</h2>
+                <h2 id="error-msg">Oh no, something went wrong! Sorry... We're still working out a few issues. <br><br>Please go back to <a href="https://www.smartr.email">our homepage</a> and try again.</h2>
             </div>
             <div class="loader"></div>
             <div id="loading-message">
@@ -114,6 +114,11 @@
 
          ::selection {
             background-color: #FBA1A2;
+        }
+
+        #error-msg {
+          padding-top: 4em;
+          padding-bottom: 4em;
         }
         /********** Headerstyling **********/
 
@@ -216,8 +221,6 @@
             font-style: normal;
             text-align: center;
             text-rendering: geometricPrecision;
-            padding-top: 5em;
-            padding-bottom: 5em;
         }
 
         .analyzing-100 {
@@ -375,8 +378,6 @@
                 font-style: normal;
                 letter-spacing: .5;
                 text-rendering: geometricPrecision;
-                padding-top: 5em;
-                padding-bottom: 5em;
             }
             /********** Menu Styling DT **********/
             .mobile-menu-button {
